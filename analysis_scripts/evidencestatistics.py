@@ -6,16 +6,18 @@ import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser(description="Create bar plots of evidence count")
 
+
 def extract_number_of_rationale_sentences_in_evidence(evidence):
     res = []
     for _, rationales in evidence.items():
         for rationale in rationales:
-            num = len(rationale['sentences'])
+            num = len(rationale["sentences"])
             res.append(num)
             # paper says rationales at most consists of 3 sentences.
             if num > 3:
                 print(evidence)
     return res
+
 
 # evidence_count_barchart creates a bar ploit of the number of evidences each claim
 # have in a scifact data set
@@ -23,7 +25,9 @@ def evidence_count_barchart(dataset_path):
     counter = dict()
     with jsonlines.open(dataset_path) as data_set:
         for data_point in data_set:
-            numbers = extract_number_of_rationale_sentences_in_evidence(data_point["evidence"])
+            numbers = extract_number_of_rationale_sentences_in_evidence(
+                data_point["evidence"]
+            )
             for num in numbers:
                 c = counter.get(num, 0) + 1
                 counter[num] = c
@@ -40,9 +44,7 @@ def evidence_count_barchart(dataset_path):
     # Add title
     filename = os.path.basename(dataset_path)
     ax.set_title(
-        "Number of rationales consisting of x sentences for file {}".format(
-            filename
-        )
+        "Number of rationales consisting of x sentences for file {}".format(filename)
     )
     # Add x, y gridlines
     ax.set_axisbelow(True)
