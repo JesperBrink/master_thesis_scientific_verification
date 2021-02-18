@@ -1,7 +1,7 @@
 import jsonlines
 
 def dummy_abstract_retrieval(claim, corpus_path):
-    """ Simply picks the first 3 abstracs each time """
+    """ Simply picks the first 1000 abstracs each time """
     corpus_file = jsonlines.open(corpus_path)
 
     retrieved_abstracts = []
