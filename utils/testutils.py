@@ -6,4 +6,3 @@ def assertion(name, expected, res):
         print(
             "FAIL - test: {}\n\texpected {}\n\tgot      {}".format(name, expected, res)
         )
-

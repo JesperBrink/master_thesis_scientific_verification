@@ -1,5 +1,6 @@
 import re
 
+
 def remove_parentheses(abstract, num_of_spaces):
     exp = r"[ ]\(([^\) ]*[ ]){" + str(num_of_spaces) + r",}[^\) ]*\)"
     res = []
