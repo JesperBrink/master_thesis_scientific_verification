@@ -1,15 +1,5 @@
 from evidencestatistics import extract_number_of_rationale_sentences_in_evidence
-
-
-def assertion(name, expected, res):
-    try:
-        assert res == expected
-        print("PASS - test: {}".format(name))
-    except AssertionError:
-        print(
-            "FAIL - test: {}\n\texpected {}\n\tgot      {}".format(name, expected, res)
-        )
-
+from utils.testutils import assertion
 
 def test_extract_number_of_rationale_sentences_in_evidence():
     testcases = [
