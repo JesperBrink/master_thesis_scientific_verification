@@ -13,5 +13,5 @@ class DummyAbstractRetrieval:
                 break
         self.result = retrieved_abstracts
 
-    def retrieve(self, claim):
+    def retrieve(self, _, claim):
         return self.result
