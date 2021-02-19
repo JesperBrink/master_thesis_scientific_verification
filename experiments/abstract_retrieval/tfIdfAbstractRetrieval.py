@@ -16,7 +16,7 @@ class TFIDFAbstractRetrieval:
             [doc["title"] + " ".join(doc["abstract"]) for doc in self.corpus]
         )
 
-    def retrieve(self, claim):
+    def retrieve(self, _, claim):
         # create vector for claim
         claim_vector = self.vectorizer.transform([claim]).todense()
         # compute cosine similarity to alle abstracts

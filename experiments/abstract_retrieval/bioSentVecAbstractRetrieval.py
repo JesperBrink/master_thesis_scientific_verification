@@ -1,19 +1,18 @@
 from sklearn.metrics.pairwise import cosine_similarity
-from tqdm import tqdm
 import pickle
 
 
 class BioSentVecAbstractRetrieval:
-    """ Retrieves the k=30 best  """
+    """ Retrieves the k best  """
 
-    def __init__(self, claims_embedding_pickle, corpus_embedding_pickle, k=30):
+    def __init__(self, k, claims_embedding_pickle, corpus_embedding_pickle):
         self.k = k
         with open(corpus_embedding_pickle, "rb") as f:
             self.corpus_embeddings = pickle.load(f)
         with open(claims_embedding_pickle, "rb") as f:
             self.claim_embeddings = pickle.load(f)
 
-    def retrieve(self, claim_id, claim):
+    def retrieve(self, claim_id, _):
         abstract_and_similarity_pairs = []
         claim_embedding = self.claim_embeddings[claim_id]
 
