@@ -2,8 +2,10 @@
 
 import argparse
 import jsonlines
+import enum
 from utils import compute_f1, compute_precision, compute_recall
 from dummyAbstractRetrieval import DummyAbstractRetrieval
+from tfIdfAbstractRetrieval import TFIDFAbstractRetrieval
 
 
 def eval_abstract_retrieval(retriever, dataset_path):
@@ -35,13 +37,26 @@ def eval_abstract_retrieval(retriever, dataset_path):
     print("F1:", f1)
 
 
+class Retriever(enum.Enum):
+    Dummy = "dummy"
+    TFIDF = "tf-idf"
+
+
 if __name__ == "__main__":
     # Just for testing purpose
     parser = argparse.ArgumentParser(description="Create bar plots of evidence count")
     parser.add_argument(
         "data_set_path", metavar="path", type=str, help="the path to the dataset"
     )
+    parser.add_argument("retriever", type=Retriever, metavar="retriever_func")
 
     args = parser.parse_args()
-    dummy = DummyAbstractRetrieval("{}/corpus.jsonl".format(args.data_set_path))
-    eval_abstract_retrieval(dummy, "{}/claims_dev.jsonl".format(args.data_set_path))
+    retriver = None
+    if args.retriever == Retriever.Dummy:
+        retriver = DummyAbstractRetrieval("{}/corpus.jsonl".format(args.data_set_path))
+    elif args.retriever == Retriever.TFIDF:
+        retriver = TFIDFAbstractRetrieval(
+            3, "{}/corpus.jsonl".format(args.data_set_path), 1, 2
+        )
+
+    eval_abstract_retrieval(retriver, "{}/claims_dev.jsonl".format(args.data_set_path))
