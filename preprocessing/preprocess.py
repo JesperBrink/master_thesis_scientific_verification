@@ -21,4 +21,5 @@ if __name__ == "__main__":
         "../datasets/scifact/corpus.jsonl",
         "temp.jsonl",
         lambda d: remove_parentheses(d, 2),
+        lambda d: remove_sections(d),
     )
