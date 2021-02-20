@@ -1,5 +1,6 @@
 import jsonlines
 from removeparentheses import remove_parentheses
+from removesections import remove_sections
 from functools import reduce
 
 
@@ -11,15 +12,13 @@ def preprocess(data_set_path, out_put_path, *options):
     with jsonlines.open(data_set_path) as data_set:
         with jsonlines.open(out_put_path, "w") as output:
             for data_point in data_set:
-                abstract = data_point["abstract"]
-                preprocessed_abstract = reduce(execute, options, abstract)
-                data_point["abstract"] = preprocessed_abstract
-                output.write(data_point)
+                preprocessed_doc = reduce(execute, options, data_point)
+                output.write(preprocessed_doc)
 
 
 if __name__ == "__main__":
     preprocess(
-        "/Users/muggel/python/master_thesis_scientific_verification/datasets/scifact/corpus.jsonl",
+        "../datasets/scifact/corpus.jsonl",
         "temp.jsonl",
-        lambda a: remove_parentheses(a, 2),
+        lambda d: remove_parentheses(d, 2),
     )

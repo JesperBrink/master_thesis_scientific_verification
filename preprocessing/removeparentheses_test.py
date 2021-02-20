@@ -6,30 +6,30 @@ def test_remove_parentheses():
     testcases = [
         {
             "name": "no parentheses no removal",
-            "expected": ["hello test 1 2 3"],
-            "input_claim": ["hello test 1 2 3"],
+            "expected": {"abstract": ["hello test 1 2 3"]},
+            "input_claim": {"abstract": ["hello test 1 2 3"]},
             "input_num": 2,
         },
         {
             "name": "one parentheses no removal",
-            "expected": ["hello (test) 1 2 3"],
-            "input_claim": ["hello (test) 1 2 3"],
+            "expected": {"abstract": ["hello (test) 1 2 3"]},
+            "input_claim": {"abstract": ["hello (test) 1 2 3"]},
             "input_num": 1,
         },
         {
             "name": "one parentheses one removal",
-            "expected": ["hello 2 3"],
-            "input_claim": ["hello (test 1) 2 3"],
+            "expected": {"abstract": ["hello 2 3"]},
+            "input_claim": {"abstract": ["hello (test 1) 2 3"]},
             "input_num": 1,
         },
         {
             "name": "real life test",
-            "expected": [
+            "expected": {"abstract": [
                 "In the posterior limb of the internal capsule, the mean apparent diffusion coefficients at both times were similar."
-            ],
-            "input_claim": [
+            ]},
+            "input_claim": {"abstract": [
                 "In the posterior limb of the internal capsule, the mean apparent diffusion coefficients at both times were similar (1.2 versus 1.1 microm2/ms)."
-            ],
+            ]},
             "input_num": 2,
         },
     ]
