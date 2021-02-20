@@ -19,6 +19,11 @@ def test_remove_sections():
             "expected": {"abstract": [""], "structured": True},
             "input_claim": {"abstract": ["RESULTS AND CONCLUSIONS test sentence"], "structured": True},
         },
+        {
+            "name": "Unstructured abstracts",
+            "expected": {"abstract": ["test sentence"], "structured": False},
+            "input_claim": {"abstract": ["test sentence"], "structured": False},
+        },
     ]
     for test in testcases:
         res = remove_sections(test["input_claim"])
