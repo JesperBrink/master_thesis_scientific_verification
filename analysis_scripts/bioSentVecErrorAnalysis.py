@@ -11,7 +11,6 @@ from tqdm import tqdm
 def load_abstract_dict(corpus_path):
     abstract_id_to_abstract = dict()
     corpus = jsonlines.open(corpus_path)
-    print("corpus", corpus)
     for data in corpus:
         abstract_id_to_abstract[str(data["doc_id"])] = data["abstract"]
 
@@ -34,7 +33,6 @@ def main(dev_path, corpus_path, claims_embedding, corpus_embedding, interactive)
         gold_docs = data["evidence"].keys()
 
         true_positives = len(set(retrieved_abstracts).intersection(set(gold_docs)))
-        false_positives = len(retrieved_abstracts) - true_positives
         false_negatives = len(gold_docs) - true_positives
 
         if len(gold_docs) == 0:
