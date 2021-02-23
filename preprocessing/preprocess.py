@@ -28,7 +28,7 @@ if __name__ == "__main__":
         "corpus_path", metavar="path", type=str, help="the path to the corpus"
     )
     parser.add_argument(
-        "output_path", metavar="path", type=str, help="the path to the corpus"
+        "output_path", metavar="path", type=str, help="the path to the preprocessed output"
     )
     parser.add_argument(
         "preprocessors", metavar="path", type=Preprocessor, help="the path to the corpus", nargs="+"
