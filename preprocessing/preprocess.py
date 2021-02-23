@@ -31,7 +31,7 @@ if __name__ == "__main__":
         "output_path", metavar="path", type=str, help="the path to the preprocessed output"
     )
     parser.add_argument(
-        "preprocessors", metavar="path", type=Preprocessor, help="the path to the corpus", nargs="+"
+        "preprocessors", metavar="preprocessors", type=Preprocessor, help="list of functions used for preprocessing", nargs="+"
     )
 
     args = parser.parse_args()
