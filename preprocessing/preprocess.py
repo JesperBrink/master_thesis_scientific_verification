@@ -23,7 +23,7 @@ class Preprocessor(enum.Enum):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Create bar plots of evidence count")
+    parser = argparse.ArgumentParser(description="Preprocess a corpus")
     parser.add_argument(
         "corpus_path", metavar="path", type=str, help="the path to the corpus"
     )
