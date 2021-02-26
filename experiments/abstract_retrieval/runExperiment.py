@@ -4,7 +4,7 @@ import argparse
 import jsonlines
 import enum
 from tqdm import tqdm
-from utils import compute_f1, compute_precision, compute_recall
+from utils.evaluationutils import compute_f1, compute_precision, compute_recall
 from dummyAbstractRetrieval import DummyAbstractRetrieval
 from tfIdfAbstractRetrieval import TFIDFAbstractRetrieval
 from bioSentVecAbstractRetrieval import BioSentVecAbstractRetrieval
