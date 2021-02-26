@@ -1,8 +1,15 @@
 import re
 
+
 def remove_sections(doc):
     if doc["structured"]:
-        sections_whitelist = ["RESULTS", "CONCLUSIONS", "METHODS AND FINDINGS", "FINDINGS", "CONCLUSION"]
+        sections_whitelist = [
+            "RESULTS",
+            "CONCLUSIONS",
+            "METHODS AND FINDINGS",
+            "FINDINGS",
+            "CONCLUSION",
+        ]
         section_regexp = r"^\b[A-Z]+[A-Z]+(?:\s*[,]*\s+[A-Z]+[A-Z]+)*\b"
         abstract = doc["abstract"]
         cur_section = ""
@@ -17,14 +24,10 @@ def remove_sections(doc):
                     if cleaned_section in re.findall(section_regexp, sentence)[0]:
                         cur_section = cleaned_section
                         break
-            
+
             # Rewrite sentence in non-whitelisted section
             if cur_section not in sections_whitelist:
                 abstract[sentence_idx] = ""
-        
+
         doc["abstract"] = abstract
     return doc
-    
-
-
-            
