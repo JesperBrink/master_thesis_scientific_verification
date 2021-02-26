@@ -4,6 +4,7 @@ import enum
 from removeparentheses import remove_parentheses
 from removesections import remove_sections
 from removestopwords import remove_stopwords
+from embed import s_bert_embed
 from functools import reduce
 
 
@@ -43,6 +44,9 @@ if __name__ == "__main__":
         help="list of functions used for preprocessing",
         nargs="+",
     )
+    parser.add_argument(
+        "-e", "--embed", bool=True, help="wheather or not the preprocessing should end out in an embedding"
+    )
 
     args = parser.parse_args()
     preprocessors = []
@@ -50,8 +54,15 @@ if __name__ == "__main__":
         if preprocessor == Preprocessor.Parantheses:
             preprocessors.append(lambda d: remove_parentheses(d, 2))
         elif preprocessor == Preprocessor.Section:
-            preprocessors.append(lambda d: remove_sections(d))
+            preprocessors.append(remove_sections)
         elif preprocessor == Preprocessor.StopWords:
             preprocessors.append(remove_stopwords)
 
-    preprocess(args.corpus_path, args.output_path, *preprocessors)
+    if args.embed:
+        preprocessors.append(s_bert_embed)
+
+    preprocess(
+        args.corpus_path,
+        args.output_path,
+        *preprocessors
+    )
