@@ -3,6 +3,7 @@ import jsonlines
 import enum
 from removeparentheses import remove_parentheses
 from removesections import remove_sections
+from removestopwords import remove_stopwords
 from functools import reduce
 
 
@@ -17,9 +18,11 @@ def preprocess(data_set_path, out_put_path, *options):
                 preprocessed_doc = reduce(execute, options, data_point)
                 output.write(preprocessed_doc)
 
+
 class Preprocessor(enum.Enum):
     Parantheses = "paren"
     Section = "section"
+    StopWords = "stopwords"
 
 
 if __name__ == "__main__":
@@ -28,10 +31,17 @@ if __name__ == "__main__":
         "corpus_path", metavar="path", type=str, help="the path to the corpus"
     )
     parser.add_argument(
-        "output_path", metavar="path", type=str, help="the path to the preprocessed output"
+        "output_path",
+        metavar="path",
+        type=str,
+        help="the path to the preprocessed output",
     )
     parser.add_argument(
-        "preprocessors", metavar="preprocessors", type=Preprocessor, help="list of functions used for preprocessing", nargs="+"
+        "preprocessors",
+        metavar="preprocessors",
+        type=Preprocessor,
+        help="list of functions used for preprocessing",
+        nargs="+",
     )
 
     args = parser.parse_args()
@@ -41,10 +51,7 @@ if __name__ == "__main__":
             preprocessors.append(lambda d: remove_parentheses(d, 2))
         elif preprocessor == Preprocessor.Section:
             preprocessors.append(lambda d: remove_sections(d))
+        elif preprocessor == Preprocessor.StopWords:
+            preprocessors.append(remove_stopwords)
 
-
-    preprocess(
-        args.corpus_path,
-        args.output_path,
-        *preprocessors
-    )
+    preprocess(args.corpus_path, args.output_path, *preprocessors)
