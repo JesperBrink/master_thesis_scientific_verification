@@ -50,10 +50,10 @@ if __name__ == "__main__":
     # Just for testing purpose
     parser = argparse.ArgumentParser(description="Create bar plots of evidence count")
     parser.add_argument(
-        "corpus", metavar="path", type=str, help="the path to the dataset"
+        "corpus", metavar="path", type=str, help="the path to the corpus"
     )
     parser.add_argument(
-        "testset", metavar="path", type=str, help="the path to the dataset"
+        "testset", metavar="path", type=str, help="the path to the testset"
     )
     parser.add_argument("retriever", type=Retriever, metavar="retriever_func")
     parser.add_argument("-k", default=3, type=int)
