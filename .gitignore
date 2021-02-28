@@ -3,5 +3,5 @@ __pycache__/
 *.pyc
 .DS_Store
 .idea/
-
+datasets/trainingDataset/*
 BioSentVecEmbeddings/
