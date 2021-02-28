@@ -50,7 +50,10 @@ if __name__ == "__main__":
     # Just for testing purpose
     parser = argparse.ArgumentParser(description="Create bar plots of evidence count")
     parser.add_argument(
-        "data_set_path", metavar="path", type=str, help="the path to the dataset"
+        "corpus", metavar="path", type=str, help="the path to the corpus"
+    )
+    parser.add_argument(
+        "testset", metavar="path", type=str, help="the path to the testset"
     )
     parser.add_argument("retriever", type=Retriever, metavar="retriever_func")
     parser.add_argument("-k", default=3, type=int)
@@ -64,14 +67,12 @@ if __name__ == "__main__":
     args = parser.parse_args()
     retriver = None
     if args.retriever == Retriever.Dummy:
-        retriver = DummyAbstractRetrieval("{}/corpus.jsonl".format(args.data_set_path))
+        retriver = DummyAbstractRetrieval(args.corpus)
     elif args.retriever == Retriever.TFIDF:
-        retriver = TFIDFAbstractRetrieval(
-            args.k, "{}/corpus.jsonl".format(args.data_set_path), 1, 2
-        )
+        retriver = TFIDFAbstractRetrieval(args.k, args.corpus, 1, 2)
     elif args.retriever == Retriever.BioSentVec:
         retriver = BioSentVecAbstractRetrieval(
             args.k, args.claims_embedding, args.corpus_embedding
         )
 
-    eval_abstract_retrieval(retriver, "{}/claims_dev.jsonl".format(args.data_set_path))
+    eval_abstract_retrieval(retriver, args.testset)
