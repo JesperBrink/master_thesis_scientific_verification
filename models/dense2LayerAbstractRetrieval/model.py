@@ -4,6 +4,8 @@ from tensorflow.python.keras import Input
 from tensorflow.keras.models import Sequential
 from datasets.sentenceLevelAbstractRetrievalDataset.loadDataset import load_dataset, load_validation_dataset
 import tensorflow as tf
+import datetime
+import shutil
 
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
@@ -30,8 +32,19 @@ def save():
     pass
 
 
+def setup_tensorboard():
+    # clear old logs
+    if os.path.exists("./logs"):
+        shutil.rmtree("./logs")
+
+    log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    return tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+
+
+
 def main():
     BATCH_SIZE = 32
+    tensorboard_callback = setup_tensorboard()
     m = TwoLayerAbstractRetriever(1024)
     m.build((BATCH_SIZE, 1536))
     loss = tf.keras.losses.BinaryCrossentropy()
@@ -41,7 +54,9 @@ def main():
     validation_dataset = load_validation_dataset().batch(BATCH_SIZE, drop_remainder=True)
     m.fit(
         dataset, 
-        validation_data=validation_dataset
+        validation_data=validation_dataset,
+        epochs=10,
+        callbacks=[tensorboard_callback]
         )
 
 
