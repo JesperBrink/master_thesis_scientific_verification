@@ -12,6 +12,7 @@ import numpy as np
 
 
 dataset_path = Path(os.path.realpath(__file__)).resolve().parents[1] / "trainingDataset"
+validation_path = Path(os.path.realpath(__file__)).resolve().parents[1] / "validationDataset"
 
 
 def create_id_to_abstract_map(corpus_path):
@@ -26,6 +27,7 @@ def create_id_to_abstract_map(corpus_path):
 def _float_feature(value):
     """Returns a float_list from a float / double."""
     return tf.train.Feature(float_list=tf.train.FloatList(value=value))
+
 
 def _int64_feature(value):  
     """Returns an int64_list from a bool / enum / int / uint."""
@@ -42,10 +44,11 @@ def serialize_example(inp, label):
     return example_proto.SerializeToString()
 
 
-def create_relevant(claim_path, corpus_path):
+def create_relevant(claim_path, corpus_path, set_type):
     model = SentenceTransformer("stsb-distilbert-base")
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)
-    with tf.io.TFRecordWriter(str(dataset_path / "relevant.tfrecord")) as writer: 
+    directory = dataset_path if set_type == DatasetType.train else validation_path
+    with tf.io.TFRecordWriter(str(directory / "relevant.tfrecord")) as writer: 
         for claim in tqdm(jsonlines.open(claim_path)):
             if claim["evidence"]:
                 claim_encoding = model.encode(claim["claim"])
@@ -55,10 +58,11 @@ def create_relevant(claim_path, corpus_path):
                         [writer.write(serialize_example(claim_encoding.tolist() + encoded_abstract[index], 1)) for index in evidence["sentences"]]
 
 
-def create_not_relevant(claim_path, corpus_path, k):
+def create_not_relevant(claim_path, corpus_path, k, set_type):
     model = SentenceTransformer("stsb-distilbert-base")
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)
-    with tf.io.TFRecordWriter(str(dataset_path / "not_relevant.tfrecord")) as writer: 
+    directory = dataset_path if set_type == DatasetType.train else validation_path
+    with tf.io.TFRecordWriter(str(directory / "not_relevant.tfrecord")) as writer: 
         for claim in tqdm(jsonlines.open(claim_path)):
             claim_encoding = model.encode(claim["claim"])
             temp_list = [value for key, value in id_to_abstact_map.items() if key not in claim["evidence"]]
@@ -71,6 +75,9 @@ class Relevancy(enum.Enum):
     relevant = "relevant"
     not_relevant = "notrelevant"
 
+class DatasetType(enum.Enum):
+    train = "train"
+    validation = "validation"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
@@ -84,12 +91,15 @@ if __name__ == "__main__":
         "relevance", metavar="relevance", type=Relevancy, help="choose between relevant and not relevant"
     )
     parser.add_argument(
-        "-k", metavar="relevance", type=int, help="the number of not relevant sentence pr claim", default=5
+        "type", metavar="type", type=DatasetType, help="validation or train"
+    )
+    parser.add_argument(
+        "-k", metavar="k", type=int, help="the number of not relevant sentence pr claim", default=5
     )
 
     args = parser.parse_args()
     if args.relevance == Relevancy.relevant:
-        create_relevant(args.claim_path, args.corpus_path)
+        create_relevant(args.claim_path, args.corpus_path, args.type)
     elif args.relevance == Relevancy.not_relevant:
-        create_not_relevant(args.claim_path, args.corpus_path, args.k)
+        create_not_relevant(args.claim_path, args.corpus_path, args.k, args.type)
         

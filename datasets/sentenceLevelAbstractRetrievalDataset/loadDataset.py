@@ -7,6 +7,7 @@ import numpy as np
 
 
 dataset_path = Path(os.path.realpath(__file__)).resolve().parents[1] / "trainingDataset"
+validation_path = Path(os.path.realpath(__file__)).resolve().parents[1] / "validationDataset"
 
 def read_tfrecord(serialized_example):
     feature_description = {
@@ -26,7 +27,13 @@ def load_dataset():
     filenames = [str(dataset_path / x) for x in os.listdir(dataset_path)]
     dataset = tf.data.TFRecordDataset(filenames)
 
-    return dataset.map(read_tfrecord)
+    return dataset.shuffle(30000).map(read_tfrecord)
+
+def load_validation_dataset():
+    filenames = [str(validation_path / x) for x in os.listdir(validation_path)]
+    dataset = tf.data.TFRecordDataset(filenames)
+
+    return dataset.shuffle(30000).map(read_tfrecord)
 
 
 if __name__ == '__main__':
