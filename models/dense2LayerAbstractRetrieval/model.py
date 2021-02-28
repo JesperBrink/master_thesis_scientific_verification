@@ -2,6 +2,7 @@ import numpy as np
 from tensorflow.python.keras.layers import Dense
 from tensorflow.python.keras import Input
 from tensorflow.keras.models import Sequential
+from datasets.sentenceLevelAbstractRetrievalDataset.loadDataset import load_dataset
 import tensorflow as tf
 
 import os
@@ -30,11 +31,14 @@ def save():
 
 
 def main():
+    BATCH_SIZE = 32
     m = TwoLayerAbstractRetriever(128)
-    m.build((1, 1))
+    m.build((BATCH_SIZE, 1536))
     loss = tf.keras.losses.BinaryCrossentropy()
     m.compile(optimizer="adam", loss=loss, metrics=["accuracy"])
     m.summary()
+    dataset = load_dataset().batch(BATCH_SIZE)
+    m.fit(dataset)
     print("wubwubwub: ", m(np.matrix([1])))
 
 
