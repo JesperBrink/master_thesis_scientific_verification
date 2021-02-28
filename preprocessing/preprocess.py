@@ -43,11 +43,7 @@ if __name__ == "__main__":
         metavar="preprocessors",
         type=Preprocessor,
         help="list of functions used for preprocessing",
-<<<<<<< HEAD
-        nargs="+",
-=======
         nargs="*",
->>>>>>> Add dense2LayerAbstractRetrieval and creation of relevant sentences part of dataset
     )
     parser.add_argument(
         "-e",
