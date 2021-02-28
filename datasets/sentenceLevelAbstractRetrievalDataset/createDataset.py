@@ -39,13 +39,13 @@ def serialize_example(inp, label):
     }
     
     example_proto = tf.train.Example(features=tf.train.Features(feature=feature))
-    return example_proto
+    return example_proto.SerializeToString()
 
 
 def create_relevant(claim_path, corpus_path):
     model = SentenceTransformer("stsb-distilbert-base")
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)
-    with tf.io.TFRecordWriter(dataset_path / "relevant.csv") as writer: 
+    with tf.io.TFRecordWriter(str(dataset_path / "relevant.tfrecord")) as writer: 
         for claim in tqdm(jsonlines.open(claim_path)):
             if claim["evidence"]:
                 claim_encoding = model.encode(claim["claim"])
@@ -58,11 +58,13 @@ def create_relevant(claim_path, corpus_path):
 def create_not_relevant(claim_path, corpus_path, k):
     model = SentenceTransformer("stsb-distilbert-base")
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)
-    with tf.io.TFRecordWriter(str(dataset_path / "not_relevant.csv")) as writer: 
+    with tf.io.TFRecordWriter(str(dataset_path / "not_relevant.tfrecord")) as writer: 
         for claim in tqdm(jsonlines.open(claim_path)):
             claim_encoding = model.encode(claim["claim"])
             temp_list = [value for key, value in id_to_abstact_map.items() if key not in claim["evidence"]]
-            [writer.write(serialize_example(claim_encoding.tolist() + abstract, 0)) for abstract in sample(temp_list, k)]
+            for abstract in sample(temp_list, k):
+                sentence = sample(abstract, 1)[0]
+                writer.write(serialize_example(claim_encoding.tolist() + sentence, 0)) 
 
 
 class Relevancy(enum.Enum):
@@ -82,7 +84,7 @@ if __name__ == "__main__":
         "relevance", metavar="relevance", type=Relevancy, help="choose between relevant and not relevant"
     )
     parser.add_argument(
-        "-k", metavar="relevance", type=int, help="the number of not relevant sentence pr claim", default=3
+        "-k", metavar="relevance", type=int, help="the number of not relevant sentence pr claim", default=5
     )
 
     args = parser.parse_args()

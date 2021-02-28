@@ -8,18 +8,28 @@ import numpy as np
 
 dataset_path = Path(os.path.realpath(__file__)).resolve().parents[1] / "trainingDataset"
 
+def read_tfrecord(serialized_example):
+    feature_description = {
+        'X': tf.io.FixedLenFeature([], tf.float32),
+        'Y': tf.io.FixedLenFeature([], tf.int64),
+    }
+
+    example = tf.io.parse_single_example(serialized_example, feature_description)
+
+    X = example['X']
+    Y = example['Y']
+
+    return X, Y
+
+
 def load_dataset():
-    df_relevant = pd.read_csv(dataset_path / "relevant.csv", header=None)
-    relevant_features = np.array(df_relevant.iloc[:,0])
-    relevant_labels = np.ones_like(relevant_features)
-    print(relevant_features, relevant_labels)
+    filenames = [str(dataset_path / x) for x in os.listdir(dataset_path)]
+    dataset = tf.data.TFRecordDataset(filenames)
 
-    df_not_relevant = pd.read_csv(dataset_path / "not_relevant.csv", header=None)
-    not_relevant_features = np.array(df_not_relevant.iloc[:,0])
-    not_relevant_labels = np.zeros_like(not_relevant_features)
+    parsed_image_dataset = dataset.map(read_tfrecord)
 
-    #for e in dataset.take():
-    #    print(e)
+    for e in parsed_image_dataset.take(1):
+       print(e)
 
 
 if __name__ == '__main__':
