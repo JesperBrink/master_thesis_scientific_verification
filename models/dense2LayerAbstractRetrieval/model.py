@@ -6,9 +6,12 @@ from datasets.sentenceLevelAbstractRetrievalDataset.loadDataset import load_data
 import tensorflow as tf
 import datetime
 import shutil
+from pathlib import Path
 
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
+
+_model_dir = Path(os.path.realpath(__file__)).resolve().parents[1] / "trained_models"
 
 
 class TwoLayerAbstractRetriever(tf.keras.Model):
@@ -24,12 +27,28 @@ class TwoLayerAbstractRetriever(tf.keras.Model):
         return self.classifier(x)
 
 
-def load():
-    pass
+def load(batch_size):
+    count = get_highest_count(_model_dir)
+    path = str(_model_dir / 'TwoLayerAbstractRetriever_{}'.format(count))
+    model = tf.keras.models.load_model(path)
+    model.build((batch_size, 1536))
+    return model
 
 
-def save():
-    pass
+def save(model):
+    count = get_highest_count(_model_dir) + 1
+    path = str(_model_dir / 'TwoLayerAbstractRetriever_{}'.format(count))
+    model.save(path)
+    print('model saved to {}'.format(path))
+
+
+def get_highest_count(dir):
+    m = -1
+    for file in os.listdir(dir):
+        number = int(file.split('_')[-1])
+        if number > m: 
+            m = number
+    return m
 
 
 def setup_tensorboard():
@@ -41,23 +60,26 @@ def setup_tensorboard():
     return tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
 
-
 def main():
     BATCH_SIZE = 32
     tensorboard_callback = setup_tensorboard()
     m = TwoLayerAbstractRetriever(1024)
     m.build((BATCH_SIZE, 1536))
     loss = tf.keras.losses.BinaryCrossentropy()
-    m.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.005, amsgrad=True), loss=loss, metrics=["accuracy"])
+    m.compile(optimizer="adam", loss=loss, metrics=["accuracy"])
     m.summary()
     dataset = load_dataset().batch(BATCH_SIZE, drop_remainder=True)
     validation_dataset = load_validation_dataset().batch(BATCH_SIZE, drop_remainder=True)
     m.fit(
         dataset, 
-        validation_data=validation_dataset,
-        epochs=10,
+        #validation_data=validation_dataset,
+        epochs=1,
         callbacks=[tensorboard_callback]
-        )
+    )
+    save(m)
+
+    loaded_model = load(BATCH_SIZE)
+    loaded_model.summary()
 
 
 if __name__ == "__main__":
