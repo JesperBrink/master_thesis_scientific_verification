@@ -27,11 +27,10 @@ class TwoLayerAbstractRetriever(tf.keras.Model):
         return self.classifier(x)
 
 
-def load(batch_size):
+def load():
     count = get_highest_count(_model_dir)
     path = str(_model_dir / 'TwoLayerAbstractRetriever_{}'.format(count))
     model = tf.keras.models.load_model(path)
-    model.build((batch_size, 1536))
     return model
 
 
@@ -72,13 +71,13 @@ def main():
     validation_dataset = load_validation_dataset().batch(BATCH_SIZE, drop_remainder=True)
     m.fit(
         dataset, 
-        #validation_data=validation_dataset,
+        validation_data=validation_dataset,
         epochs=1,
         callbacks=[tensorboard_callback]
     )
     save(m)
 
-    loaded_model = load(BATCH_SIZE)
+    loaded_model = load()
     loaded_model.summary()
 
 
