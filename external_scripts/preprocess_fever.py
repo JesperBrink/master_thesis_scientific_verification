@@ -18,6 +18,7 @@ wget https://s3-eu-west-1.amazonaws.com/fever.public/wiki-pages.zip
 import argparse
 import jsonlines
 import os
+import random
 from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
@@ -41,6 +42,7 @@ for filename in tqdm(sorted(os.listdir(args.wiki_folder))):
         wiki_sentences = [s[s.find('\t')+1:].replace('\t', ' ') for s in wiki_sentences]
         wiki_dict[wiki_id] = wiki_sentences
 
+values =list(wiki_dict.values())
 
 print('Converting dataset')
 claims = list(jsonlines.open(args.input))
@@ -66,6 +68,9 @@ for claim_doc in tqdm(claims):
         else:
             label = 'NOT ENOUGH INFO'
 
+    if label == 'NOT ENOUGH INFO':
+        negative_value = random.sample(values, 1)[0]
+        sentences = negative_value
     # Process evidence set
     evidence_sets = []
     for es in claim_doc['evidence']:
@@ -73,6 +78,7 @@ for claim_doc in tqdm(claims):
         evidence_sentences = list(sorted(evidence_sentences))
         if evidence_sentences and evidence_sentences not in evidence_sets:
             evidence_sets.append(evidence_sentences)
+
 
     output.write({
         'id': claim_id,

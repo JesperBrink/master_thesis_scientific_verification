@@ -7,18 +7,21 @@ import numpy as np
 
 
 dataset_path = Path(os.path.realpath(__file__)).resolve().parents[1] / "trainingDataset"
-validation_path = Path(os.path.realpath(__file__)).resolve().parents[1] / "validationDataset"
+validation_path = (
+    Path(os.path.realpath(__file__)).resolve().parents[1] / "validationDataset"
+)
+
 
 def read_tfrecord(serialized_example):
     feature_description = {
-        'X': tf.io.FixedLenFeature([1536], tf.float32),
-        'Y': tf.io.FixedLenFeature([1], tf.int64),
+        "X": tf.io.FixedLenFeature([1536], tf.float32),
+        "relevance": tf.io.FixedLenFeature([1], tf.int64),
     }
 
     example = tf.io.parse_single_example(serialized_example, feature_description)
 
-    X = example['X']
-    Y = example['Y']
+    X = example["X"]
+    Y = example["relevance"]
 
     return X, Y
 
@@ -29,6 +32,7 @@ def load_dataset():
 
     return dataset.shuffle(30000).map(read_tfrecord)
 
+
 def load_validation_dataset():
     filenames = [str(validation_path / x) for x in os.listdir(validation_path)]
     dataset = tf.data.TFRecordDataset(filenames)
@@ -36,6 +40,5 @@ def load_validation_dataset():
     return dataset.shuffle(30000).map(read_tfrecord)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     load_dataset()
-    
