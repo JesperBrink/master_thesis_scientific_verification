@@ -67,8 +67,21 @@ def create_not_relevant(claim_path, corpus_path, k, set_type):
             claim_encoding = model.encode(claim["claim"])
             temp_list = [value for key, value in id_to_abstact_map.items() if key not in claim["evidence"]]
             for abstract in sample(temp_list, k):
-                sentence = sample(abstract, 1)[0]
-                writer.write(serialize_example(claim_encoding.tolist() + sentence, 0)) 
+                sentence = sample(abstract, 1)
+                for sent in sentence:
+                    writer.write(serialize_example(claim_encoding.tolist() + sent, 0))
+            evidence_obj = claim['evidence']
+            if not evidence_obj:
+                continue
+            for doc_id, evidence in evidence_obj.items():
+                abstract = id_to_abstact_map[doc_id]
+                not_allowed = []
+                for obj in evidence:
+                    not_allowed.extend(obj['sentences'])
+                not_allowed = set(not_allowed)
+                allowed = set(range(0,len(abstract))) - not_allowed
+                chosen = sample(allowed, 1)[0]
+                writer.write(serialize_example(claim_encoding.tolist() + abstract[chosen], 0))
 
 
 class Relevancy(enum.Enum):
@@ -82,10 +95,10 @@ class DatasetType(enum.Enum):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
     parser.add_argument(
-        "claim_path", metavar="path", type=str, help="the path to the claims"
+        "claim_path", metavar="path", type=str, help="the path to the sentence claims"
     )
     parser.add_argument(
-        "corpus_path", metavar="path", type=str, help="the path to the corpus"
+        "corpus_path", metavar="path", type=str, help="the path to the embedded corpus"
     )
     parser.add_argument(
         "relevance", metavar="relevance", type=Relevancy, help="choose between relevant and not relevant"
