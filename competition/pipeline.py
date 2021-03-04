@@ -8,7 +8,7 @@ import tensorflow as tf
 
 def sentence_selection(claim, model, sentence_embeddings, corp_id):
     """ Returns a dict that maps abstract ids to relevant sentences ids in that abstract 
-    i.e. {abstract_42: [sent_3, sent_7], abstract_127: [sent_4]}
+    i.e. {abstract_42: [sent_3, sent_7], abstract_127: [sent_4]} TODO: update dette eksempel
     We have at most 9 sentences per abstract
     """
 
@@ -40,6 +40,7 @@ def same_prediction_as_avg(avg, pred, threshold):
     elif avg >= threshold and pred >= threshold:
         return True
     return False
+
 
 def stance_prediction(claim, evidence, model):
     """
@@ -92,7 +93,8 @@ def run_pipeline(corpus_path, claims_path):
                 relevant_sentences_dict = sentence_selection(claim, abstract_retriever_model, sentence_embeddings, corp_id)
                 prediction = stance_prediction(claim, relevant_sentences_dict, stance_prediction_model)
                 output.write(prediction)
-    
+
+
 if __name__ == '__main__':
     corpus_path = 'sbert-embedded-corpus.jsonl'
     claims_path = 'sbert-embedded-dev-claims.jsonl'
