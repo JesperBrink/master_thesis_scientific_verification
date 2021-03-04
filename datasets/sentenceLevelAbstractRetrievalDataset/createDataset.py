@@ -124,9 +124,7 @@ def create_not_relevant(claim_path, corpus_path, k, set_type):
 def create_fever_relevant(claim_path, set_type):
     model = SentenceTransformer(model_name)
     directory = trainingset_path if set_type == DatasetType.train else validation_path
-    relevant_writer = tf.io.TFRecordWriter(
-        str(directory / "fever_relevant.tfrecord")
-    )
+    relevant_writer = tf.io.TFRecordWriter(str(directory / "fever_relevant.tfrecord"))
     not_relevant_writer = tf.io.TFRecordWriter(
         str(directory / "fever_not_relevant.tfrecord")
     )
@@ -138,8 +136,7 @@ def create_fever_relevant(claim_path, set_type):
             negative_evidence = sample(claim["sentences"], 1)[0]
             not_relevant_writer.write(
                 serialize_example(
-                    claim_encoding.tolist()
-                    + model.encode(negative_evidence).tolist(),
+                    claim_encoding.tolist() + model.encode(negative_evidence).tolist(),
                     0,
                     0,
                 )

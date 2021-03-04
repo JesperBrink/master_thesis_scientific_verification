@@ -2,13 +2,17 @@ import numpy as np
 from tensorflow.python.keras.layers import Dense
 from tensorflow.python.keras import Input
 from tensorflow.keras.models import Sequential
-from datasets.sentenceLevelAbstractRetrievalDataset.loadDataset import load_dataset, load_validation_dataset
+from datasets.sentenceLevelAbstractRetrievalDataset.loadDataset import (
+    load_relevance_training_dataset,
+    load_relevance_validation_dataset,
+)
 import tensorflow as tf
 import datetime
 import shutil
 from pathlib import Path
 
 import os
+
 os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
 _model_dir = Path(os.path.realpath(__file__)).resolve().parents[1] / "trained_models"
@@ -31,23 +35,23 @@ class TwoLayerAbstractRetriever(tf.keras.Model):
 
 def load():
     count = get_highest_count(_model_dir)
-    path = str(_model_dir / 'TwoLayerAbstractRetriever_{}'.format(count))
+    path = str(_model_dir / "TwoLayerAbstractRetriever_{}".format(count))
     model = tf.keras.models.load_model(path)
     return model
 
 
 def save(model):
     count = get_highest_count(_model_dir) + 1
-    path = str(_model_dir / 'TwoLayerAbstractRetriever_{}'.format(count))
+    path = str(_model_dir / "TwoLayerAbstractRetriever_{}".format(count))
     model.save(path)
-    print('model saved to {}'.format(path))
+    print("model saved to {}".format(path))
 
 
 def get_highest_count(dir):
     m = -1
     for file in os.listdir(dir):
-        number = int(file.split('_')[-1])
-        if number > m: 
+        number = int(file.split("_")[-1])
+        if number > m:
             m = number
     return m
 
@@ -69,16 +73,17 @@ def main():
     m.build((BATCH_SIZE, 1536))
     m.compile(optimizer="adam", loss=loss, metrics=["accuracy"])
     m.summary()
-    dataset = load_dataset().batch(BATCH_SIZE, drop_remainder=True)
-    validation_dataset = load_validation_dataset().batch(BATCH_SIZE, drop_remainder=True)
-    # early_stopping =tf.keras.callbacks.EarlyStopping(monitor='loss', patience=3)
+    dataset = load_relevance_training_dataset().batch(BATCH_SIZE, drop_remainder=True)
+    validation_dataset = load_relevance_validation_dataset().batch(
+        BATCH_SIZE, drop_remainder=True
+    )
 
     m.fit(
-        dataset, 
+        dataset,
         validation_data=validation_dataset,
         epochs=17,
         callbacks=[tensorboard_callback],
-        class_weight={0:1,1:50}
+        class_weight={0: 1, 1: 50},
     )
     save(m)
 
