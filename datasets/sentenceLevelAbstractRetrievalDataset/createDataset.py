@@ -19,7 +19,7 @@ validation_path = (
 )
 
 # s-bert model name
-model_name = "stsb-distilbert-base"
+MODEL = None
 
 
 def create_id_to_abstract_map(corpus_path):
@@ -56,73 +56,79 @@ def serialize_example(inp, relevance, label):
     return example_proto.SerializeToString()
 
 
+def write_to_tf_record(writer, claim_embedding, relevance, label, *sentences):
+    for sentence in sentences:
+        writer.write(
+            serialize_example(
+                claim_embedding + MODEL.encode(sentence), relevance, label
+            )
+        )
+
+
 def create_relevant(claim_path, corpus_path, set_type):
-    model = SentenceTransformer(model_name)
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)
     directory = trainingset_path if set_type == DatasetType.train else validation_path
-    with tf.io.TFRecordWriter(str(directory / "scifact_relevant.tfrecord")) as writer:
-        for claim in tqdm(jsonlines.open(claim_path)):
-            if claim["evidence"]:
-                claim_encoding = model.encode(claim["claim"])
-                for doc_id, evidence_sets in claim["evidence"].items():
-                    encoded_abstract = id_to_abstact_map[doc_id]
-                    # set label to 1 if the claim is supported by abstract, else 0
-                    label = 1 if evidence_sets["label"] == "SUPPORT" else 0
-                    for evidence in model(evidence_sets).tolist():
-                        [
-                            writer.write(
-                                serialize_example(
-                                    claim_encoding.tolist() + encoded_abstract[index],
-                                    1,
-                                    label,
-                                )
-                            )
-                            for index in evidence["sentences"]
-                        ]
+    writer = tf.io.TFRecordWriter(str(directory / "scifact_relevant.tfrecord"))
+    for claim in tqdm(jsonlines.open(claim_path)):
+        if not claim["evidence"]:
+            continue
+
+        claim_embedding = MODEL.encode(claim["claim"])
+        sentences = []
+        # paper says that all the abstracts chosen agrees on the label, so we just use the label of the first evidence
+        label = 1 if list(claim["evidence"].values())[0][0]["label"] == "SUPPORT" else 0
+        for doc_id, evidence_sets in claim["evidence"].items():
+            encoded_abstract = id_to_abstact_map[doc_id]
+            usefull = []
+            for indexes in [evidence["sentences"] for evidence in evidence_sets]:
+                usefull.extend(indexes)
+            usefill_sentences = [encoded_abstract[index] for index in usefull]
+            sentences.extend(usefill_sentences)
+
+        write_to_tf_record(writer, claim_embedding, 1, label, *sentences)
 
 
 def create_not_relevant(claim_path, corpus_path, k, set_type):
-    model = SentenceTransformer(model_name)
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)
     directory = trainingset_path if set_type == DatasetType.train else validation_path
-    with tf.io.TFRecordWriter(
-        str(directory / "scifact_not_relevant.tfrecord")
-    ) as writer:
-        for claim in tqdm(jsonlines.open(claim_path)):
-            claim_encoding = model.encode(claim["claim"])
-            temp_list = [
-                value
-                for key, value in id_to_abstact_map.items()
-                if key not in claim["evidence"]
+    writer = tf.io.TFRecordWriter(str(directory / "scifact_not_relevant.tfrecord"))
+    for claim in tqdm(jsonlines.open(claim_path)):
+        claim_embedding = MODEL.encode(claim["claim"])
+        negative_abstracts = [
+            abstract
+            for doc_id, abstract in id_to_abstact_map.items()
+            if doc_id not in claim["evidence"]
+        ]
+
+        # make not_relecant datapoint from random abstract not used for evidence
+        negative_sentences = []
+        for abstract in sample(negative_abstracts, k):
+            chosen_sentences = sample(abstract, 1)
+            negative_sentences.extend(chosen_sentences)
+        write_to_tf_record(writer, claim_embedding, 0, 0, *negative_sentences)
+
+        evidence_obj = claim["evidence"]
+        if not evidence_obj:
+            continue
+        # make not_relevant for the abstrac with gold rationales
+        for doc_id, evidence in evidence_obj.items():
+            abstract = id_to_abstact_map[doc_id]
+            not_allowed = []
+            for obj in evidence:
+                not_allowed.extend(obj["sentences"])
+            not_allowed = set(not_allowed)
+            allowed = [
+                abstract[index] for index in set(range(0, len(abstract))) - not_allowed
             ]
-            for abstract in sample(temp_list, k):
-                sentence = sample(abstract, 1)
-                for sent in sentence:
-                    writer.write(
-                        serialize_example(
-                            claim_encoding.tolist() + model(sent).tolist(), 0, 0
-                        )
-                    )
-            evidence_obj = claim["evidence"]
-            if not evidence_obj:
-                continue
-            for doc_id, evidence in evidence_obj.items():
-                abstract = id_to_abstact_map[doc_id]
-                not_allowed = []
-                for obj in evidence:
-                    not_allowed.extend(obj["sentences"])
-                not_allowed = set(not_allowed)
-                allowed = set(range(0, len(abstract))) - not_allowed
-                chosen = sample(allowed, 1)[0]
-                writer.write(
-                    serialize_example(
-                        claim_encoding.tolist() + model(abstract[chosen]).tolist(), 0, 0
-                    )
-                )
+            chosen = sample(allowed, min(2, len(allowed)))
+            write_to_tf_record(writer, claim_embedding, 0, 0, *chosen)
+
+    # flush and close()
+    writer.flush()
+    writer.close()
 
 
 def create_fever_relevant(claim_path, set_type):
-    model = SentenceTransformer(model_name)
     directory = trainingset_path if set_type == DatasetType.train else validation_path
     relevant_writer = tf.io.TFRecordWriter(str(directory / "fever_relevant.tfrecord"))
     not_relevant_writer = tf.io.TFRecordWriter(
@@ -130,35 +136,43 @@ def create_fever_relevant(claim_path, set_type):
     )
 
     for claim in tqdm(jsonlines.open(claim_path)):
-        claim_encoding = model.encode(claim["claim"])
+        claim_embedding = MODEL.encode(claim["claim"])
         # create a not relevant datapoint if not enough info
         if claim["label"] == "NOT ENOUGH INFO":
-            negative_evidence = sample(claim["sentences"], 1)[0]
-            not_relevant_writer.write(
-                serialize_example(
-                    claim_encoding.tolist() + model.encode(negative_evidence).tolist(),
-                    0,
-                    0,
-                )
+            allowed = [x for x in claim["sentences"] if x != ""]
+            negative_evidence = sample(allowed, min(len(allowed), 2))
+            write_to_tf_record(
+                not_relevant_writer, claim_embedding, 0, 0, *negative_evidence
             )
             continue
-        # else create a relevant datapoint
+
+        # clean sentences by removing the part with the references.
         cleaned_sentences = list(
             map(lambda a: a.split(" . ")[0] + ".", claim["sentences"])
         )
         # set label to 1 if the claim is supported by abstract, else 0
         label = 1 if claim["label"] == "SUPPORTS" else 0
+        # else create a relevant and not relevant datapoints from the sentence used to label
         for evidence in claim["evidence_sets"]:
+            all_evidence = set()
             for index in evidence:
-                relevant_writer.write(
-                    serialize_example(
-                        claim_encoding.tolist()
-                        + model.encode(cleaned_sentences[index]).tolist(),
-                        1,
-                        label,
-                    )
-                )
+                all_evidence = all_evidence.union(set(evidence))
 
+            # write to the relevant dataset
+            usefull = [cleaned_sentences[index] for index in evidence]
+            write_to_tf_record(relevant_writer, claim_embedding, 1, label, *usefull)
+
+            # write to the not_relevant dataset
+            not_relevant_sents = set(range(len(cleaned_sentences))) - set(all_evidence)
+            allowed = [
+                cleaned_sentences[index]
+                for index in not_relevant_sents
+                if cleaned_sentences[index] != ""
+            ]
+            chosen = sample(allowed, min(2, len(allowed)))
+            write_to_tf_record(not_relevant_writer, claim_embedding, 0, 0, *chosen)
+
+    # flush and close files
     relevant_writer.flush()
     relevant_writer.close()
     not_relevant_writer.flush()
@@ -194,7 +208,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "-c",
-        "-corpus_path",
+        "--corpus_path",
         metavar="path",
         type=str,
         help="the path to the sentence corpus",
@@ -208,9 +222,11 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+    MODEL = SentenceTransformer("stsb-distilbert-base")
+
     if args.relevance == Relevancy.relevant and args.fever:
         create_fever_relevant(args.claim_path, args.set_type)
     elif args.relevance == Relevancy.relevant:
-        create_relevant(args.claim_path, args.corpus_path, args.type)
+        create_relevant(args.claim_path, args.corpus_path, args.set_type)
     elif args.relevance == Relevancy.not_relevant:
-        create_not_relevant(args.claim_path, args.corpus_path, args.k, args.type)
+        create_not_relevant(args.claim_path, args.corpus_path, args.k, args.set_type)
