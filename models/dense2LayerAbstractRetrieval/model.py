@@ -6,6 +6,8 @@ from datasets.sentenceLevelAbstractRetrievalDataset.loadDataset import (
     load_relevance_training_dataset,
     load_relevance_validation_dataset,
 )
+from datasets.sentenceLevelAbstractRetrievalDataset.loadDataset import load_dataset, load_validation_dataset
+from models.utils import get_highest_count, setup_tensorboard
 import tensorflow as tf
 import datetime
 import shutil
@@ -15,7 +17,7 @@ import os
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
-_model_dir = Path(os.path.realpath(__file__)).resolve().parents[1] / "trained_models"
+_model_dir = Path(os.path.realpath(__file__)).resolve().parents[1] / "trained_models/abstract_retriever"
 
 
 class TwoLayerAbstractRetriever(tf.keras.Model):
@@ -45,24 +47,6 @@ def save(model):
     path = str(_model_dir / "TwoLayerAbstractRetriever_{}".format(count))
     model.save(path)
     print("model saved to {}".format(path))
-
-
-def get_highest_count(dir):
-    m = -1
-    for file in os.listdir(dir):
-        number = int(file.split("_")[-1])
-        if number > m:
-            m = number
-    return m
-
-
-def setup_tensorboard():
-    # clear old logs
-    if os.path.exists("./logs"):
-        shutil.rmtree("./logs")
-
-    log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-    return tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
 
 def main():
