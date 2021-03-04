@@ -24,12 +24,16 @@ def test_remove_parentheses():
         },
         {
             "name": "real life test",
-            "expected": {"abstract": [
-                "In the posterior limb of the internal capsule, the mean apparent diffusion coefficients at both times were similar."
-            ]},
-            "input_claim": {"abstract": [
-                "In the posterior limb of the internal capsule, the mean apparent diffusion coefficients at both times were similar (1.2 versus 1.1 microm2/ms)."
-            ]},
+            "expected": {
+                "abstract": [
+                    "In the posterior limb of the internal capsule, the mean apparent diffusion coefficients at both times were similar."
+                ]
+            },
+            "input_claim": {
+                "abstract": [
+                    "In the posterior limb of the internal capsule, the mean apparent diffusion coefficients at both times were similar (1.2 versus 1.1 microm2/ms)."
+                ]
+            },
             "input_num": 2,
         },
     ]

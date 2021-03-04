@@ -12,12 +12,18 @@ def test_remove_sections():
         {
             "name": "non-whitelisted section",
             "expected": {"abstract": [""], "structured": True},
-            "input_claim": {"abstract": ["BACKGROUND test sentence"], "structured": True},
+            "input_claim": {
+                "abstract": ["BACKGROUND test sentence"],
+                "structured": True,
+            },
         },
         {
             "name": "section name contains whitelisted section",
             "expected": {"abstract": [""], "structured": True},
-            "input_claim": {"abstract": ["RESULTS AND CONCLUSIONS test sentence"], "structured": True},
+            "input_claim": {
+                "abstract": ["RESULTS AND CONCLUSIONS test sentence"],
+                "structured": True,
+            },
         },
         {
             "name": "Unstructured abstracts",

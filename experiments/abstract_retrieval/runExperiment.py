@@ -61,7 +61,7 @@ if __name__ == "__main__":
         "-cl", "--claims_embedding", help="path to pickle file with claim embeddings"
     )
     parser.add_argument(
-        "-co", "--corpus_embedding", metavar="path to pickle file with claim embeddings"
+        "-co", "--corpus_embedding", help="path to pickle file with claim embeddings"
     )
 
     args = parser.parse_args()

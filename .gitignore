@@ -3,5 +3,7 @@ __pycache__/
 *.pyc
 .DS_Store
 .idea/
-
+datasets/trainingDataset/*
+datasets/validationDataset/*
 BioSentVecEmbeddings/
+datasets/fever/*

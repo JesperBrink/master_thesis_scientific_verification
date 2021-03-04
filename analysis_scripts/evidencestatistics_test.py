@@ -1,6 +1,7 @@
 from evidencestatistics import extract_number_of_rationale_sentences_in_evidence
 from utils.testutils import assertion
 
+
 def test_extract_number_of_rationale_sentences_in_evidence():
     testcases = [
         {
