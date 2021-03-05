@@ -18,6 +18,7 @@ def read_relevance_tfrecord(serialized_example):
     feature_description = {
         "X": tf.io.FixedLenFeature([1536], tf.float32),
         "relevance": tf.io.FixedLenFeature([1], tf.int64),
+        "label": tf.io.FixedLenFeature([1], tf.int64),
     }
 
     example = tf.io.parse_single_example(serialized_example, feature_description)
@@ -45,6 +46,7 @@ def load_relevance_validation_dataset():
 def read_label_tfRecord(serialized_example):
     feature_description = {
         "X": tf.io.FixedLenFeature([1536], tf.float32),
+        "relevance": tf.io.FixedLenFeature([1], tf.int64),
         "label": tf.io.FixedLenFeature([1], tf.int64),
     }
 
