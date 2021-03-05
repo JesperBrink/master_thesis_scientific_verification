@@ -57,10 +57,15 @@ def serialize_example(inp, relevance, label):
 
 
 def write_to_tf_record(writer, claim_embedding, relevance, label, *sentences):
+    assert len(claim_embedding) == 768
     for sentence in sentences:
+        sentence_embedding = MODEL.encode(sentence).tolist()
+        assert len(sentence_embedding) == 768
+        concat = claim_embedding + sentence_embedding
+        assert len(concat) == 1536
         writer.write(
             serialize_example(
-                claim_embedding + MODEL.encode(sentence), relevance, label
+                concat, relevance, label
             )
         )
 
@@ -73,7 +78,7 @@ def create_relevant(claim_path, corpus_path, set_type):
         if not claim["evidence"]:
             continue
 
-        claim_embedding = MODEL.encode(claim["claim"])
+        claim_embedding = MODEL.encode(claim["claim"]).tolist()
         sentences = []
         # paper says that all the abstracts chosen agrees on the label, so we just use the label of the first evidence
         label = 1 if list(claim["evidence"].values())[0][0]["label"] == "SUPPORT" else 0
@@ -93,7 +98,7 @@ def create_not_relevant(claim_path, corpus_path, k, set_type):
     directory = trainingset_path if set_type == DatasetType.train else validation_path
     writer = tf.io.TFRecordWriter(str(directory / "scifact_not_relevant.tfrecord"))
     for claim in tqdm(jsonlines.open(claim_path)):
-        claim_embedding = MODEL.encode(claim["claim"])
+        claim_embedding = MODEL.encode(claim["claim"]).tolist()
         negative_abstracts = [
             abstract
             for doc_id, abstract in id_to_abstact_map.items()
@@ -136,7 +141,7 @@ def create_fever_relevant(claim_path, set_type):
     )
 
     for claim in tqdm(jsonlines.open(claim_path)):
-        claim_embedding = MODEL.encode(claim["claim"])
+        claim_embedding = MODEL.encode(claim["claim"]).tolist()
         # create a not relevant datapoint if not enough info
         if claim["label"] == "NOT ENOUGH INFO":
             allowed = [x for x in claim["sentences"] if x != ""]
