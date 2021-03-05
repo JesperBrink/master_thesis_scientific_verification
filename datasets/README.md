@@ -6,6 +6,6 @@ Currently it has the scifact dataset, and scripts for creating the tfrecord data
 To download the fever_datasets go to [drive](https://drive.google.com/drive/folders/1zzeXFBbpHaXpWl8dAoHpX7mWTl8Sayhq?usp=sharing) and download the desired fever_set.
 
 To create the tfRecord data run:
-`python createDataset.py {claim-dataset} {corpus} {relevant, notrelevant} {train, validation} -k {the number of not relevant sentences pr claim}`
+`python createDataset.py {claim-dataset} {train, validation} -f {if fever} -c {dorpus_path, only used if not fever} -k {the number of not relevant sentences pr claim, only used of not fever} -r {relevant or notrelevant, only used if not fever}` 
 
 Or download from: [drive](https://drive.google.com/drive/folders/1EtoDFtqIVKj0XBscWueBN5Ks64BfVVYG?usp=sharing).

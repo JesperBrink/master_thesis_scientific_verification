@@ -195,12 +195,6 @@ if __name__ == "__main__":
         "claim_path", metavar="path", type=str, help="the path to the sentence claims"
     )
     parser.add_argument(
-        "relevance",
-        metavar="relevance",
-        type=Relevancy,
-        help="choose between relevant and not relevant",
-    )
-    parser.add_argument(
         "set_type", metavar="type", type=DatasetType, help="validation or train"
     )
     parser.add_argument(
@@ -220,11 +214,19 @@ if __name__ == "__main__":
         help="the number of not relevant sentence pr claim",
         default=5,
     )
+    parser.add_argument(
+        "-r",
+        "--relevance",
+        metavar="relevance",
+        type=Relevancy,
+        default=Relevancy.relevant,
+        help="choose between relevant and not relevant",
+    )
 
     args = parser.parse_args()
     MODEL = SentenceTransformer("stsb-distilbert-base")
 
-    if args.relevance == Relevancy.relevant and args.fever:
+    if args.fever:
         create_fever_relevant(args.claim_path, args.set_type)
     elif args.relevance == Relevancy.relevant:
         create_relevant(args.claim_path, args.corpus_path, args.set_type)
