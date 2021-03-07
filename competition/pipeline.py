@@ -56,7 +56,6 @@ def stance_prediction(claim, evidence, model):
     """
     input: Claims + Rationales (from sentence selection)
     output: Whether abstracts/sentences support or refute claims
-    ~4-6 it/s på CPU
     """
     claim_id = claim["id"]
     
