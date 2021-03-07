@@ -57,15 +57,15 @@ def serialize_example(inp, relevance, label):
 
 
 def write_to_tf_record(writer, claim_embedding, relevance, label, *sentences):
-    assert len(claim_embedding) == 768
+    #assert len(claim_embedding) == 768
     for sentence in sentences:
         sentence_embedding = MODEL.encode(sentence).tolist()
-        assert len(sentence_embedding) == 768
-        concat = claim_embedding + sentence_embedding
-        assert len(concat) == 1536
+        #assert len(sentence_embedding) == 768
+        #concat = 
+        #assert len(concat) == 1536
         writer.write(
             serialize_example(
-                concat, relevance, label
+                claim_embedding + sentence_embedding, relevance, label
             )
         )
 
