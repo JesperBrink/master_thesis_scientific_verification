@@ -72,9 +72,7 @@ def stance_prediction(claim, evidence, model):
     return {"id": claim_id, "evidence": resulting_evidence_dict}
 
 
-def run_pipeline(corpus_path, claims_path):
-    abstract_retriever_model = sentence_selection_module.load()
-    stance_prediction_model = stance_prediction_module.load() 
+def setup_sentence_embeddings(corpus_path):
     with jsonlines.open(corpus_path) as corpus_reader:
         corpus = np.array(list(corpus_reader.iter()))
     corp_id = []
@@ -86,7 +84,13 @@ def run_pipeline(corpus_path, claims_path):
         sentence_embeddings.append(np.array(line['abstract']))
 
     sentence_embeddings = np.concatenate(sentence_embeddings, axis=0)
+    return sentence_embeddings, corp_id
 
+
+def run_pipeline(corpus_path, claims_path):
+    abstract_retriever_model = sentence_selection_module.load()
+    stance_prediction_model = stance_prediction_module.load() 
+    sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
     with jsonlines.open("predictions.jsonl", "w") as output:
         with jsonlines.open(claims_path) as claims:
             for claim in tqdm(claims):
