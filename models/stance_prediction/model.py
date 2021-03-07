@@ -4,7 +4,7 @@ from tensorflow.python.keras import Input
 from tensorflow.keras.models import Sequential
 import tensorflow as tf
 from pathlib import Path
-from datasets.sentenceLevelAbstractRetrievalDataset.loadDataset import load_dataset, load_validation_dataset
+from datasets.datasetProcessing.loadDataset import load_label_validation_dataset, load_label_training_dataset
 from models.utils import get_highest_count, setup_tensorboard
 
 import os
@@ -40,6 +40,25 @@ def save(model):
     print('model saved to {}'.format(path))
 
 
+def train(model, dataset_type, callbacks, BATCH_SIZE):
+    dataset = load_label_training_dataset(dataset_type).shuffle(10000).batch(
+        BATCH_SIZE, drop_remainder=True
+    )
+    validation_dataset = load_label_validation_dataset(dataset_type).shuffle(10000).batch(
+        BATCH_SIZE, drop_remainder=True
+    )
+
+    model.fit(
+        dataset,
+        validation_data=validation_dataset,
+        epochs=10,
+        callbacks=callbacks,
+        class_weight={0: 1, 1: 1},
+    )
+
+    return model
+
+
 def main():
     BATCH_SIZE = 32
     tensorboard_callback = setup_tensorboard()
@@ -48,22 +67,14 @@ def main():
     m.build((BATCH_SIZE, 1536))
     m.compile(optimizer="adam", loss=loss, metrics=["accuracy"])
     m.summary()
-    #dataset = load_dataset().batch(BATCH_SIZE, drop_remainder=True)
-    #validation_dataset = load_validation_dataset().batch(BATCH_SIZE, drop_remainder=True)
-    # early_stopping =tf.keras.callbacks.EarlyStopping(monitor='loss', patience=3)
 
-    #m.fit(
-    #    dataset, 
-    #    validation_data=validation_dataset,
-    #    epochs=17,
-    #    callbacks=[tensorboard_callback],
-    #    class_weight={0:1,1:50}
-    #)
+    m = train(m, "fever", [tensorboard_callback], BATCH_SIZE)
+    m = train(m, "scifact", [tensorboard_callback], BATCH_SIZE)   
     
     save(m)
 
-    #loaded_model = load()
-    #loaded_model.summary()
+    loaded_model = load()
+    loaded_model.summary()
 
 
 if __name__ == "__main__":
