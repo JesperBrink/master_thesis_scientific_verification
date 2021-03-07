@@ -31,7 +31,7 @@ def sentence_selection(claim, model, sentence_embeddings, corp_id):
         abstract_id, sentence_id = corp_id[pred_id[0]] 
         sentence_list = relevant_sentences_dict.get(abstract_id, [])
         if len(sentence_list) == 9:
-            print("Sentence list is larger than 9. FIX THIS")
+            #print("Sentence list is larger than 9. FIX THIS")
             continue
         sentence_list.append({"id": sentence_id, "embedding": claim_sent_embedding[pred_id].tolist()})
         relevant_sentences_dict[abstract_id] = sentence_list
@@ -56,6 +56,7 @@ def stance_prediction(claim, evidence, model):
     """
     input: Claims + Rationales (from sentence selection)
     output: Whether abstracts/sentences support or refute claims
+    ~4-6 it/s på CPU
     """
     claim_id = claim["id"]
     
@@ -63,16 +64,33 @@ def stance_prediction(claim, evidence, model):
         return {"id": claim_id, "evidence": {}}
     
     resulting_evidence_dict = dict()
-    for abstract in evidence.keys():
+    for abstract in tqdm(evidence.keys()):
         stance_predictions = []
         pred_sum = 0
-        predicted_sentences = evidence[abstract]
-        for sentence_dict in predicted_sentences:
-            embedding = np.array(sentence_dict["embedding"])
-            embedding = np.expand_dims(embedding, 0)
-            pred = model.predict(embedding)[0][0]
+
+        ### OLD ###
+        # pred_time = 0
+        # for sentence_dict in evidence[abstract]:
+        #     embedding = np.array(sentence_dict["embedding"])
+        #     embedding = np.expand_dims(embedding, 0)
+        #     pred = model.predict(embedding)[0][0]
+        #     stance_predictions.append((sentence_dict["id"], pred))
+        #     pred_sum += pred
+        
+        ### NEW ###
+        embeddings = []
+        
+        for sentence_dict in evidence[abstract]:
+            embedding = tf.expand_dims(tf.convert_to_tensor(sentence_dict["embedding"]), 0)
+            embeddings.append(embedding)
+
+        dataset = tf.data.Dataset.from_tensor_slices(embeddings)
+        predictions = model.predict(dataset)
+
+        for pred in predictions:
             stance_predictions.append((sentence_dict["id"], pred))
             pred_sum += pred
+
         avg = pred_sum / len(stance_predictions)
         rationale_sentences = [sent_id for sent_id, pred in stance_predictions if same_prediction_as_avg(avg, pred)]
         label = "SUPPORT" if avg >= 0.5 else "CONTRADICT"
@@ -99,8 +117,13 @@ def run_pipeline(corpus_path, claims_path):
     with jsonlines.open("predictions.jsonl", "w") as output:
         with jsonlines.open(claims_path) as claims:
             for claim in tqdm(claims):
+                t1 = time.time()
                 relevant_sentences_dict = sentence_selection(claim, abstract_retriever_model, sentence_embeddings, corp_id)
+                t2 = time.time()
+                print("sentence selection:", t2 - t1)
                 prediction = stance_prediction(claim, relevant_sentences_dict, stance_prediction_model) 
+                t3 = time.time()
+                print("stance prediction:", t3 - t2)
                 output.write(prediction)
     
 if __name__ == '__main__':
