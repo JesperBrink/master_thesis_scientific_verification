@@ -4,11 +4,10 @@ from tensorflow.python.keras import Input
 from tensorflow.keras.models import Sequential
 import tensorflow as tf
 from pathlib import Path
-<<<<<<< HEAD
 from datasets.datasetProcessing.loadDataset import load_label_validation_dataset, load_label_training_dataset
 =======
-from datasets.sentenceLevelAbstractRetrievalDataset.loadDataset import load_dataset, load_validation_dataset
->>>>>>> 16aea53 (Pipeline can now produces prediction.jsonl file, which can be used for the scifact eval script)
+from datasets.datasetProcessing.loadDataset import load_label_validation_dataset, load_label_training_dataset
+>>>>>>> 32fabc1 (Seperated training on fever and scifact into different steps)
 from models.utils import get_highest_count, setup_tensorboard
 
 import os
