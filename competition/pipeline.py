@@ -16,7 +16,7 @@ def sentence_selection(claim, model, sentence_embeddings, corp_id):
     claim_sent_embedding = np.concatenate((claim, sentence_embeddings), axis=1)
 
     predicted = model(claim_sent_embedding)
-    res_mask = tf.squeeze(tf.math.greater(predicted, tf.constant(0.999)))
+    res_mask = tf.squeeze(tf.math.greater(predicted, tf.constant(0.95)))
     res = tf.where(res_mask)
  
     relevant_sentences_dict = dict()
@@ -24,17 +24,12 @@ def sentence_selection(claim, model, sentence_embeddings, corp_id):
         abstract_id, sentence_id = corp_id[pred_id[0]] 
         sentence_list = relevant_sentences_dict.get(abstract_id, [])
         if len(sentence_list) == 9:
-            #print("Sentence list is larger than 9. FIX THIS")
+            print("Sentence list is larger than 9. FIX THIS")
             continue
         sentence_list.append({"id": sentence_id, "embedding": claim_sent_embedding[pred_id].tolist()})
         relevant_sentences_dict[abstract_id] = sentence_list
 
     return relevant_sentences_dict
-
-    # go through each abstract in each claim
-    # run sentences through model
-        # They run through tokenizer first? Maybe gives embeddings
-    # append evidence scores and claim id to results
 
 
 def same_prediction_as_avg(avg, pred):
@@ -56,7 +51,7 @@ def stance_prediction(claim, evidence, model):
         return {"id": claim_id, "evidence": {}}
     
     resulting_evidence_dict = dict()
-    for abstract in tqdm(evidence.keys()):
+    for abstract in evidence.keys():
         stance_predictions = []
         embeddings = []
         pred_sum = 0
@@ -72,12 +67,10 @@ def stance_prediction(claim, evidence, model):
             stance_predictions.append((sentence_dict["id"], pred))
             pred_sum += pred
 
-        t1 = time.time()
         avg = pred_sum / len(stance_predictions)
         rationale_sentences = [sent_id for sent_id, pred in stance_predictions if same_prediction_as_avg(avg, pred)]
         label = "SUPPORT" if avg >= 0.5 else "CONTRADICT"
         resulting_evidence_dict[str(abstract)] = {"sentences": rationale_sentences, "label": label}
-        print("last", time.time() - t1)
 
     return {"id": claim_id, "evidence": resulting_evidence_dict}
 
@@ -99,7 +92,6 @@ def run_pipeline(corpus_path, claims_path):
 
     with jsonlines.open("predictions.jsonl", "w") as output:
         with jsonlines.open(claims_path) as claims:
-            #print(len(claims))
             for claim in tqdm(claims):
                 relevant_sentences_dict = sentence_selection(claim, abstract_retriever_model, sentence_embeddings, corp_id)
                 prediction = stance_prediction(claim, relevant_sentences_dict, stance_prediction_model) 
