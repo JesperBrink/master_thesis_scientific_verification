@@ -25,7 +25,7 @@ def sentence_selection(claim, model, sentence_embeddings, corp_id):
         abstract_id, sentence_id = corp_id[pred_id_val]
         sentence_list = relevant_sentences_dict.get(abstract_id, [])
         if len(sentence_list) == 9:
-            print("Sentence list is larger than 9. FIX THIS")
+            #print("Sentence list is larger than 9. FIX THIS")
             continue
         
         sentence_list.append({"id": sentence_id, "embedding": claim_sent_embedding[pred_id_val]})
@@ -46,6 +46,7 @@ def stance_prediction(claim, evidence, model):
     """
     input: Claims + Rationales (from sentence selection)
     output: Whether abstracts/sentences support or refute claims
+    ~4-6 it/s på CPU
     """
     claim_id = claim["id"]
     
@@ -53,7 +54,7 @@ def stance_prediction(claim, evidence, model):
         return {"id": claim_id, "evidence": {}}
     
     resulting_evidence_dict = dict()
-    for abstract in evidence.keys():
+    for abstract in tqdm(evidence.keys()):
         stance_predictions = []
         pred_sum = 0
 
@@ -90,6 +91,7 @@ def run_pipeline(corpus_path, claims_path):
     with jsonlines.open("predictions.jsonl", "w") as output:
         with jsonlines.open(claims_path) as claims:
             for claim in tqdm(claims):
+                t1 = time.time()
                 relevant_sentences_dict = sentence_selection(claim, abstract_retriever_model, sentence_embeddings, corp_id)
                 prediction = stance_prediction(claim, relevant_sentences_dict, stance_prediction_model)
                 output.write(prediction)
