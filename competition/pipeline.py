@@ -23,7 +23,7 @@ def sentence_selection(claim, model, sentence_embeddings, corp_id):
     claim_sent_embedding = np.concatenate((claim, sentence_embeddings), axis=1)
 
     predicted = model(claim_sent_embedding)
-    res_mask = tf.squeeze(tf.math.greater(predicted, tf.constant(0.0005)))
+    res_mask = tf.squeeze(tf.math.greater(predicted, tf.constant(0.95)))
     res = tf.where(res_mask)
  
     relevant_sentences_dict = dict()
@@ -80,11 +80,6 @@ def stance_prediction(claim, evidence, model):
 
     return {"id": claim_id, "evidence": resulting_evidence_dict}
 
-    # for each claim, go through evidence
-    # if evidence is empty, give no info label
-    # else join evidence sentences, run evidence through model, take label with max class probability
-    # append claim_id and label to results
-
 
 def run_pipeline(corpus_path, claims_path):
     abstract_retriever_model = sentence_selection_module.load()
@@ -110,6 +105,6 @@ def run_pipeline(corpus_path, claims_path):
     
 if __name__ == '__main__':
     corpus_path = 'sbert-embedded-corpus.jsonl'
-    claims_path= 'sbert-embedded-dev-claims.jsonl'
+    claims_path = 'sbert-embedded-dev-claims.jsonl'
     
     run_pipeline(corpus_path, claims_path)
