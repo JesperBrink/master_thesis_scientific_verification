@@ -31,7 +31,6 @@ def read_relevance_tfrecord(serialized_example):
 
 def load_relevance_training_dataset(dataset_type):
     filenames = [str(trainint_set_path / x) for x in os.listdir(trainint_set_path) if dataset_type in x]
-    print(filenames)
     dataset = tf.data.TFRecordDataset(filenames)
 
     return dataset.shuffle(30000).map(read_relevance_tfrecord)

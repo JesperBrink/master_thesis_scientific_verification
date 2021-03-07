@@ -10,6 +10,15 @@ import models.sentence_selection.model as sentence_selection_module
 import models.stance_prediction.model as stance_prediction_module
 from competition.pipeline import sentence_selection, setup_sentence_embeddings
 from utils.evaluationutils import compute_f1, compute_precision, compute_recall
+from external_scripts.eval import run_evaluation
+
+# TODO: Vi skal tage 10% ud af træningsdataen til at lave et validation set 
+    # nuværende validation set skal renames til Dev
+    # det nye train sæt der består af 90% af train kan vi kalde sub_train
+# TODO: brug deres script til at udregne sentence selection (og derefter også stance prediction)
+# TODO: stance prediction
+# TODO: jeg gør ikke brug af threshold parameteren
+# TODO: kun print det relevante entries i sentence selection og stance prediction
 
 
 def keys_to_int(x):
@@ -22,65 +31,60 @@ def load_hyperparameter_grid(path):
         return ParameterGrid(params)        
 
 
+def convert_to_scifact_format(predictions_list):
+    result = []
+    for claim_id, pred in predictions_list:
+        if not pred:
+            result.append({"id": claim_id, "evidence": {}})
+            continue
+
+        evidence = dict()
+        for abstract in pred.keys():
+            predicted_sentences = [sentence_dict["id"] for sentence_dict in pred[abstract]]
+            evidence[str(abstract)] = {"sentences": predicted_sentences, "label": "SUPPORT"} # The zero is just a dummy variable
+
+        result.append({"id": claim_id, "evidence": evidence})
+    
+    return result
+
+
 def evaluate_sentence_selection_model(model, embedded_validation_data_path, sentence_embeddings, corp_id, output_file):        
-    total_abstract_true_positives = 0
-    total_abstract_false_positives = 0
-    total_abstract_false_negatives = 0
+    total_true_positives = 0
+    total_false_positives = 0
+    total_false_negatives = 0
     
-    total_sentence_true_positives = 0
-    total_sentence_false_positives = 0
-    total_sentence_false_negatives = 0
-    
+    predictions_list = []
+
+    # Abstract retrieval
     with jsonlines.open(embedded_validation_data_path) as claims:
         for claim in tqdm(claims):
             relevant_sentences_dict = sentence_selection(claim, model, sentence_embeddings, corp_id)
+            predictions_list.append((claim["id"], relevant_sentences_dict))
 
-            # Abstract retrieval
             retrieved_abstracts = relevant_sentences_dict.keys()
             gold_docs = [int(x) for x in claim["evidence"].keys()]
             
-            abstract_true_positives = len(set(retrieved_abstracts).intersection(set(gold_docs)))
-            abstract_false_positives = len(retrieved_abstracts) - abstract_true_positives
-            abstract_false_negatives = len(gold_docs) - abstract_true_positives
+            true_positives = len(set(retrieved_abstracts).intersection(set(gold_docs)))
+            false_positives = len(retrieved_abstracts) - true_positives
+            false_negatives = len(gold_docs) - true_positives
 
-            total_abstract_true_positives += abstract_true_positives
-            total_abstract_false_positives += abstract_false_positives
-            total_abstract_false_negatives += abstract_false_negatives
+            total_true_positives += true_positives
+            total_false_positives += false_positives
+            total_false_negatives += false_negatives
 
-            # Sentence selection
-            for abstract in retrieved_abstracts:                    
-                if abstract not in gold_docs:
-                    total_sentence_false_positives += len(relevant_sentences_dict[abstract])
-                    continue
+        precision = compute_precision(total_true_positives, total_false_positives)
+        recall = compute_recall(total_true_positives, total_false_negatives)
+        f1 = compute_f1(precision, recall)
 
-                predicted_sentences = [[x["id"]] for x in relevant_sentences_dict[abstract]]
-                gold_rationales = [x["sentences"] for x in claim["evidence"][str(abstract)]]
+        output_file.write("Abstract Retrieval Precision: {}\n".format(precision))
+        output_file.write("Abstract Retrieval Recall: {}\n".format(recall))
+        output_file.write("Abstract Retrieval F1: {}\n".format(f1))
 
-                sentence_true_positives = len([1 for x in predicted_sentences if x in gold_rationales])
-                sentence_false_positives = len(predicted_sentences) - sentence_true_positives
-                sentence_false_negatives = len(gold_rationales) - sentence_true_positives
-
-                total_sentence_true_positives += sentence_true_positives
-                total_sentence_false_positives += sentence_false_positives
-                total_sentence_false_negatives += sentence_false_negatives
-
-        abstract_precision = compute_precision(total_abstract_true_positives, total_abstract_false_positives)
-        abstract_recall = compute_recall(total_abstract_true_positives, total_abstract_false_negatives)
-        abstract_f1 = compute_f1(abstract_precision, abstract_recall)
-
-        output_file.write("Abstract Retrieval Precision: {}\n".format(abstract_precision))
-        output_file.write("Abstract Retrieval Recall: {}\n".format(abstract_recall))
-        output_file.write("Abstract Retrieval F1: {}\n".format(abstract_f1))
-
-        sentence_precision = compute_precision(total_sentence_true_positives, total_sentence_false_positives)
-        sentence_recall = compute_recall(total_sentence_true_positives, total_sentence_false_negatives)
-        sentence_f1 = compute_f1(sentence_precision, sentence_recall)
-
-        output_file.write("Sentence Selection Precision: {}\n".format(sentence_precision))
-        output_file.write("Sentence Selection Recall: {}\n".format(sentence_recall))
-        output_file.write("Sentence Selection F1: {}\n".format(sentence_f1))
-
-       
+    # Scifact evaluation measures
+    labels_file = "../datasets/scifact/claims_dev.jsonl" # TODO: what should this actually be?
+    predictions_list = convert_to_scifact_format(predictions_list)
+    metrics = run_evaluation(labels_file, predictions_list)
+    json.dump(metrics, output_file, indent=4)
 
 
 def evaluate_hyperparameters_sentence_selection(train_data_path, validation_data_path, corpus_path):
@@ -92,19 +96,20 @@ def evaluate_hyperparameters_sentence_selection(train_data_path, validation_data
         os.makedirs("output")
 
     output_path = "output/{}-sentence-selection".format(datetime.now().strftime("%y%m%d%H%M%S"))
-    with open(output_path, "w") as output_file:
+    with open(output_path, "w", buffering=1) as output_file:
         for hyper_parameters in hyperparameter_grid:				
             output_file.write("Params: {}\n".format(hyper_parameters))
             model = sentence_selection_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"])
             class_weight = keys_to_int(hyper_parameters["class_weight"])
+            model = sentence_selection_module.train(model, "fever", BATCH_SIZE, class_weight)
             model = sentence_selection_module.train(model, "scifact", BATCH_SIZE, class_weight)
             evaluate_sentence_selection_model(model, validation_data_path, sentence_embeddings, corp_id, output_file)
-            output_file.write("#" * 50 + "\n")
+            output_file.write("\n" + "#" * 50 + "\n")
 
 
 def evaluate_hyperparameters_stance_prediction(train_data_path, validation_data_path):
     hyperparameters = load_hyperparameters("hyperparameter_dicts/sentence_level_hyperparameter_dict.json")
-    raise NotADirectoryError 
+    raise NotImplementedError 
 
 
 class ProblemType(enum.Enum):
