@@ -33,6 +33,11 @@ def sentence_selection(claim, model, sentence_embeddings, corp_id):
 
     return relevant_sentences_dict
 
+    # go through each abstract in each claim
+    # run sentences through model
+        # They run through tokenizer first? Maybe gives embeddings
+    # append evidence scores and claim id to results
+
 
 def same_prediction_as_avg(avg, pred, threshold):
     if avg < threshold and pred < threshold:
