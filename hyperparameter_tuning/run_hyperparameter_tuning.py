@@ -8,15 +8,18 @@ from tqdm import tqdm
 from sklearn.model_selection import ParameterGrid
 import models.sentence_selection.model as sentence_selection_module
 import models.stance_prediction.model as stance_prediction_module
-from competition.pipeline import sentence_selection, setup_sentence_embeddings
+from competition.pipeline import sentence_selection, setup_sentence_embeddings, stance_prediction
 from utils.evaluationutils import compute_f1, compute_precision, compute_recall
 from external_scripts.eval import run_evaluation
 
 # TODO: Vi skal tage 10% ud af træningsdataen til at lave et validation set 
     # nuværende validation set skal renames til Dev
     # det nye train sæt der består af 90% af train kan vi kalde sub_train
-# TODO: stance prediction
-# TODO: tag training files fra folder
+# TODO: tag training files fra folder med subTrainingData
+
+# TODO: vores "første 9" løsning skal ændres til "bedste 9"
+# TODO: er koden til at fikse index fejlen i stance prediction blevet pushet?
+# TODO: hvad skal vi evaluere på? bare de 10% af train?
 
 
 def keys_to_int(x):
@@ -29,6 +32,15 @@ def load_hyperparameter_grid(path):
         return ParameterGrid(params)        
 
 
+def get_abstract_id_to_abstract_embedding_map(corpus_path):
+    abstract_id_to_abstract_embedding_map = dict()
+    with jsonlines.open(corpus_path) as corpus_reader:
+        for line in corpus_reader:
+            abstract_id_to_abstract_embedding_map[line["doc_id"]] = line['abstract']
+
+    return abstract_id_to_abstract_embedding_map
+
+
 def convert_to_scifact_format(predictions_list):
     result = []
     for claim_id, pred in predictions_list:
@@ -39,11 +51,42 @@ def convert_to_scifact_format(predictions_list):
         evidence = dict()
         for abstract in pred.keys():
             predicted_sentences = [sentence_dict["id"] for sentence_dict in pred[abstract]]
-            evidence[str(abstract)] = {"sentences": predicted_sentences, "label": "SUPPORT"} # The zero is just a dummy variable
+            evidence[str(abstract)] = {"sentences": predicted_sentences, "label": "SUPPORT"} # "SUPPORT" is just a dummy variable
 
         result.append({"id": claim_id, "evidence": evidence})
     
     return result
+
+
+def make_evidence_from_grund_truth(claim, abstract_id_to_abstract_embedding_map):
+    evidence = dict()
+    for abstract, sentence_list in claim["evidence"].items():
+        converted_sentence_list = []
+        
+        for sent_dict in sentence_list:
+            for sent_id in sent_dict["sentences"]:
+                embedding = claim["claim"] + abstract_id_to_abstract_embedding_map[int(abstract)][sent_id]
+                converted_sentence_list.append({"id": sent_id, "embedding": embedding})        
+
+        evidence[abstract] = converted_sentence_list
+    
+    return evidence
+
+
+def evaluate_stance_predicion_model(model, claims_path, abstract_id_to_abstract_embedding_map, output_file):
+    predictions_list = []
+    total = 0
+    counter = 0
+
+    with jsonlines.open(claims_path) as claims:
+        for claim in claims:
+            evidence = make_evidence_from_grund_truth(claim, abstract_id_to_abstract_embedding_map)
+            prediction = stance_prediction(claim, evidence, model)
+            predictions_list.append(prediction)
+
+    labels_file = "../datasets/scifact/claims_dev.jsonl" # TODO: what should this actually be?
+    metrics = run_evaluation(labels_file, predictions_list)
+    json.dump(metrics, output_file, indent=4)
 
 
 def evaluate_sentence_selection_model(model, claims_path, sentence_embeddings, corp_id, output_file, threshold):        
@@ -88,9 +131,9 @@ def evaluate_sentence_selection_model(model, claims_path, sentence_embeddings, c
     output_file.write("Sentence Selection F1: {}\n".format(metrics["sentence_selection_f1"]))
 
 
-def evaluate_hyperparameters_sentence_selection(train_data_path, validation_data_path, corpus_path):
+def evaluate_hyperparameters_sentence_selection(train_data_path, claims_path, corpus_path):
     BATCH_SIZE = 32
-    hyperparameter_grid = load_hyperparameter_grid("hyperparameter_dicts/sentence_level_hyperparameter_dict.json")
+    hyperparameter_grid = load_hyperparameter_grid("hyperparameter_dicts/sentence_selection_hyperparameter_dict.json")
     sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
 
     if not os.path.exists("output"):
@@ -102,15 +145,29 @@ def evaluate_hyperparameters_sentence_selection(train_data_path, validation_data
             output_file.write("Params: {}\n".format(hyper_parameters))
             model = sentence_selection_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"])
             class_weight = keys_to_int(hyper_parameters["class_weight"])
-            model = sentence_selection_module.train(model, "fever", BATCH_SIZE, class_weight)
+            model = sentence_selection_module.train(model, "fever", BATCH_SIZE, class_weight, )
             model = sentence_selection_module.train(model, "scifact", BATCH_SIZE, class_weight)
-            evaluate_sentence_selection_model(model, validation_data_path, sentence_embeddings, corp_id, output_file, hyper_parameters["threshold"])
+            evaluate_sentence_selection_model(model, claims_path, sentence_embeddings, corp_id, output_file, hyper_parameters["threshold"])
             output_file.write("\n" + "#" * 50 + "\n")
 
+           
+def evaluate_hyperparameters_stance_prediction(train_data_path, claims_path, corpus_path):
+    BATCH_SIZE = 32
+    hyperparameter_grid = load_hyperparameter_grid("hyperparameter_dicts/stance_prediction_hyperparameter_dict.json")
+    abstract_id_to_abstract_embedding_map = get_abstract_id_to_abstract_embedding_map(corpus_path)
+    
+    if not os.path.exists("output"):
+        os.makedirs("output")
 
-def evaluate_hyperparameters_stance_prediction(train_data_path, validation_data_path):
-    hyperparameters = load_hyperparameters("hyperparameter_dicts/sentence_level_hyperparameter_dict.json")
-    raise NotImplementedError 
+    output_path = "output/{}-stance-prediction".format(datetime.now().strftime("%y%m%d%H%M%S"))
+    with open(output_path, "w", buffering=1) as output_file:
+        for hyper_parameters in hyperparameter_grid:				
+            output_file.write("Params: {}\n".format(hyper_parameters))
+            model = stance_prediction_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"])
+            model = stance_prediction_module.train(model, "fever", BATCH_SIZE)
+            model = stance_prediction_module.train(model, "scifact", BATCH_SIZE)
+            evaluate_stance_predicion_model(model, claims_path, abstract_id_to_abstract_embedding_map, output_file)
+            output_file.write("\n" + "#" * 50 + "\n")
 
 
 class ProblemType(enum.Enum):
@@ -124,9 +181,6 @@ def main():
         "problem_type", metavar="problem_type", type=ProblemType, help="Type of problem to evaluate on"
     )
     parser.add_argument(
-        "train_data_path", metavar="path", type=str, help="Path to tfrecords training file"
-    )
-    parser.add_argument(
         "claims_path", metavar="path", type=str, help="Path to jsonl validation file with embedded claims"
     )
     parser.add_argument(
@@ -135,9 +189,9 @@ def main():
     
     args = parser.parse_args()
     if args.problem_type == ProblemType.SENTENCE_SELECTION:
-        evaluate_hyperparameters_sentence_selection(args.train_data_path, args.claims_path, args.corpus_path)
+        evaluate_hyperparameters_sentence_selection(args.claims_path, args.corpus_path)
     elif args.problem_type == ProblemType.STANCE_PREDICTION:
-        evaluate_hyperparameters_stance_prediction(args.train_data_path, args.claims_path)
+        evaluate_hyperparameters_stance_prediction(args.claims_path, args.corpus_path)
     else:
         raise NotImplementedError()
 
