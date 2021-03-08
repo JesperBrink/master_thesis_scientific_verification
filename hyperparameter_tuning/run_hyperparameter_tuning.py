@@ -15,10 +15,8 @@ from external_scripts.eval import run_evaluation
 # TODO: Vi skal tage 10% ud af træningsdataen til at lave et validation set 
     # nuværende validation set skal renames til Dev
     # det nye train sæt der består af 90% af train kan vi kalde sub_train
-# TODO: brug deres script til at udregne sentence selection (og derefter også stance prediction)
 # TODO: stance prediction
-# TODO: jeg gør ikke brug af threshold parameteren
-# TODO: kun print det relevante entries i sentence selection og stance prediction
+# TODO: tag training files fra folder
 
 
 def keys_to_int(x):
@@ -48,7 +46,7 @@ def convert_to_scifact_format(predictions_list):
     return result
 
 
-def evaluate_sentence_selection_model(model, embedded_validation_data_path, sentence_embeddings, corp_id, output_file):        
+def evaluate_sentence_selection_model(model, claims_path, sentence_embeddings, corp_id, output_file, threshold):        
     total_true_positives = 0
     total_false_positives = 0
     total_false_negatives = 0
@@ -56,9 +54,9 @@ def evaluate_sentence_selection_model(model, embedded_validation_data_path, sent
     predictions_list = []
 
     # Abstract retrieval
-    with jsonlines.open(embedded_validation_data_path) as claims:
+    with jsonlines.open(claims_path) as claims:
         for claim in tqdm(claims):
-            relevant_sentences_dict = sentence_selection(claim, model, sentence_embeddings, corp_id)
+            relevant_sentences_dict = sentence_selection(claim, model, sentence_embeddings, corp_id, threshold)
             predictions_list.append((claim["id"], relevant_sentences_dict))
 
             retrieved_abstracts = relevant_sentences_dict.keys()
@@ -80,11 +78,14 @@ def evaluate_sentence_selection_model(model, embedded_validation_data_path, sent
         output_file.write("Abstract Retrieval Recall: {}\n".format(recall))
         output_file.write("Abstract Retrieval F1: {}\n".format(f1))
 
-    # Scifact evaluation measures
+    # Scifact evaluation measures (sentence selection)
     labels_file = "../datasets/scifact/claims_dev.jsonl" # TODO: what should this actually be?
     predictions_list = convert_to_scifact_format(predictions_list)
     metrics = run_evaluation(labels_file, predictions_list)
-    json.dump(metrics, output_file, indent=4)
+    
+    output_file.write("Sentence Selection Precision: {}\n".format(metrics["sentence_selection_precision"]))
+    output_file.write("Sentence Selection Recall: {}\n".format(metrics["sentence_selection_recall"]))
+    output_file.write("Sentence Selection F1: {}\n".format(metrics["sentence_selection_f1"]))
 
 
 def evaluate_hyperparameters_sentence_selection(train_data_path, validation_data_path, corpus_path):
@@ -103,7 +104,7 @@ def evaluate_hyperparameters_sentence_selection(train_data_path, validation_data
             class_weight = keys_to_int(hyper_parameters["class_weight"])
             model = sentence_selection_module.train(model, "fever", BATCH_SIZE, class_weight)
             model = sentence_selection_module.train(model, "scifact", BATCH_SIZE, class_weight)
-            evaluate_sentence_selection_model(model, validation_data_path, sentence_embeddings, corp_id, output_file)
+            evaluate_sentence_selection_model(model, validation_data_path, sentence_embeddings, corp_id, output_file, hyper_parameters["threshold"])
             output_file.write("\n" + "#" * 50 + "\n")
 
 
@@ -126,7 +127,7 @@ def main():
         "train_data_path", metavar="path", type=str, help="Path to tfrecords training file"
     )
     parser.add_argument(
-        "validation_data_path", metavar="path", type=str, help="Path to jsonl validation file with embedded claims"
+        "claims_path", metavar="path", type=str, help="Path to jsonl validation file with embedded claims"
     )
     parser.add_argument(
         "corpus_path", metavar="path", type=str, help="Path to jsonl corpus file with embedded abstracts"
@@ -134,9 +135,9 @@ def main():
     
     args = parser.parse_args()
     if args.problem_type == ProblemType.SENTENCE_SELECTION:
-        evaluate_hyperparameters_sentence_selection(args.train_data_path, args.validation_data_path, args.corpus_path)
+        evaluate_hyperparameters_sentence_selection(args.train_data_path, args.claims_path, args.corpus_path)
     elif args.problem_type == ProblemType.STANCE_PREDICTION:
-        evaluate_hyperparameters_stance_prediction(args.train_data_path, args.validation_data_path)
+        evaluate_hyperparameters_stance_prediction(args.train_data_path, args.claims_path)
     else:
         raise NotImplementedError()
 
