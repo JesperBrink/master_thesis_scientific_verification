@@ -16,7 +16,7 @@ def sentence_selection(claim, model, sentence_embeddings, corp_id):
     claim_sent_embedding = tf.concat([claim, sentence_embeddings], 1)    
 
     predicted = model(claim_sent_embedding)
-    res_mask = tf.squeeze(tf.math.greater(predicted, tf.constant(0.95)))
+    res_mask = tf.squeeze(tf.math.greater(predicted, tf.constant(threshold)))
     res = tf.where(res_mask)
 
     relevant_sentences_dict = dict()
@@ -80,7 +80,7 @@ def setup_sentence_embeddings(corpus_path):
     
     for line in corpus:
         for i in range(len(line['abstract'])):
-            corp_id.append((line['doc_id'], i)) # (id_of_abstract, sentence_id)
+            corp_id.append((line['doc_id'], i))
         sentence_embeddings.append(np.array(line['abstract']))
 
     sentence_embeddings = np.concatenate(sentence_embeddings, axis=0)
@@ -94,7 +94,6 @@ def run_pipeline(corpus_path, claims_path):
     with jsonlines.open("predictions.jsonl", "w") as output:
         with jsonlines.open(claims_path) as claims:
             for claim in tqdm(claims):
-                t1 = time.time()
                 relevant_sentences_dict = sentence_selection(claim, abstract_retriever_model, sentence_embeddings, corp_id)
                 prediction = stance_prediction(claim, relevant_sentences_dict, stance_prediction_model)
                 output.write(prediction)
