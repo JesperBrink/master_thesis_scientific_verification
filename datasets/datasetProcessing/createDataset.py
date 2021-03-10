@@ -2,13 +2,14 @@ import argparse
 import jsonlines
 import enum
 import os
-import tensorflow as tf
+from pathlib import Path
 from random import sample
-import csv
+
+import numpy as np
+import tensorflow as tf
 from tqdm import tqdm
 from sentence_transformers import SentenceTransformer
-from pathlib import Path
-import numpy as np
+
 
 # paths to the folder where the
 trainingset_path = (
@@ -20,6 +21,8 @@ validation_path = (
 
 # s-bert model name
 MODEL = None
+
+yes = ["yes", "y", "ye"]
 
 
 def create_id_to_abstract_map(corpus_path):
@@ -56,24 +59,37 @@ def serialize_example(inp, relevance, label):
     return example_proto.SerializeToString()
 
 
+def approve_overwriting(path, *file_names):
+    if any([os.path.exists(path / file_name) for file_name in file_names]):
+        choice = input(
+            "you are about to overwrite one or more files? are you sure? [yes/no]\n"
+        )
+        if choice.lower().strip() in yes:
+            return True
+        else:
+            return False
+    return True
+
+
 def write_to_tf_record(writer, claim_embedding, relevance, label, *sentences):
-    #assert len(claim_embedding) == 768
     for sentence in sentences:
         sentence_embedding = MODEL.encode(sentence).tolist()
-        #assert len(sentence_embedding) == 768
-        #concat = 
-        #assert len(concat) == 1536
         writer.write(
             serialize_example(
                 claim_embedding + sentence_embedding, relevance, label
             )
         )
 
-
 def create_relevant(claim_path, corpus_path, set_type):
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)
     directory = trainingset_path if set_type == DatasetType.train else validation_path
+
+    if not approve_overwriting(directory, "scifact_relevant.tfrecord"):
+        print("aborting dataset creation")
+        return
+
     writer = tf.io.TFRecordWriter(str(directory / "scifact_relevant.tfrecord"))
+
     for claim in tqdm(jsonlines.open(claim_path)):
         if not claim["evidence"]:
             continue
@@ -96,6 +112,11 @@ def create_relevant(claim_path, corpus_path, set_type):
 def create_not_relevant(claim_path, corpus_path, k, set_type):
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)
     directory = trainingset_path if set_type == DatasetType.train else validation_path
+
+    if not approve_overwriting(directory, "scifact_not_relevant.tfrecord"):
+        print("aborting dataset creation")
+        return
+
     writer = tf.io.TFRecordWriter(str(directory / "scifact_not_relevant.tfrecord"))
     for claim in tqdm(jsonlines.open(claim_path)):
         claim_embedding = MODEL.encode(claim["claim"]).tolist()
@@ -135,6 +156,13 @@ def create_not_relevant(claim_path, corpus_path, k, set_type):
 
 def create_fever_relevant(claim_path, set_type):
     directory = trainingset_path if set_type == DatasetType.train else validation_path
+
+    if not approve_overwriting(
+        directory, "fever_relevant.tfrecord", "fever_not_relevant.tfrecord"
+    ):
+        print("aborting dataset creation")
+        return
+
     relevant_writer = tf.io.TFRecordWriter(str(directory / "fever_relevant.tfrecord"))
     not_relevant_writer = tf.io.TFRecordWriter(
         str(directory / "fever_not_relevant.tfrecord")
@@ -229,8 +257,9 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+    print("initializing model")
     MODEL = SentenceTransformer("stsb-distilbert-base")
-
+    print("creating dataset")
     if args.fever:
         create_fever_relevant(args.claim_path, args.set_type)
     elif args.relevance == Relevancy.relevant:
