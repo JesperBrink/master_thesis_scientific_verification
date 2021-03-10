@@ -72,14 +72,13 @@ def approve_overwriting(path, *file_names):
 
 
 def write_to_tf_record(writer, claim_embedding, relevance, label, *sentences):
-    assert len(claim_embedding) == 768
     for sentence in sentences:
         sentence_embedding = MODEL.encode(sentence).tolist()
-        assert len(sentence_embedding) == 768
-        concat = claim_embedding + sentence_embedding
-        assert len(concat) == 1536
-        writer.write(serialize_example(concat, relevance, label))
-
+        writer.write(
+            serialize_example(
+                claim_embedding + sentence_embedding, relevance, label
+            )
+        )
 
 def create_relevant(claim_path, corpus_path, set_type):
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)
