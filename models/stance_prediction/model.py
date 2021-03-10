@@ -4,16 +4,20 @@ from tensorflow.python.keras import Input
 from tensorflow.keras.models import Sequential
 import tensorflow as tf
 from pathlib import Path
-from datasets.datasetProcessing.loadDataset import load_label_validation_dataset, load_label_training_dataset
-=======
-from datasets.datasetProcessing.loadDataset import load_label_validation_dataset, load_label_training_dataset
->>>>>>> 32fabc1 (Seperated training on fever and scifact into different steps)
+from datasets.datasetProcessing.loadDataset import (
+    load_label_validation_dataset,
+    load_label_training_dataset,
+)
 from models.utils import get_highest_count, setup_tensorboard
 
 import os
+
 os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
-_model_dir = Path(os.path.realpath(__file__)).resolve().parents[1] / "trained_models/stance_predictor"
+_model_dir = (
+    Path(os.path.realpath(__file__)).resolve().parents[1]
+    / "trained_models/stance_predictor"
+)
 
 
 class TwoLayerStancePredictor(tf.keras.Model):
@@ -31,24 +35,28 @@ class TwoLayerStancePredictor(tf.keras.Model):
 
 def load():
     count = get_highest_count(_model_dir)
-    path = str(_model_dir / 'TwoLayerStancePredictor_{}'.format(count))
+    path = str(_model_dir / "TwoLayerStancePredictor_{}".format(count))
     model = tf.keras.models.load_model(path)
     return model
 
 
 def save(model):
     count = get_highest_count(_model_dir) + 1
-    path = str(_model_dir / 'TwoLayerStancePredictor_{}'.format(count))
+    path = str(_model_dir / "TwoLayerStancePredictor_{}".format(count))
     model.save(path)
-    print('model saved to {}'.format(path))
+    print("model saved to {}".format(path))
 
 
 def train(model, dataset_type, batch_size, epochs, class_weight={0: 1, 1: 1}):
-    dataset = load_label_training_dataset(dataset_type).shuffle(10000).batch(
-        batch_size, drop_remainder=True
+    dataset = (
+        load_label_training_dataset(dataset_type)
+        .shuffle(10000)
+        .batch(batch_size, drop_remainder=True)
     )
-    validation_dataset = load_label_validation_dataset(dataset_type).shuffle(10000).batch(
-        batch_size, drop_remainder=True
+    validation_dataset = (
+        load_label_validation_dataset(dataset_type)
+        .shuffle(10000)
+        .batch(batch_size, drop_remainder=True)
     )
 
     model.fit(
@@ -75,8 +83,8 @@ def main():
     m = initialize_model(BATCH_SIZE, 512)
 
     m = train(m, "fever", BATCH_SIZE)
-    m = train(m, "scifact", BATCH_SIZE)   
-    
+    m = train(m, "scifact", BATCH_SIZE)
+
     save(m)
 
     loaded_model = load()

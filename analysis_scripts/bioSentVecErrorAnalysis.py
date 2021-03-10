@@ -21,7 +21,11 @@ def main(dev_path, corpus_path, claims_embedding, corpus_embedding, interactive)
     abstract_id_to_abstract = load_abstract_dict(corpus_path)
 
     dev_claims_dataset = jsonlines.open(dev_path)
-    retriever = BioSentVecAbstractRetrieval(3, claims_embedding, corpus_embedding,)
+    retriever = BioSentVecAbstractRetrieval(
+        3,
+        claims_embedding,
+        corpus_embedding,
+    )
 
     total_length = 0
     not_enough_info_counter = 0

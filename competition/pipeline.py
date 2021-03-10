@@ -6,14 +6,15 @@ import models.stance_prediction.model as stance_prediction_module
 import time
 import tensorflow as tf
 
-def sentence_selection(claim, model, sentence_embeddings, corp_id):
-    """ Returns a dict that maps abstract ids to relevant sentences ids in that abstract 
+
+def sentence_selection(claim, model, sentence_embeddings, corp_id, threshold):
+    """Returns a dict that maps abstract ids to relevant sentences ids in that abstract
     i.e. {abstract_42: [{id: sent_3, embedding: <embedding>}, {id: sent_7, embedding: <embedding>}], abstract_127: [...]}
     We have at most 9 sentences per abstract
     """
 
     claim = tf.ones((sentence_embeddings.shape[0], 1)) * claim["claim"]
-    claim_sent_embedding = tf.concat([claim, sentence_embeddings], 1)    
+    claim_sent_embedding = tf.concat([claim, sentence_embeddings], 1)
 
     predicted = model(claim_sent_embedding)
     res_mask = tf.squeeze(tf.math.greater(predicted, tf.constant(threshold)))
@@ -25,10 +26,12 @@ def sentence_selection(claim, model, sentence_embeddings, corp_id):
         abstract_id, sentence_id = corp_id[pred_id_val]
         sentence_list = relevant_sentences_dict.get(abstract_id, [])
         if len(sentence_list) == 9:
-            #print("Sentence list is larger than 9. FIX THIS")
+            print("Sentence list is larger than 9. FIX THIS")
             continue
-        
-        sentence_list.append({"id": sentence_id, "embedding": claim_sent_embedding[pred_id_val]})
+
+        sentence_list.append(
+            {"id": sentence_id, "embedding": claim_sent_embedding[pred_id_val]}
+        )
         relevant_sentences_dict[abstract_id] = sentence_list
 
     return relevant_sentences_dict
@@ -48,12 +51,12 @@ def stance_prediction(claim, evidence, model):
     output: Whether abstracts/sentences support or refute claims
     """
     claim_id = claim["id"]
-    
+
     if not evidence:
         return {"id": claim_id, "evidence": {}}
-    
+
     resulting_evidence_dict = dict()
-    for abstract in tqdm(evidence.keys()):
+    for abstract in evidence.keys():
         stance_predictions = []
         pred_sum = 0
 
@@ -65,9 +68,16 @@ def stance_prediction(claim, evidence, model):
 
         avg = pred_sum / len(stance_predictions)
         threshold = tf.constant(0.5)
-        rationale_sentences = [sent_id for sent_id, pred in stance_predictions if same_prediction_as_avg(avg, pred, threshold)]
+        rationale_sentences = [
+            sent_id
+            for sent_id, pred in stance_predictions
+            if same_prediction_as_avg(avg, pred, threshold)
+        ]
         label = "SUPPORT" if avg >= threshold else "CONTRADICT"
-        resulting_evidence_dict[str(abstract)] = {"sentences": rationale_sentences, "label": label}
+        resulting_evidence_dict[str(abstract)] = {
+            "sentences": rationale_sentences,
+            "label": label,
+        }
 
     return {"id": claim_id, "evidence": resulting_evidence_dict}
 
@@ -100,8 +110,8 @@ def run_pipeline(corpus_path, claims_path):
                 output.write(prediction)
 
 
-if __name__ == '__main__':
-    corpus_path = 'sbert-embedded-corpus.jsonl'
-    claims_path = 'sbert-embedded-dev-claims.jsonl'
-    
+if __name__ == "__main__":
+    corpus_path = "sbert-embedded-corpus.jsonl"
+    claims_path = "sbert-embedded-dev-claims.jsonl"
+
     run_pipeline(corpus_path, claims_path)

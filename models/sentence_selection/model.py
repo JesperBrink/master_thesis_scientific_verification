@@ -16,7 +16,10 @@ import os
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
-_model_dir = Path(os.path.realpath(__file__)).resolve().parents[1] / "trained_models/abstract_retriever"
+_model_dir = (
+    Path(os.path.realpath(__file__)).resolve().parents[1]
+    / "trained_models/abstract_retriever"
+)
 
 
 class TwoLayerAbstractRetriever(tf.keras.Model):
@@ -47,11 +50,15 @@ def save(model):
 
 
 def train(model, dataset_type, batch_size, epochs, class_weight={0: 1, 1: 1}):
-    dataset = load_relevance_training_dataset(dataset_type).shuffle(10000).batch(
-        batch_size, drop_remainder=True
+    dataset = (
+        load_relevance_training_dataset(dataset_type)
+        .shuffle(10000)
+        .batch(batch_size, drop_remainder=True)
     )
-    validation_dataset = load_relevance_validation_dataset(dataset_type).shuffle(10000).batch(
-        batch_size, drop_remainder=True
+    validation_dataset = (
+        load_relevance_validation_dataset(dataset_type)
+        .shuffle(10000)
+        .batch(batch_size, drop_remainder=True)
     )
 
     model.fit(
@@ -75,11 +82,11 @@ def initialize_model(batch_size, units):
 
 def main():
     BATCH_SIZE = 32
-    
-    m = initialize_model(BATCH_SIZE, 512)    
+
+    m = initialize_model(BATCH_SIZE, 512)
 
     m = train(m, "fever", BATCH_SIZE)
-    m = train(m, "scifact", BATCH_SIZE)   
+    m = train(m, "scifact", BATCH_SIZE)
 
     save(m)
 

@@ -16,6 +16,7 @@ import re
 
 # Utility functions.
 
+
 def load_jsonl(fname):
     return [json.loads(x) for x in open(fname)]
 
@@ -36,11 +37,9 @@ def unify_label(gold):
         if len(set(labels)) > 1:
             raise ValueError("Conflicting labels.")
         label = labels[0]
-        evidence[doc] = {"label": label,
-                         "rationales": sents}
+        evidence[doc] = {"label": label, "rationales": sents}
 
-    res = {"id": gold["id"],
-           "evidence": evidence}
+    res = {"id": gold["id"], "evidence": evidence}
 
     return res
 
@@ -49,14 +48,17 @@ def compute_f1(gold, retrieved, correct, title):
     precision = safe_divide(correct, retrieved)
     recall = safe_divide(correct, gold)
     f1 = safe_divide(2 * precision * recall, precision + recall)
-    return {f"{title}_precision": precision,
-            f"{title}_recall": recall,
-            f"{title}_f1": f1}
+    return {
+        f"{title}_precision": precision,
+        f"{title}_recall": recall,
+        f"{title}_f1": f1,
+    }
 
 
 ########################################
 
 # Evaluator class.
+
 
 class Evaluator:
     def __init__(self, verbose=False):
@@ -80,25 +82,41 @@ class Evaluator:
         res = {}
 
         # Abstract evaluation, label-only.
-        res.update(compute_f1(self.counts_abstract["relevant"],
-                              self.counts_abstract["retrieved"],
-                              self.counts_abstract["correct_label_only"],
-                              "abstract_label_only"))
+        res.update(
+            compute_f1(
+                self.counts_abstract["relevant"],
+                self.counts_abstract["retrieved"],
+                self.counts_abstract["correct_label_only"],
+                "abstract_label_only",
+            )
+        )
         # Abstract evaluation, rationalized.
-        res.update(compute_f1(self.counts_abstract["relevant"],
-                              self.counts_abstract["retrieved"],
-                              self.counts_abstract["correct_rationalized"],
-                              "abstract_rationalized"))
+        res.update(
+            compute_f1(
+                self.counts_abstract["relevant"],
+                self.counts_abstract["retrieved"],
+                self.counts_abstract["correct_rationalized"],
+                "abstract_rationalized",
+            )
+        )
         # Sentence evaluation, selection-only
-        res.update(compute_f1(self.counts_sentence["relevant"],
-                              self.counts_sentence["retrieved"],
-                              self.counts_sentence["correct_selection"],
-                              "sentence_selection"))
+        res.update(
+            compute_f1(
+                self.counts_sentence["relevant"],
+                self.counts_sentence["retrieved"],
+                self.counts_sentence["correct_selection"],
+                "sentence_selection",
+            )
+        )
         # Sentence evaluation, selection + label
-        res.update(compute_f1(self.counts_sentence["relevant"],
-                              self.counts_sentence["retrieved"],
-                              self.counts_sentence["correct_label"],
-                              "sentence_label"))
+        res.update(
+            compute_f1(
+                self.counts_sentence["relevant"],
+                self.counts_sentence["retrieved"],
+                self.counts_sentence["correct_label"],
+                "sentence_label",
+            )
+        )
 
         # If not verbose, only keep the f1 metrics.
         if not self.verbose:
@@ -111,7 +129,7 @@ class Evaluator:
         "Make sure the predictions are ordered correctly."
         gold_ids = [entry["id"] for entry in golds]
         pred_ids = [entry["id"] for entry in preds]
-        
+
         if gold_ids != pred_ids:
             raise ValueError("Predicted claims do not match gold.")
 
@@ -120,7 +138,9 @@ class Evaluator:
         # Count gold sentences and abstracts.
         self.counts_abstract["relevant"] += len(gold["evidence"])
         for gold_doc in gold["evidence"].values():
-            self.counts_sentence["relevant"] += sum([len(x) for x in gold_doc["rationales"]])
+            self.counts_sentence["relevant"] += sum(
+                [len(x) for x in gold_doc["rationales"]]
+            )
 
         # Loop over predicted documents and evaluate.
         for doc_id, doc_pred in pred["evidence"].items():
@@ -153,7 +173,7 @@ class Evaluator:
         # If correctly rationalized, give credit.
         gold_rationales = [set(x) for x in gold_ev[doc_id]["rationales"]]
         # Truncate to only keep the first 3 predicted rationales.
-        pred_rationales = set(doc_pred["sentences"][:self.max_abstract_sents])
+        pred_rationales = set(doc_pred["sentences"][: self.max_abstract_sents])
         if self.contains_evidence(gold_rationales, pred_rationales):
             self.counts_abstract["correct_rationalized"] += 1
 
@@ -213,10 +233,10 @@ class Evaluator:
 
 ########################################
 
+
 def run_evaluation(labels_file, preds):
     evaluator = Evaluator(True)
     golds = load_jsonl(labels_file)
     golds = [unify_label(entry) for entry in golds]
     metrics = evaluator.evaluate(golds, preds)
     return metrics
-

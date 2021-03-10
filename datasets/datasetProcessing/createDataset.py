@@ -75,10 +75,9 @@ def write_to_tf_record(writer, claim_embedding, relevance, label, *sentences):
     for sentence in sentences:
         sentence_embedding = MODEL.encode(sentence).tolist()
         writer.write(
-            serialize_example(
-                claim_embedding + sentence_embedding, relevance, label
-            )
+            serialize_example(claim_embedding + sentence_embedding, relevance, label)
         )
+
 
 def create_relevant(claim_path, corpus_path, set_type):
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)

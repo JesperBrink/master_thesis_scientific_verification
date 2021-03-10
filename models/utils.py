@@ -7,8 +7,8 @@ import tensorflow as tf
 def get_highest_count(dir):
     m = -1
     for file in os.listdir(dir):
-        number = int(file.split('_')[-1])
-        if number > m: 
+        number = int(file.split("_")[-1])
+        if number > m:
             m = number
     return m
 
