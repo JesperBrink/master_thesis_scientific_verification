@@ -12,14 +12,9 @@ from competition.pipeline import sentence_selection, setup_sentence_embeddings, 
 from utils.evaluationutils import compute_f1, compute_precision, compute_recall
 from external_scripts.eval import run_evaluation
 
-# TODO: Vi skal tage 10% ud af træningsdataen til at lave et validation set 
-    # nuværende validation set skal renames til Dev
-    # det nye train sæt der består af 90% af train kan vi kalde sub_train
-# TODO: tag training files fra folder med subTrainingData
-
 # TODO: vores "første 9" løsning skal ændres til "bedste 9"
-# TODO: er koden til at fikse index fejlen i stance prediction blevet pushet?
-# TODO: hvad skal vi evaluere på? bare de 10% af train?
+# TODO: merge med pipeline eller main branch
+# TODO: debug stance prediction
 
 
 def keys_to_int(x):
@@ -84,7 +79,7 @@ def evaluate_stance_predicion_model(model, claims_path, abstract_id_to_abstract_
             prediction = stance_prediction(claim, evidence, model)
             predictions_list.append(prediction)
 
-    labels_file = "../datasets/scifact/claims_dev.jsonl" # TODO: what should this actually be?
+    labels_file = "../datasets/scifact/claims_validation.jsonl" 
     metrics = run_evaluation(labels_file, predictions_list)
     json.dump(metrics, output_file, indent=4)
 
@@ -122,7 +117,7 @@ def evaluate_sentence_selection_model(model, claims_path, sentence_embeddings, c
         output_file.write("Abstract Retrieval F1: {}\n".format(f1))
 
     # Scifact evaluation measures (sentence selection)
-    labels_file = "../datasets/scifact/claims_dev.jsonl" # TODO: what should this actually be?
+    labels_file = "../datasets/scifact/claims_validation.jsonl" 
     predictions_list = convert_to_scifact_format(predictions_list)
     metrics = run_evaluation(labels_file, predictions_list)
     
@@ -131,7 +126,7 @@ def evaluate_sentence_selection_model(model, claims_path, sentence_embeddings, c
     output_file.write("Sentence Selection F1: {}\n".format(metrics["sentence_selection_f1"]))
 
 
-def evaluate_hyperparameters_sentence_selection(train_data_path, claims_path, corpus_path):
+def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
     BATCH_SIZE = 32
     hyperparameter_grid = load_hyperparameter_grid("hyperparameter_dicts/sentence_selection_hyperparameter_dict.json")
     sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
@@ -145,13 +140,13 @@ def evaluate_hyperparameters_sentence_selection(train_data_path, claims_path, co
             output_file.write("Params: {}\n".format(hyper_parameters))
             model = sentence_selection_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"])
             class_weight = keys_to_int(hyper_parameters["class_weight"])
-            model = sentence_selection_module.train(model, "fever", BATCH_SIZE, class_weight, )
-            model = sentence_selection_module.train(model, "scifact", BATCH_SIZE, class_weight)
+            model = sentence_selection_module.train(model, "fever", BATCH_SIZE, hyper_parameters["epochs"], class_weight)
+            model = sentence_selection_module.train(model, "scifact", BATCH_SIZE, hyper_parameters["epochs"], class_weight)
             evaluate_sentence_selection_model(model, claims_path, sentence_embeddings, corp_id, output_file, hyper_parameters["threshold"])
             output_file.write("\n" + "#" * 50 + "\n")
 
            
-def evaluate_hyperparameters_stance_prediction(train_data_path, claims_path, corpus_path):
+def evaluate_hyperparameters_stance_prediction(claims_path, corpus_path):
     BATCH_SIZE = 32
     hyperparameter_grid = load_hyperparameter_grid("hyperparameter_dicts/stance_prediction_hyperparameter_dict.json")
     abstract_id_to_abstract_embedding_map = get_abstract_id_to_abstract_embedding_map(corpus_path)
@@ -164,8 +159,8 @@ def evaluate_hyperparameters_stance_prediction(train_data_path, claims_path, cor
         for hyper_parameters in hyperparameter_grid:				
             output_file.write("Params: {}\n".format(hyper_parameters))
             model = stance_prediction_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"])
-            model = stance_prediction_module.train(model, "fever", BATCH_SIZE)
-            model = stance_prediction_module.train(model, "scifact", BATCH_SIZE)
+            model = stance_prediction_module.train(model, "fever", BATCH_SIZE, hyper_parameters["epochs"])
+            model = stance_prediction_module.train(model, "scifact", BATCH_SIZE, hyper_parameters["epochs"])
             evaluate_stance_predicion_model(model, claims_path, abstract_id_to_abstract_embedding_map, output_file)
             output_file.write("\n" + "#" * 50 + "\n")
 

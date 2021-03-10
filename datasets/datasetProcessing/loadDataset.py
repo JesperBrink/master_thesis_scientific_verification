@@ -7,7 +7,7 @@ import numpy as np
 
 
 trainint_set_path = (
-    Path(os.path.realpath(__file__)).resolve().parents[1] / "trainingDataset"
+    Path(os.path.realpath(__file__)).resolve().parents[1] / "subTrainingDataset"
 )
 validation_set_path = (
     Path(os.path.realpath(__file__)).resolve().parents[1] / "validationDataset"

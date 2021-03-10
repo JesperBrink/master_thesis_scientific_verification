@@ -5,5 +5,7 @@ __pycache__/
 .idea/
 datasets/trainingDataset/*
 datasets/validationDataset/*
+datasets/devDataset/*
+datasets/subTrainingDataset/*
 BioSentVecEmbeddings/
 datasets/fever/*

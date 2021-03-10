@@ -43,7 +43,7 @@ def save(model):
     print('model saved to {}'.format(path))
 
 
-def train(model, dataset_type, batch_size, class_weight={0: 1, 1: 1}):
+def train(model, dataset_type, batch_size, epochs, class_weight={0: 1, 1: 1}):
     dataset = load_label_training_dataset(dataset_type).shuffle(10000).batch(
         batch_size, drop_remainder=True
     )
@@ -54,7 +54,7 @@ def train(model, dataset_type, batch_size, class_weight={0: 1, 1: 1}):
     model.fit(
         dataset,
         validation_data=validation_dataset,
-        epochs=1,
+        epochs=epochs,
         class_weight=class_weight,
     )
 
