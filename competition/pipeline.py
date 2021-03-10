@@ -8,7 +8,7 @@ import tensorflow as tf
 
 def sentence_selection(claim, model, sentence_embeddings, corp_id):
     """ Returns a dict that maps abstract ids to relevant sentences ids in that abstract 
-    i.e. {abstract_42: [sent_3, sent_7], abstract_127: [sent_4]} TODO: update dette eksempel
+    i.e. {abstract_42: [{id: sent_3, embedding: <embedding>}, {id: sent_7, embedding: <embedding>}], abstract_127: [...]}
     We have at most 9 sentences per abstract
     """
 
@@ -88,14 +88,15 @@ def setup_sentence_embeddings(corpus_path):
 
 
 def run_pipeline(corpus_path, claims_path):
+    threshold = 0.99
     abstract_retriever_model = sentence_selection_module.load()
     stance_prediction_model = stance_prediction_module.load() 
     sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
     with jsonlines.open("predictions.jsonl", "w") as output:
         with jsonlines.open(claims_path) as claims:
             for claim in tqdm(claims):
-                relevant_sentences_dict = sentence_selection(claim, abstract_retriever_model, sentence_embeddings, corp_id)
-                prediction = stance_prediction(claim, relevant_sentences_dict, stance_prediction_model)
+                relevant_sentences_dict = sentence_selection(claim, abstract_retriever_model, sentence_embeddings, corp_id, threshold)
+                prediction = stance_prediction(claim, relevant_sentences_dict, stance_prediction_model) 
                 output.write(prediction)
 
 
