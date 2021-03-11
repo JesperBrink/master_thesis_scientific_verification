@@ -43,9 +43,7 @@ def convert_to_scifact_format(claim_id, pred):
         
     evidence = dict()
     for abstract in pred.keys():
-        predicted_sentences = [
-            sentence_dict["id"] for sentence_dict in pred[abstract]
-        ]
+        predicted_sentences = [sentence_dict["id"] for sentence_dict in pred[abstract]]
         evidence[str(abstract)] = {
             "sentences": predicted_sentences,
             "label": "SUPPORT",
@@ -61,10 +59,7 @@ def make_evidence_from_grund_truth(claim, abstract_id_to_abstract_embedding_map)
 
         for sent_dict in sentence_list:
             for sent_id in sent_dict["sentences"]:
-                embedding = (
-                    claim["claim"]
-                    + abstract_id_to_abstract_embedding_map[int(abstract)][sent_id]
-                )
+                embedding = claim["claim"] + abstract_id_to_abstract_embedding_map[int(abstract)][sent_id]
                 converted_sentence_list.append({"id": sent_id, "embedding": embedding})
 
         evidence[abstract] = converted_sentence_list
@@ -165,9 +160,7 @@ def evaluate_sentence_selection_model(
 
 def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
     BATCH_SIZE = 32
-    hyperparameter_grid, thresholds = load_hyperparameter_grid(
-        "hyperparameter_dicts/sentence_selection_hyperparameter_dict.json"
-    )
+    hyperparameter_grid, thresholds = load_hyperparameter_grid("hyperparameter_dicts/sentence_selection_hyperparameter_dict.json")
     sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
 
     if not os.path.exists("output"):
@@ -178,16 +171,10 @@ def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
     )
     with open(output_path, "w", buffering=1) as output_file:
         for hyper_parameters in hyperparameter_grid:
-            model = sentence_selection_module.initialize_model(
-                BATCH_SIZE, hyper_parameters["dense_units"]
-            )
+            model = sentence_selection_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"])
             class_weight = keys_to_int(hyper_parameters["class_weight"])
-            model = sentence_selection_module.train(
-                model, "fever", BATCH_SIZE, hyper_parameters["epochs"], class_weight
-            )
-            model = sentence_selection_module.train(
-                model, "scifact", BATCH_SIZE, hyper_parameters["epochs"], class_weight
-            )
+            model = sentence_selection_module.train(model, "fever", BATCH_SIZE, hyper_parameters["fever_epochs"], class_weight)
+            model = sentence_selection_module.train(model, "scifact", BATCH_SIZE, hyper_parameters["scifact_epochs"], class_weight)
             for threshold in thresholds:
                 output_file.write("Params: {} with threshold: {}\n".format(hyper_parameters, threshold))
                 evaluate_sentence_selection_model(
@@ -203,12 +190,8 @@ def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
 
 def evaluate_hyperparameters_stance_prediction(claims_path, corpus_path):
     BATCH_SIZE = 32
-    hyperparameter_grid, _ = load_hyperparameter_grid(
-        "hyperparameter_dicts/stance_prediction_hyperparameter_dict.json"
-    )
-    abstract_id_to_abstract_embedding_map = get_abstract_id_to_abstract_embedding_map(
-        corpus_path
-    )
+    hyperparameter_grid, _ = load_hyperparameter_grid("hyperparameter_dicts/stance_prediction_hyperparameter_dict.json")
+    abstract_id_to_abstract_embedding_map = get_abstract_id_to_abstract_embedding_map(corpus_path)
 
     if not os.path.exists("output"):
         os.makedirs("output")
@@ -219,18 +202,10 @@ def evaluate_hyperparameters_stance_prediction(claims_path, corpus_path):
     with open(output_path, "w", buffering=1) as output_file:
         for hyper_parameters in hyperparameter_grid:
             output_file.write("Params: {}\n".format(hyper_parameters))
-            model = stance_prediction_module.initialize_model(
-                BATCH_SIZE, hyper_parameters["dense_units"]
-            )
-            model = stance_prediction_module.train(
-                model, "fever", BATCH_SIZE, hyper_parameters["epochs"]
-            )
-            model = stance_prediction_module.train(
-                model, "scifact", BATCH_SIZE, hyper_parameters["epochs"]
-            )
-            evaluate_stance_predicion_model(
-                model, claims_path, abstract_id_to_abstract_embedding_map, output_file
-            )
+            model = stance_prediction_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"])
+            model = stance_prediction_module.train(model, "fever", BATCH_SIZE, hyper_parameters["fever_epochs"])
+            model = stance_prediction_module.train(model, "scifact", BATCH_SIZE, hyper_parameters["scifact_epochs"])
+            evaluate_stance_predicion_model(model, claims_path, abstract_id_to_abstract_embedding_map, output_file)
             output_file.write("#" * 50 + "\n")
 
 
