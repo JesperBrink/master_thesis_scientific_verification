@@ -11,21 +11,32 @@ export default function Home() {
         const fileReader = new FileReader();
         fileReader.readAsText(event.target.files[0])
         fileReader.onload = ev => {
-            parseResultsFile(ev.target.result)
+            parseResultsFile(ev.target.result, event.target.files[0].name)
         };
     }
 
-    const parseResultsFile = data => {
-        let res = [];
+    const parseResultsFile = (data, fullFileName) => {
+        let hyperparameterRuns = [];
+        const fileName = fullFileName.split(/[.-]/).slice(1,3).join("_");
 
+        // Potential speed up here
         data.split("\n").forEach(el => {
             if (el) {
-                res.push(JSON.parse(el))
+                let name = fileName;
+                let run = JSON.parse(el);
+                console.log(run.params)
+
+                for (const [key, value] of Object.entries(run.params)) {
+                    name = name.concat(`_${key}_${value}`);
+                }
+                run["name"] = name;
+                
+                hyperparameterRuns.push(run);
             }
         });
 
-        setResults(res);
-        setResultsKeys(Object.keys(res[0].results));
+        setResults(hyperparameterRuns);
+        setResultsKeys(Object.keys(hyperparameterRuns[0].results));
         
         // TODO:
             // save params keys (from first object)
@@ -37,8 +48,6 @@ export default function Home() {
     // }, [results])
 
     // TODO: Checlist:
-        // parse data to list of objects
-        // name, class weight 1, class weight 2, #units, #scifact_epochs, #fever_epochs, threshold, results: map with the various results
         // if data, show row with table (datagrid) 
             // pages i table?
             // Standard sort efter f1
