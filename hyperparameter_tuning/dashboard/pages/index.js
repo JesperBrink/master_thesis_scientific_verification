@@ -1,10 +1,42 @@
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect } from 'react';
 import UploadButton from '../components/UploadButton';
 
 export default function Home() {
+    const [results, setResults] = useState([]);
+    const [resultsKeys, setResultsKeys] = useState([]);
+
+    // TODO: Make this async?
+    const readResultsFile = event => {
+        const fileReader = new FileReader();
+        fileReader.readAsText(event.target.files[0])
+        fileReader.onload = ev => {
+            parseResultsFile(ev.target.result)
+        };
+    }
+
+    const parseResultsFile = data => {
+        let res = [];
+
+        data.split("\n").forEach(el => {
+            if (el) {
+                res.push(JSON.parse(el))
+            }
+        });
+
+        setResults(res);
+        setResultsKeys(Object.keys(res[0].results));
+        
+        // TODO:
+            // save params keys (from first object)
+            // go through each object and generate param values for dropdowns
+    }
+
+    // useEffect(() => {
+    //     console.log(results);
+    // }, [results])
+
     // TODO: Checlist:
-        // row med upload button
         // parse data to list of objects
         // name, class weight 1, class weight 2, #units, #scifact_epochs, #fever_epochs, threshold, results: map with the various results
         // if data, show row with table (datagrid) 
@@ -24,8 +56,7 @@ export default function Home() {
                 style={{ flexGrow: 1, paddingTop: 30 }}
             >
                 <Grid item xs>
-                    {"Upload button"}
-                    {/* <UploadButton readResultsFile={readResultsFile}/> */}
+                    <UploadButton readResultsFile={readResultsFile}/>
                 </Grid>
                 <Grid item xs>
                     {"Dropdowns"}
