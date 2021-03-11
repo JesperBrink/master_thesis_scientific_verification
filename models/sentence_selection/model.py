@@ -85,8 +85,8 @@ def main():
 
     m = initialize_model(BATCH_SIZE, 512)
 
-    m = train(m, "fever", BATCH_SIZE)
-    m = train(m, "scifact", BATCH_SIZE)
+    m = train(m, "fever", BATCH_SIZE, 1)
+    m = train(m, "scifact", BATCH_SIZE, 1)
 
     save(m)
 

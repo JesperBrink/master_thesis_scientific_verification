@@ -17,8 +17,6 @@ from utils.evaluationutils import compute_f1, compute_precision, compute_recall
 from external_scripts.eval import run_evaluation
 
 # TODO: vores "første 9" løsning skal ændres til "bedste 9"
-# TODO: debug stance prediction
-# TODO: undersøg om træningen er blevet langsommere?
 
 
 def keys_to_int(x):
@@ -97,7 +95,26 @@ def evaluate_stance_predicion_model(
 
     labels_file = "../datasets/scifact/claims_validation.jsonl"
     metrics = run_evaluation(labels_file, predictions_list)
-    json.dump(metrics, output_file, indent=4)
+
+    output_file.write(
+        "Abstract Label Only Precision: {}\n".format(metrics["abstract_label_only_precision"])
+    )
+    output_file.write(
+        "Abstract Label Only Recall: {}\n".format(metrics["abstract_label_only_recall"])
+    )
+    output_file.write(
+        "Abstract Label Only F1: {}\n".format(metrics["abstract_label_only_f1"])
+    )
+
+    output_file.write(
+        "Sentence Label Precision: {}\n".format(metrics["sentence_label_precision"])
+    )
+    output_file.write(
+        "Sentence Lable Recall: {}\n".format(metrics["sentence_label_recall"])
+    )
+    output_file.write(
+        "Sentence Label F1: {}\n".format(metrics["sentence_label_f1"])
+    )
 
 
 def evaluate_sentence_selection_model(
@@ -142,9 +159,7 @@ def evaluate_sentence_selection_model(
     metrics = run_evaluation(labels_file, predictions_list)
 
     output_file.write(
-        "Sentence Selection Precision: {}\n".format(
-            metrics["sentence_selection_precision"]
-        )
+        "Sentence Selection Precision: {}\n".format(metrics["sentence_selection_precision"])
     )
     output_file.write(
         "Sentence Selection Recall: {}\n".format(metrics["sentence_selection_recall"])
