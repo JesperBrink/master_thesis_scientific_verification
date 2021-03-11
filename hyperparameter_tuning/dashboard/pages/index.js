@@ -2,6 +2,7 @@ import Grid from '@material-ui/core/Grid';
 import React, { useState, useEffect } from 'react';
 import UploadButton from '../components/UploadButton';
 import { DataGrid } from '@material-ui/data-grid';
+import Tooltip from '@material-ui/core/Tooltip';
 
 export default function Home() {
     const [runs, setRuns] = useState([]);
@@ -45,7 +46,7 @@ export default function Home() {
             // go through each object and generate param values for dropdowns
     }
 
-    // update rows and columns when runs update
+    // update rows and columns when runs updates
     useEffect(() => {
         setColumns(getColumns());
         setRows(getRows());
@@ -54,9 +55,18 @@ export default function Home() {
     const getColumns = () => {
         let cols = [];
         if (runs.length > 0) {
-            cols.push({field: "name", flex: 0.5});
+            cols.push({
+                field: "name", 
+                flex: 0.5,
+                renderCell: (params) =>  (
+                    <Tooltip title={params.row.name} >
+                        <span className="table-cell-trucate">{params.row.name}</span>
+                    </Tooltip>
+                )
+            });
+            
             Object.keys(runs[0].results).forEach(key => {
-                cols.push({field: key, flex: 1});
+                cols.push({field: key, flex: 1, type: 'number'}); // add headerName if we want aliases, remove type if we want full values (also ruins result filtering)
             })
         }
         return cols;
@@ -79,9 +89,6 @@ export default function Home() {
     }
 
     // TODO: Checlist:
-        // if data, show row with table (datagrid) 
-            // pages i table?
-            // Standard sort efter f1
         // row with multi-dropdowns to filter data (skal egentlig være over table)
         // lav dem baseret på indlæst data? I.e. tag værdierne fra daten i stedet for hardcoded. Lad være med at vise dropdown hvis der ikke er nogle værdier (løser problemet med at stance-selection har færre hyperparameters)
         // select rows (in table) to compare in another table (which is only shown if at least two datapoints are selected)
@@ -106,7 +113,6 @@ export default function Home() {
                         rows={rows}
                         columns={columns} 
                         pageSize={15} 
-                        checkboxSelection
                         autoHeight={true}
                     />}
                 </Grid>
