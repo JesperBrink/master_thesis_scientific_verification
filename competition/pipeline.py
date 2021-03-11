@@ -12,31 +12,29 @@ def sentence_selection(claim, model, sentence_embeddings, corp_id, threshold):
     i.e. {abstract_42: [{id: sent_3, embedding: <embedding>}, {id: sent_7, embedding: <embedding>}], abstract_127: [...]}
     We have at most 9 sentences per abstract
     """
-
     claim = tf.ones((sentence_embeddings.shape[0], 1)) * claim["claim"]
     claim_sent_embedding = tf.concat([claim, sentence_embeddings], 1)
 
     predicted = model(claim_sent_embedding)
     res_mask = tf.squeeze(tf.math.greater(predicted, tf.constant(threshold)))
     res = tf.where(res_mask)    
-
-    sentence_scores_dict = dict()
+    
+    relevant_sentences_dict = dict()
     for pred_id in res:
         pred_id_val = pred_id[0]
         abstract_id, sentence_id = corp_id[pred_id_val]
-        sentence_list = sentence_scores_dict.get(abstract_id, [])
+        sentence_list = relevant_sentences_dict.get(abstract_id, [])
         score = predicted[pred_id_val][0]
         sentence_list.append((score, sentence_id, pred_id_val))
-        sentence_scores_dict[abstract_id] = sentence_list
+        relevant_sentences_dict[abstract_id] = sentence_list
 
     # Only use best 3 sentences
-    relevant_sentences_dict = dict()
     for abstract_id, sentence_list in relevant_sentences_dict.items():
         sorted_by_score = sorted(sentence_list, key=lambda tup: tup[0], reverse=True)
         top_3_sentences_by_score = sorted_by_score[:3]
         correct_format = [{"id": sentence_id, "embedding": claim_sent_embedding[pred_id_val]} for _, sentence_id, pred_id_val in top_3_sentences_by_score]
         relevant_sentences_dict[abstract_id] = correct_format
-
+    
     return relevant_sentences_dict
 
 
@@ -105,7 +103,7 @@ def setup_sentence_embeddings(corpus_path):
 
 
 def run_pipeline(corpus_path, claims_path):
-    threshold = 0.1
+    threshold = 0.5
     abstract_retriever_model = sentence_selection_module.load()
     stance_prediction_model = stance_prediction_module.load() 
     sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
