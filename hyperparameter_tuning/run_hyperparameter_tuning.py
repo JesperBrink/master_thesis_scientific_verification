@@ -16,8 +16,6 @@ from competition.pipeline import (
 from utils.evaluationutils import compute_f1, compute_precision, compute_recall
 from external_scripts.eval import run_evaluation
 
-# TODO: vores "første 9" løsning skal ændres til "bedste 9"
-
 
 def keys_to_int(x):
     return {int(k): v for k, v in x.items()}
@@ -26,7 +24,8 @@ def keys_to_int(x):
 def load_hyperparameter_grid(path):
     with open(path) as json_file:
         params = json.load(json_file)
-        return ParameterGrid(params)
+        thresholds = params.pop("threshold", None)
+        return ParameterGrid(params), thresholds
 
 
 def get_abstract_id_to_abstract_embedding_map(corpus_path):
@@ -38,26 +37,21 @@ def get_abstract_id_to_abstract_embedding_map(corpus_path):
     return abstract_id_to_abstract_embedding_map
 
 
-def convert_to_scifact_format(predictions_list):
-    result = []
-    for claim_id, pred in predictions_list:
-        if not pred:
-            result.append({"id": claim_id, "evidence": {}})
-            continue
+def convert_to_scifact_format(claim_id, pred):
+    if not pred:
+        return {"id": claim_id, "evidence": {}}
+        
+    evidence = dict()
+    for abstract in pred.keys():
+        predicted_sentences = [
+            sentence_dict["id"] for sentence_dict in pred[abstract]
+        ]
+        evidence[str(abstract)] = {
+            "sentences": predicted_sentences,
+            "label": "SUPPORT",
+        }  # "SUPPORT" is just a dummy variable
 
-        evidence = dict()
-        for abstract in pred.keys():
-            predicted_sentences = [
-                sentence_dict["id"] for sentence_dict in pred[abstract]
-            ]
-            evidence[str(abstract)] = {
-                "sentences": predicted_sentences,
-                "label": "SUPPORT",
-            }  # "SUPPORT" is just a dummy variable
-
-        result.append({"id": claim_id, "evidence": evidence})
-
-    return result
+    return {"id": claim_id, "evidence": evidence}
 
 
 def make_evidence_from_grund_truth(claim, abstract_id_to_abstract_embedding_map):
@@ -132,7 +126,8 @@ def evaluate_sentence_selection_model(
             relevant_sentences_dict = sentence_selection(
                 claim, model, sentence_embeddings, corp_id, threshold
             )
-            predictions_list.append((claim["id"], relevant_sentences_dict))
+
+            predictions_list.append(convert_to_scifact_format(claim["id"], relevant_sentences_dict))
 
             retrieved_abstracts = relevant_sentences_dict.keys()
             gold_docs = [int(x) for x in claim["evidence"].keys()]
@@ -155,7 +150,6 @@ def evaluate_sentence_selection_model(
 
     # Scifact evaluation measures (sentence selection)
     labels_file = "../datasets/scifact/claims_validation.jsonl"
-    predictions_list = convert_to_scifact_format(predictions_list)
     metrics = run_evaluation(labels_file, predictions_list)
 
     output_file.write(
@@ -171,7 +165,7 @@ def evaluate_sentence_selection_model(
 
 def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
     BATCH_SIZE = 32
-    hyperparameter_grid = load_hyperparameter_grid(
+    hyperparameter_grid, thresholds = load_hyperparameter_grid(
         "hyperparameter_dicts/sentence_selection_hyperparameter_dict.json"
     )
     sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
@@ -184,7 +178,6 @@ def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
     )
     with open(output_path, "w", buffering=1) as output_file:
         for hyper_parameters in hyperparameter_grid:
-            output_file.write("Params: {}\n".format(hyper_parameters))
             model = sentence_selection_module.initialize_model(
                 BATCH_SIZE, hyper_parameters["dense_units"]
             )
@@ -195,20 +188,22 @@ def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
             model = sentence_selection_module.train(
                 model, "scifact", BATCH_SIZE, hyper_parameters["epochs"], class_weight
             )
-            evaluate_sentence_selection_model(
-                model,
-                claims_path,
-                sentence_embeddings,
-                corp_id,
-                output_file,
-                hyper_parameters["threshold"],
-            )
-            output_file.write("\n" + "#" * 50 + "\n")
+            for threshold in thresholds:
+                output_file.write("Params: {} with threshold: {}\n".format(hyper_parameters, threshold))
+                evaluate_sentence_selection_model(
+                    model,
+                    claims_path,
+                    sentence_embeddings,
+                    corp_id,
+                    output_file,
+                    threshold,
+                )
+                output_file.write("\n" + "#" * 50 + "\n")
 
 
 def evaluate_hyperparameters_stance_prediction(claims_path, corpus_path):
     BATCH_SIZE = 32
-    hyperparameter_grid = load_hyperparameter_grid(
+    hyperparameter_grid, _ = load_hyperparameter_grid(
         "hyperparameter_dicts/stance_prediction_hyperparameter_dict.json"
     )
     abstract_id_to_abstract_embedding_map = get_abstract_id_to_abstract_embedding_map(
@@ -236,7 +231,7 @@ def evaluate_hyperparameters_stance_prediction(claims_path, corpus_path):
             evaluate_stance_predicion_model(
                 model, claims_path, abstract_id_to_abstract_embedding_map, output_file
             )
-            output_file.write("\n" + "#" * 50 + "\n")
+            output_file.write("#" * 50 + "\n")
 
 
 class ProblemType(enum.Enum):
