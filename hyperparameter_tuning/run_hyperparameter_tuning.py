@@ -17,10 +17,6 @@ from utils.evaluationutils import compute_f1, compute_precision, compute_recall
 from external_scripts.eval import run_evaluation
 
 
-def keys_to_int(x):
-    return {int(k): v for k, v in x.items()}
-
-
 def load_hyperparameter_grid(path):
     with open(path) as json_file:
         params = json.load(json_file)
@@ -68,11 +64,9 @@ def make_evidence_from_grund_truth(claim, abstract_id_to_abstract_embedding_map)
 
 
 def evaluate_stance_predicion_model(
-    model, claims_path, abstract_id_to_abstract_embedding_map, output_file
+    model, claims_path, abstract_id_to_abstract_embedding_map
 ):
     predictions_list = []
-    total = 0
-    counter = 0
 
     with jsonlines.open(claims_path) as claims:
         for claim in claims:
@@ -85,29 +79,20 @@ def evaluate_stance_predicion_model(
     labels_file = "../datasets/scifact/claims_validation.jsonl"
     metrics = run_evaluation(labels_file, predictions_list)
 
-    output_file.write(
-        "Abstract Label Only Precision: {}\n".format(metrics["abstract_label_only_precision"])
-    )
-    output_file.write(
-        "Abstract Label Only Recall: {}\n".format(metrics["abstract_label_only_recall"])
-    )
-    output_file.write(
-        "Abstract Label Only F1: {}\n".format(metrics["abstract_label_only_f1"])
-    )
+    results_dict = {
+        "Abstract Label Only Precision": metrics["abstract_label_only_precision"],
+        "Abstract Label Only Recall": metrics["abstract_label_only_recall"],
+        "Abstract Label Only F1": metrics["abstract_label_only_f1"],
+        "Sentence Label Precision": metrics["sentence_label_precision"],
+        "Sentence Lable Recall": metrics["sentence_label_recall"],
+        "Sentence Label F1": metrics["sentence_label_f1"],
+    }
 
-    output_file.write(
-        "Sentence Label Precision: {}\n".format(metrics["sentence_label_precision"])
-    )
-    output_file.write(
-        "Sentence Lable Recall: {}\n".format(metrics["sentence_label_recall"])
-    )
-    output_file.write(
-        "Sentence Label F1: {}\n".format(metrics["sentence_label_f1"])
-    )
-
+    return results_dict
+    
 
 def evaluate_sentence_selection_model(
-    model, claims_path, sentence_embeddings, corp_id, output_file, threshold
+    model, claims_path, sentence_embeddings, corp_id, threshold
 ):
     total_true_positives = 0
     total_false_positives = 0
@@ -135,27 +120,23 @@ def evaluate_sentence_selection_model(
             total_false_positives += false_positives
             total_false_negatives += false_negatives
 
-        precision = compute_precision(total_true_positives, total_false_positives)
-        recall = compute_recall(total_true_positives, total_false_negatives)
-        f1 = compute_f1(precision, recall)
+    precision = compute_precision(total_true_positives, total_false_positives)
+    recall = compute_recall(total_true_positives, total_false_negatives)
+    f1 = compute_f1(precision, recall)
 
-        output_file.write("Abstract Retrieval Precision: {}\n".format(precision))
-        output_file.write("Abstract Retrieval Recall: {}\n".format(recall))
-        output_file.write("Abstract Retrieval F1: {}\n".format(f1))
-
-    # Scifact evaluation measures (sentence selection)
     labels_file = "../datasets/scifact/claims_validation.jsonl"
     metrics = run_evaluation(labels_file, predictions_list)
 
-    output_file.write(
-        "Sentence Selection Precision: {}\n".format(metrics["sentence_selection_precision"])
-    )
-    output_file.write(
-        "Sentence Selection Recall: {}\n".format(metrics["sentence_selection_recall"])
-    )
-    output_file.write(
-        "Sentence Selection F1: {}\n".format(metrics["sentence_selection_f1"])
-    )
+    result_dict = {
+        "Abstract Retrieval Precision": precision,
+        "Abstract Retrieval Recall": recall,
+        "Abstract Retrieval F1": f1,
+        "Sentence Selection Precision": metrics["sentence_selection_precision"],
+        "Sentence Selection Recall": metrics["sentence_selection_recall"],
+        "Sentence Selection F1": metrics["sentence_selection_f1"],
+    }
+
+    return result_dict
 
 
 def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
@@ -169,23 +150,22 @@ def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
     output_path = "output/{}-sentence-selection".format(
         datetime.now().strftime("%y%m%d%H%M%S")
     )
-    with open(output_path, "w", buffering=1) as output_file:
+    with jsonlines.open(output_path, "w", flush=True) as output_file:
         for hyper_parameters in hyperparameter_grid:
             model = sentence_selection_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"])
-            class_weight = keys_to_int(hyper_parameters["class_weight"])
+            class_weight = {0: int(hyper_parameters["class_weight_0"]), 1: int(hyper_parameters["class_weight_1"])}
             model = sentence_selection_module.train(model, "fever", BATCH_SIZE, hyper_parameters["fever_epochs"], class_weight)
             model = sentence_selection_module.train(model, "scifact", BATCH_SIZE, hyper_parameters["scifact_epochs"], class_weight)
             for threshold in thresholds:
-                output_file.write("Params: {} with threshold: {}\n".format(hyper_parameters, threshold))
-                evaluate_sentence_selection_model(
+                result_dict = evaluate_sentence_selection_model(
                     model,
                     claims_path,
                     sentence_embeddings,
                     corp_id,
-                    output_file,
                     threshold,
                 )
-                output_file.write("\n" + "#" * 50 + "\n")
+                hyper_parameters["threshold"] = threshold
+                output_file.write({"params": hyper_parameters, "results": result_dict})
 
 
 def evaluate_hyperparameters_stance_prediction(claims_path, corpus_path):
@@ -199,14 +179,13 @@ def evaluate_hyperparameters_stance_prediction(claims_path, corpus_path):
     output_path = "output/{}-stance-prediction".format(
         datetime.now().strftime("%y%m%d%H%M%S")
     )
-    with open(output_path, "w", buffering=1) as output_file:
+    with jsonlines.open(output_path, "w", flush=True) as output_file:
         for hyper_parameters in hyperparameter_grid:
-            output_file.write("Params: {}\n".format(hyper_parameters))
             model = stance_prediction_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"])
             model = stance_prediction_module.train(model, "fever", BATCH_SIZE, hyper_parameters["fever_epochs"])
             model = stance_prediction_module.train(model, "scifact", BATCH_SIZE, hyper_parameters["scifact_epochs"])
-            evaluate_stance_predicion_model(model, claims_path, abstract_id_to_abstract_embedding_map, output_file)
-            output_file.write("#" * 50 + "\n")
+            result_dict = evaluate_stance_predicion_model(model, claims_path, abstract_id_to_abstract_embedding_map)
+            output_file.write({"params": hyper_parameters, "results": result_dict})
 
 
 class ProblemType(enum.Enum):
