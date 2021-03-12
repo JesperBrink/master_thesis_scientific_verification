@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@material-ui/core": "latest",
+    "@material-ui/data-grid": "4.0.0-alpha.22",
+    "@material-ui/lab": "latest",
     "next": "10.0.8",
     "react": "17.0.1",
     "react-dom": "17.0.1"
