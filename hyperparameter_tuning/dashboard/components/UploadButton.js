@@ -4,7 +4,7 @@ export default function UploadButton(props) {
     return (
         <>
             <input
-                onChange={props.readResultsFile}
+                onChange={props.onChange}
                 style={{ display: "none" }}
                 id="contained-button-file"
                 type="file"
