@@ -5,7 +5,11 @@ import argparse
 from experiments.abstract_retrieval.bioSentVecAbstractRetrieval import (
     BioSentVecAbstractRetrieval,
 )
+from experiments.abstract_retrieval.tfIdfAbstractRetrieval import (
+    TFIDFAbstractRetrieval,
+)
 from tqdm import tqdm
+import enum
 
 
 def load_abstract_dict(corpus_path):
@@ -17,11 +21,10 @@ def load_abstract_dict(corpus_path):
     return abstract_id_to_abstract
 
 
-def main(dev_path, corpus_path, claims_embedding, corpus_embedding, interactive):
+def main(dev_path, corpus_path, retriever, interactive):
     abstract_id_to_abstract = load_abstract_dict(corpus_path)
 
     dev_claims_dataset = jsonlines.open(dev_path)
-    retriever = BioSentVecAbstractRetrieval(3, claims_embedding, corpus_embedding,)
 
     total_length = 0
     not_enough_info_counter = 0
@@ -29,7 +32,8 @@ def main(dev_path, corpus_path, claims_embedding, corpus_embedding, interactive)
     for data in tqdm(dev_claims_dataset):
         total_length += 1
         claim_id = data["id"]
-        retrieved_abstracts = retriever.retrieve(claim_id, None)
+        claim = data["claim"]
+        retrieved_abstracts = retriever.retrieve(claim_id, claim)
         gold_docs = data["evidence"].keys()
 
         true_positives = len(set(retrieved_abstracts).intersection(set(gold_docs)))
@@ -39,7 +43,7 @@ def main(dev_path, corpus_path, claims_embedding, corpus_embedding, interactive)
             not_enough_info_counter += 1
 
         if interactive and false_negatives > 0:
-            print("\n#" * 40)
+            print("\n" + "#" * 40)
             print("Num of false negatives:", false_negatives)
             print("Claim Id:", claim_id)
             print("\t" + data["claim"])
@@ -66,17 +70,36 @@ def main(dev_path, corpus_path, claims_embedding, corpus_embedding, interactive)
     )
 
 
+class Retriever(enum.Enum):
+    TFIDF = "tf-idf"
+    BIOSENTVEC = "bioSentVec"
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Script to analyse the performance of BioSentVec on abstract retrieval"
     )
-    parser.add_argument("claim_path", help="the path to the jsonl file with claims")
-    parser.add_argument("corpus_path", help="path to the corpus file")
     parser.add_argument(
-        "claims_embedding", help="path to pickle file with claim embeddings"
+        "claim_path",
+        help="the path to the jsonl file with claims",
     )
     parser.add_argument(
-        "corpus_embedding", help="path to pickle file with claim embeddings"
+        "corpus_path",
+        help="path to the corpus file",
+    )
+    parser.add_argument(
+        "retriever",
+        help="type of retriever",
+    )
+    parser.add_argument(
+        "-cl",
+        "--claims_embedding",
+        help="path to pickle file with claim embeddings",
+    )
+    parser.add_argument(
+        "-co",
+        "--corpus_embedding",
+        help="path to pickle file with claim embeddings",
     )
     parser.add_argument(
         "-i",
@@ -86,10 +109,17 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+
+    retriever = None
+    if args.retriever == Retriever.TFIDF.value:
+        retriever = TFIDFAbstractRetrieval(3, args.corpus_path, 1, 2)
+    elif args.retriever == Retriever.BIOSENTVEC.value:
+        retriever = BioSentVecAbstractRetrieval(3, args.claims_embedding, args.corpus_embedding)
+
+
     main(
         args.claim_path,
         args.corpus_path,
-        args.claims_embedding,
-        args.corpus_embedding,
+        retriever,
         args.interactive,
     )
