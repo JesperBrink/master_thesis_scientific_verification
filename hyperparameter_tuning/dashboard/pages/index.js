@@ -8,7 +8,7 @@ export default function Home() {
     const [runs, setRuns] = useState([]);
 
     // TODO: Make this async?
-    const readResultsFile = event => {
+    const readAndParseResultsFile = event => {
         const fileReader = new FileReader();
         fileReader.readAsText(event.target.files[0])
         fileReader.onload = ev => {
@@ -50,7 +50,7 @@ export default function Home() {
                 style={{ flexGrow: 1, paddingTop: 30 }}
             >
                 <Grid item xs>
-                    <UploadButton readResultsFile={readResultsFile}/>
+                    <UploadButton onChange={readAndParseResultsFile}/>
                 </Grid>
                 <Grid item xs>
                     {runs.length > 0 && <span>Dropdowns</span>}
