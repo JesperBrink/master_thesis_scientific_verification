@@ -2,7 +2,7 @@ import Grid from '@material-ui/core/Grid';
 import React, { useState } from 'react';
 import UploadButton from '../components/UploadButton';
 import ResultsTable from '../components/ResultsTable';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Filters from '../components/ResultsTable';
 
 export default function Home() {
     const [runs, setRuns] = useState([]);
@@ -41,7 +41,7 @@ export default function Home() {
             // lav dem baseret på indlæst data? I.e. tag værdierne fra daten i stedet for hardcoded. Lad være med at vise dropdown hvis der ikke er nogle værdier (løser problemet med at stance-selection har færre hyperparameters)
 
     return (
-        <div style={{ height: '100%' }}>
+        <div>
             <Grid 
                 container 
                 spacing={2}
@@ -53,9 +53,10 @@ export default function Home() {
                     <UploadButton onChange={readAndParseResultsFile}/>
                 </Grid>
                 <Grid item xs>
-                    {runs.length > 0 && <span>Dropdowns</span>}
+                    {runs.length > 0 && <Filters/>}
                 </Grid>
                 <Grid item xs style={{width: '80%'}}>
+                    {/* skal vi filter i de runs, der bliver sendt ned her? I så fald skal filter somehow op fra Filters*/}
                     {runs.length > 0 && <ResultsTable runs={runs}/>}
                 </Grid>
             </Grid>

@@ -1,21 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import Tooltip from '@material-ui/core/Tooltip';
 
-export default function ResultsTable(props) {
-    const [columns, setColumns] = useState([]);
-    const [rows, setRows] = useState([]);
-
-    // update rows and columns when runs updates
-    useEffect(() => {
-        updateColumns();
-        updateRows();
-    }, [props.runs])
-
-    const updateColumns = () => {
+export default function ResultsTable({ runs = [] }) {
+    const getColumns = () => {
         let cols = [];
         // Create columns from runs
-        if (props.runs.length > 0) {
+        if (runs.length > 0) {
             cols.push({
                 field: "id", 
                 flex: 0.5,
@@ -26,7 +17,7 @@ export default function ResultsTable(props) {
                 )
             });
             
-            Object.keys(props.runs[0].results).forEach(key => {
+            Object.keys(runs[0].results).forEach(key => {
                 cols.push({field: key, 
                     flex: 1, 
                     renderCell: (params) =>  (
@@ -37,31 +28,31 @@ export default function ResultsTable(props) {
                 }); // add headerName if we want aliases
             })
         }
-        setColumns(cols);
+        return cols;
     }
         
-    const updateRows = () => {
+    const getRows = () => {
         let rows = [];
         // Create rows from runs
-        if (props.runs.length > 0) {
-            for (let i = 0; i < props.runs.length; i++) {
-                let row = {id: props.runs[i].id};
+        if (runs.length > 0) {
+            for (let i = 0; i < runs.length; i++) {
+                let row = {id: runs[i].id};
 
-                for (const [key, value] of Object.entries(props.runs[i].results)) {
+                for (const [key, value] of Object.entries(runs[i].results)) {
                     row[key] = value;
                 }
 
                 rows.push(row);
             }
         }
-        setRows(rows);
+        return rows;
     }
 
     const formatParamsTooltip = (id) => {
         let tooltip = []
 
-        if (props.runs[id].params) {
-            for (const [key, value] of Object.entries(props.runs[id].params)) {
+        if (runs[id].params) {
+            for (const [key, value] of Object.entries(runs[id].params)) {
                 if (key === "id") {
                     continue;
                 }
@@ -74,11 +65,13 @@ export default function ResultsTable(props) {
     }
 
     return (
-        <DataGrid 
-            rows={rows}
-            columns={columns} 
-            pageSize={14} 
-            autoHeight={true}
-        />
+        <>
+            {runs.length > 0 && <DataGrid 
+                rows={getRows()}
+                columns={getColumns()} 
+                pageSize={14} 
+                autoHeight={true}
+            />}
+        </>
     )
 }
