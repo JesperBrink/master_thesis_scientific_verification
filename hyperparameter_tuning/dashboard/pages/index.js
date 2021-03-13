@@ -2,10 +2,11 @@ import Grid from '@material-ui/core/Grid';
 import React, { useState } from 'react';
 import UploadButton from '../components/UploadButton';
 import ResultsTable from '../components/ResultsTable';
-import Filters from '../components/ResultsTable';
+import Filters from '../components/Filters';
 
 export default function Home() {
     const [runs, setRuns] = useState([]);
+    const [params, setParams] = useState({});
 
     // TODO: Make this async?
     const readAndParseResultsFile = event => {
@@ -17,7 +18,8 @@ export default function Home() {
     }
 
     const parseResultsFile = (data) => {
-        let tempRuns = [];
+        let runs = [];
+        let params = {}
 
         // Potential speed up here
         data.split("\n").forEach((el, i) => {
@@ -25,11 +27,20 @@ export default function Home() {
                 let run = JSON.parse(el);
                 run["id"] = i;
                 
-                tempRuns.push(run);
+                runs.push(run);
+
+                for (const [key, value] of Object.entries(run.params)) {
+                    if (!params[key]) {
+                        params[key] = new Set();
+                    }
+
+                    params[key].add(value);
+                }
             }
         });
 
-        setRuns(tempRuns);
+        setRuns(runs);
+        setParams(params);
         
         // TODO:
             // save params keys (from first object)
@@ -41,25 +52,21 @@ export default function Home() {
             // lav dem baseret på indlæst data? I.e. tag værdierne fra daten i stedet for hardcoded. Lad være med at vise dropdown hvis der ikke er nogle værdier (løser problemet med at stance-selection har færre hyperparameters)
 
     return (
-        <div>
-            <Grid 
-                container 
-                spacing={2}
-                direction="column"
-                alignContent="center"
-                style={{ flexGrow: 1, paddingTop: 30 }}
-            >
-                <Grid item xs>
-                    <UploadButton onChange={readAndParseResultsFile}/>
+        <div style={{ flexGrow: 1, width: '90%', paddingLeft: "10%"}}>
+                <Grid container xs style={{ paddingTop: 30 }} spacing={2}>
+                    <Grid item xs>
+                        <UploadButton onChange={readAndParseResultsFile}/>
+                    </Grid>
                 </Grid>
-                <Grid item xs>
-                    {runs.length > 0 && <Filters/>}
+                <Grid container xs spacing={8}>
+                    {runs.length > 0 && <Filters params={params}/>}
                 </Grid>
-                <Grid item xs style={{width: '80%'}}>
+                <Grid container xs spacing={8}>
                     {/* skal vi filter i de runs, der bliver sendt ned her? I så fald skal filter somehow op fra Filters*/}
-                    {runs.length > 0 && <ResultsTable runs={runs}/>}
+                    {runs.length > 0 && <Grid item xs>
+                        <ResultsTable runs={runs}/>
+                    </Grid>}
                 </Grid>
-            </Grid>
         </div>
     )
 }
