@@ -6,7 +6,7 @@ import Filters from '../components/Filters';
 
 export default function Home() {
     const [runs, setRuns] = useState([]);
-    const [params, setParams] = useState({});
+    const [hyperparams, setHyperparams] = useState({});
 
     // TODO: Make this async?
     const readAndParseResultsFile = event => {
@@ -19,7 +19,7 @@ export default function Home() {
 
     const parseResultsFile = (data) => {
         let runs = [];
-        let params = {}
+        let hyperparams = {}
 
         // Potential speed up here
         data.split("\n").forEach((el, i) => {
@@ -30,17 +30,17 @@ export default function Home() {
                 runs.push(run);
 
                 for (const [key, value] of Object.entries(run.params)) {
-                    if (!params[key]) {
-                        params[key] = new Set();
+                    if (!hyperparams[key]) {
+                        hyperparams[key] = new Set();
                     }
 
-                    params[key].add(value);
+                    hyperparams[key].add(value);
                 }
             }
         });
 
         setRuns(runs);
-        setParams(params);
+        setHyperparams(hyperparams);
         
         // TODO:
             // save params keys (from first object)
@@ -53,19 +53,19 @@ export default function Home() {
 
     return (
         <div style={{ flexGrow: 1, width: '90%', paddingLeft: "10%"}}>
-                <Grid container xs style={{ paddingTop: 30 }} spacing={2}>
+                {runs.length > 0 && <Grid container spacing={8}>
+                     <Filters hyperparams={hyperparams}/>
+                </Grid>}
+                {runs.length > 0 &&<Grid container spacing={8}>
+                    {/* skal vi filter i de runs, der bliver sendt ned her? I så fald skal filter somehow op fra Filters*/}
+                     <Grid item xs>
+                        <ResultsTable runs={runs}/>
+                    </Grid>
+                </Grid>}
+                <Grid container spacing={8}>
                     <Grid item xs>
                         <UploadButton onChange={readAndParseResultsFile}/>
                     </Grid>
-                </Grid>
-                <Grid container xs spacing={8}>
-                    {runs.length > 0 && <Filters params={params}/>}
-                </Grid>
-                <Grid container xs spacing={8}>
-                    {/* skal vi filter i de runs, der bliver sendt ned her? I så fald skal filter somehow op fra Filters*/}
-                    {runs.length > 0 && <Grid item xs>
-                        <ResultsTable runs={runs}/>
-                    </Grid>}
                 </Grid>
         </div>
     )
