@@ -8,20 +8,21 @@ export default function ResultsTable({ runs = [] }) {
         // Create columns from runs
         if (runs.length > 0) {
             cols.push({
-                field: "id", 
+                field: "id",
                 flex: 0.5,
-                renderCell: (params) =>  (
+                renderCell: (params) => (
                     <Tooltip title={formatParamsTooltip(params.row.id)} interactive>
                         <span>{params.row.id}</span>
                     </Tooltip>
                 )
             });
-            
+
             Object.keys(runs[0].results).forEach(key => {
-                cols.push({field: key, 
-                    flex: 1, 
-                    renderCell: (params) =>  (
-                        <Tooltip title={<h2>{params.row[key]}</h2>}>
+                cols.push({
+                    field: key,
+                    flex: 1,
+                    renderCell: (params) => (
+                        <Tooltip title={<span style={{ fontSize: 16 }}>{params.row[key]}</span>}>
                             <span>{parseFloat(params.row[key]).toFixed(5)}</span>
                         </Tooltip>
                     )
@@ -30,13 +31,13 @@ export default function ResultsTable({ runs = [] }) {
         }
         return cols;
     }
-        
+
     const getRows = () => {
         let rows = [];
         // Create rows from runs
         if (runs.length > 0) {
             for (let i = 0; i < runs.length; i++) {
-                let row = {id: runs[i].id};
+                let row = { id: runs[i].id };
 
                 for (const [key, value] of Object.entries(runs[i].results)) {
                     row[key] = value;
@@ -56,8 +57,8 @@ export default function ResultsTable({ runs = [] }) {
                 if (key === "id") {
                     continue;
                 }
-                
-                tooltip.push(<h2 key={key}>{key + ": " + value + "\n"}</h2>)
+
+                tooltip.push(<div key={key} style={{ fontSize: 16 }}>{key + ": " + value}</div>)
             }
         }
 
@@ -66,10 +67,11 @@ export default function ResultsTable({ runs = [] }) {
 
     return (
         <>
-            {runs.length > 0 && <DataGrid 
+            {runs.length > 0 && <DataGrid
                 rows={getRows()}
-                columns={getColumns()} 
-                pageSize={14} 
+                columns={getColumns()}
+                pageSize={15}
+                rowHeight={46}
                 autoHeight={true}
             />}
         </>

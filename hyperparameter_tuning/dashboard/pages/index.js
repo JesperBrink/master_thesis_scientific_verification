@@ -21,12 +21,11 @@ export default function Home() {
         let runs = [];
         let hyperparams = {}
 
-        // Potential speed up here
         data.split("\n").forEach((el, i) => {
             if (el) {
                 let run = JSON.parse(el);
                 run["id"] = i;
-                
+
                 runs.push(run);
 
                 for (const [key, value] of Object.entries(run.params)) {
@@ -41,32 +40,27 @@ export default function Home() {
 
         setRuns(runs);
         setHyperparams(hyperparams);
-        
-        // TODO:
-            // save params keys (from first object)
-            // go through each object and generate param values for dropdowns
     }
 
     // TODO: Checlist:
-        // multi-dropdowns to filter data by params
-            // lav dem baseret på indlæst data? I.e. tag værdierne fra daten i stedet for hardcoded. Lad være med at vise dropdown hvis der ikke er nogle værdier (løser problemet med at stance-selection har færre hyperparameters)
+    // make dropdowns filter data
 
     return (
-        <div style={{ flexGrow: 1, width: '90%', paddingLeft: "10%"}}>
-                {runs.length > 0 && <Grid container spacing={8}>
-                     <Filters hyperparams={hyperparams}/>
-                </Grid>}
-                {runs.length > 0 &&<Grid container spacing={8}>
-                    {/* skal vi filter i de runs, der bliver sendt ned her? I så fald skal filter somehow op fra Filters*/}
-                     <Grid item xs>
-                        <ResultsTable runs={runs}/>
-                    </Grid>
-                </Grid>}
-                <Grid container spacing={8}>
-                    <Grid item xs>
-                        <UploadButton onChange={readAndParseResultsFile}/>
-                    </Grid>
+        <div style={{ flexGrow: 1, width: '90%', paddingLeft: "10%" }}>
+            {runs.length > 0 && <Grid container spacing={4}>
+                <Filters hyperparams={hyperparams} />
+            </Grid>}
+            {runs.length > 0 && <Grid container spacing={8} style={{ paddingTop: 10 }}>
+                {/* skal vi filter i de runs, der bliver sendt ned her? I så fald skal filter somehow op fra Filters*/}
+                <Grid item xs>
+                    <ResultsTable runs={runs} />
                 </Grid>
+            </Grid>}
+            <Grid container spacing={8}>
+                <Grid item xs>
+                    <UploadButton onChange={readAndParseResultsFile} />
+                </Grid>
+            </Grid>
         </div>
     )
 }

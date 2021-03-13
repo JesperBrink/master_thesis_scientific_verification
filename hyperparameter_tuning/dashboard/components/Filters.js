@@ -7,7 +7,6 @@ export default function Filters({ hyperparams }) {
         let filters = [];
 
         for (const [key, values] of Object.entries(hyperparams)) {
-            console.log(key, values)
             filters.push(
                 <Grid item xs={4} key={key}>
                     <Autocomplete
