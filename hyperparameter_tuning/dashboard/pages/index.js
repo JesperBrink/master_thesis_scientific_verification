@@ -75,7 +75,7 @@ export default function Home() {
 
     return (
         <div style={{ flexGrow: 1, width: '90%', paddingLeft: "10%" }}>
-            {hyperparams.length > 0 && <Grid container spacing={4} style={{ paddingTop: 20 }}>
+            {runs.length > 0 && <Grid container spacing={4} style={{ paddingTop: 20 }}>
                 <Filters hyperparams={hyperparams} onChange={onChangeFilter} filters={filters}/>
             </Grid>}
             {runs.length > 0 && <Grid container spacing={8} style={{ paddingTop: 10 }}>
