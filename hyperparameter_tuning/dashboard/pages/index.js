@@ -29,12 +29,14 @@ export default function Home() {
 
                 runs.push(run);
 
-                for (const [key, value] of Object.entries(run.params)) {
-                    if (!hyperparams[key]) {
-                        hyperparams[key] = new Set();
+                if (run.params) {
+                    for (const [key, value] of Object.entries(run.params)) {
+                        if (!hyperparams[key]) {
+                            hyperparams[key] = new Set();
+                        }
+    
+                        hyperparams[key].add(value);
                     }
-
-                    hyperparams[key].add(value);
                 }
             }
         });
@@ -73,7 +75,7 @@ export default function Home() {
 
     return (
         <div style={{ flexGrow: 1, width: '90%', paddingLeft: "10%" }}>
-            {runs.length > 0 && <Grid container spacing={4} style={{ paddingTop: 20 }}>
+            {hyperparams.length > 0 && <Grid container spacing={4} style={{ paddingTop: 20 }}>
                 <Filters hyperparams={hyperparams} onChange={onChangeFilter} filters={filters}/>
             </Grid>}
             {runs.length > 0 && <Grid container spacing={8} style={{ paddingTop: 10 }}>
