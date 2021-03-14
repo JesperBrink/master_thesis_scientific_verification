@@ -14,7 +14,7 @@ export default function Filters({ hyperparams, onChange, filters }) {
                         options={Array.from(values)}
                         onChange={(event, value, reason) => onChange(value, key)}
                         multiple
-                        value={Array.from(values).filter(e => filters[key] ? filters[key].includes(e) : false)}
+                        value={Array.from(values).filter(val => filters[key] && filters[key].includes(val))}
                         getOptionLabel={(option) => option.toString()}
                         renderInput={(params) => <TextField {...params} label={key} variant="outlined"/>}
                     />
