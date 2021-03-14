@@ -1,5 +1,5 @@
 import Grid from '@material-ui/core/Grid';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UploadButton from '../components/UploadButton';
 import ResultsTable from '../components/ResultsTable';
 import Filters from '../components/Filters';
@@ -7,6 +7,7 @@ import Filters from '../components/Filters';
 export default function Home() {
     const [runs, setRuns] = useState([]);
     const [hyperparams, setHyperparams] = useState({});
+    const [filters, setFilters] = useState({});
 
     // TODO: Make this async?
     const readAndParseResultsFile = event => {
@@ -42,18 +43,41 @@ export default function Home() {
         setHyperparams(hyperparams);
     }
 
-    // TODO: Checlist:
-    // make dropdowns filter data
+    const onChangeFilter = (value, key) => {
+        let newFilters = {...filters};
+        
+        if (value.length === 0) {
+            delete newFilters[key]
+        } else {
+            newFilters[key] = value
+        }
+
+        setFilters(newFilters);
+    }
+
+    const getFilteredRuns = () => {
+        // Potential speed up here
+        let filteredRuns = runs.filter(function(run) {
+            for (const [key, value] of Object.entries(filters)) {
+                if (!value.includes(run.params[key])) {
+                    return false;
+                }
+            }
+
+            return true;
+        })
+        
+        return filteredRuns;
+    }
 
     return (
         <div style={{ flexGrow: 1, width: '90%', paddingLeft: "10%" }}>
             {runs.length > 0 && <Grid container spacing={4}>
-                <Filters hyperparams={hyperparams} />
+                <Filters hyperparams={hyperparams} onChange={onChangeFilter}/>
             </Grid>}
             {runs.length > 0 && <Grid container spacing={8} style={{ paddingTop: 10 }}>
-                {/* skal vi filter i de runs, der bliver sendt ned her? I så fald skal filter somehow op fra Filters*/}
                 <Grid item xs>
-                    <ResultsTable runs={runs} />
+                    <ResultsTable runs={getFilteredRuns()}/>
                 </Grid>
             </Grid>}
             <Grid container spacing={8}>

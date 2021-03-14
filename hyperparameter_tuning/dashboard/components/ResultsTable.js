@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import Tooltip from '@material-ui/core/Tooltip';
 
 export default function ResultsTable({ runs = [] }) {
-    const getColumns = () => {
+
+    const getDataRows = () => {
+        let rows = [];
+        // Create rows from runs
+        if (runs.length > 0) {
+            for (let i = 0; i < runs.length; i++) {
+                let row = { id: runs[i].id, params: runs[i].params };
+
+                for (const [key, value] of Object.entries(runs[i].results)) {
+                    row[key] = value;
+                }
+
+                rows.push(row);
+            }
+        }
+        return rows;
+    }
+
+    const getDataColumns = () => {
         let cols = [];
         // Create columns from runs
         if (runs.length > 0) {
@@ -11,7 +29,7 @@ export default function ResultsTable({ runs = [] }) {
                 field: "id",
                 flex: 0.5,
                 renderCell: (params) => (
-                    <Tooltip title={formatParamsTooltip(params.row.id)} interactive>
+                    <Tooltip title={formatParamsTooltip(params.row.params)} interactive>
                         <span>{params.row.id}</span>
                     </Tooltip>
                 )
@@ -32,28 +50,11 @@ export default function ResultsTable({ runs = [] }) {
         return cols;
     }
 
-    const getRows = () => {
-        let rows = [];
-        // Create rows from runs
-        if (runs.length > 0) {
-            for (let i = 0; i < runs.length; i++) {
-                let row = { id: runs[i].id };
-
-                for (const [key, value] of Object.entries(runs[i].results)) {
-                    row[key] = value;
-                }
-
-                rows.push(row);
-            }
-        }
-        return rows;
-    }
-
-    const formatParamsTooltip = (id) => {
+    const formatParamsTooltip = (params) => {
         let tooltip = []
 
-        if (runs[id].params) {
-            for (const [key, value] of Object.entries(runs[id].params)) {
+        if (params) {
+            for (const [key, value] of Object.entries(params)) {
                 if (key === "id") {
                     continue;
                 }
@@ -68,8 +69,8 @@ export default function ResultsTable({ runs = [] }) {
     return (
         <>
             {runs.length > 0 && <DataGrid
-                rows={getRows()}
-                columns={getColumns()}
+                rows={getDataRows()}
+                columns={getDataColumns()}
                 pageSize={15}
                 rowHeight={46}
                 autoHeight={true}
