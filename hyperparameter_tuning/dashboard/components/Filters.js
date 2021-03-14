@@ -2,7 +2,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
-export default function Filters({ hyperparams }) {
+export default function Filters({ hyperparams, onChange }) {
     const getFilterDropdowns = () => {
         let filters = [];
 
@@ -12,6 +12,7 @@ export default function Filters({ hyperparams }) {
                     <Autocomplete
                         id={`filter_${key}`}
                         options={Array.from(values)}
+                        onChange={(event, value, reason) => onChange(value, key)}
                         multiple
                         getOptionLabel={(option) => option.toString()}
                         renderInput={(params) => <TextField {...params} label={key} />}
