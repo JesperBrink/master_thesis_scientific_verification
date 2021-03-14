@@ -15,7 +15,7 @@ export default function Filters({ hyperparams, onChange }) {
                         onChange={(event, value, reason) => onChange(value, key)}
                         multiple
                         getOptionLabel={(option) => option.toString()}
-                        renderInput={(params) => <TextField {...params} label={key} />}
+                        renderInput={(params) => <TextField {...params} label={key} variant="outlined"/>}
                     />
                 </Grid>
             )
