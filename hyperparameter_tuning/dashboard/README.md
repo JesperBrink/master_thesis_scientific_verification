@@ -12,6 +12,7 @@ Then, run the development server:
 npm run dev
 ```
 
+<<<<<<< HEAD
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 
@@ -41,3 +42,6 @@ Takes as input a JSON lines (.jsonl) file, where each JSON object contains a res
     }
 }
 ```
+=======
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+>>>>>>> 7573a4b1e387bb080f66c5532f0716c1d3a1c6b3
