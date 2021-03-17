@@ -1,5 +1,5 @@
 import numpy as np
-from tensorflow.python.keras.layers import Dense
+from tensorflow.python.keras.layers import Dense, Dropout
 from tensorflow.python.keras import Input
 from tensorflow.keras.models import Sequential
 from datasets.datasetProcessing.loadDataset import (
@@ -27,11 +27,15 @@ class TwoLayerAbstractRetriever(tf.keras.Model):
         super(TwoLayerAbstractRetriever, self).__init__()
         self.layer_1 = Dense(units, activation="relu")
         self.layer_2 = Dense(units, activation="relu")
+        self.dropout = Dropout(.5)
         self.classifier = Dense(1, activation="sigmoid")
 
-    def call(self, inputs):
-        x = self.layer_1(inputs)
+    def call(self, inputs, training=None):
+        x = self.dropout(inputs, training=training)
+        x = self.layer_1(x)
+        x = self.dropout(x, training=training)
         x = self.layer_2(x)
+        x = self.dropout(x, training=training)
         return self.classifier(x)
 
 
@@ -83,10 +87,10 @@ def initialize_model(batch_size, units):
 def main():
     BATCH_SIZE = 32
 
-    m = initialize_model(BATCH_SIZE, 512)
+    m = initialize_model(BATCH_SIZE, 2048)
 
-    m = train(m, "fever", BATCH_SIZE, 1)
-    m = train(m, "scifact", BATCH_SIZE, 1)
+    m = train(m, "fever", BATCH_SIZE, 3)
+    m = train(m, "scifact", BATCH_SIZE, 10)
 
     save(m)
 
