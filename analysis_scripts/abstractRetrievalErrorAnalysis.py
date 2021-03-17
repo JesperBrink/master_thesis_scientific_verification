@@ -25,7 +25,7 @@ def main(dev_path, corpus_path, retriever, interactive):
     abstract_id_to_abstract = load_abstract_dict(corpus_path)
 
     dev_claims_dataset = jsonlines.open(dev_path)
-
+    
     total_length = 0
     not_enough_info_counter = 0
 

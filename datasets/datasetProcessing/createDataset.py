@@ -13,7 +13,7 @@ from sentence_transformers import SentenceTransformer
 
 # paths to the folder where the
 trainingset_path = (
-    Path(os.path.realpath(__file__)).resolve().parents[1] / "trainingDataset"
+    Path(os.path.realpath(__file__)).resolve().parents[1] / "subTrainingDataset"
 )
 validation_path = (
     Path(os.path.realpath(__file__)).resolve().parents[1] / "validationDataset"
@@ -75,10 +75,9 @@ def write_to_tf_record(writer, claim_embedding, relevance, label, *sentences):
     for sentence in sentences:
         sentence_embedding = MODEL.encode(sentence).tolist()
         writer.write(
-            serialize_example(
-                claim_embedding + sentence_embedding, relevance, label
-            )
+            serialize_example(claim_embedding + sentence_embedding, relevance, label)
         )
+
 
 def create_relevant(claim_path, corpus_path, set_type):
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)

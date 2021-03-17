@@ -1,0 +1,5 @@
+{
+    "dense_units": [256, 512, 1024, 2048],
+    "fever_epochs": [3, 5, 7],
+    "scifact_epochs": [5, 10, 20, 50]
+}
