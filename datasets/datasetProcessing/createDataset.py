@@ -132,21 +132,27 @@ def create_not_relevant(claim_path, corpus_path, k, set_type):
             negative_sentences.extend(chosen_sentences)
         write_to_tf_record(writer, claim_embedding, 0, 0, *negative_sentences)
 
-        evidence_obj = claim["evidence"]
-        if not evidence_obj:
-            continue
         # make not_relevant for the abstrac with gold rationales
-        for doc_id, evidence in evidence_obj.items():
-            abstract = id_to_abstact_map[doc_id]
-            not_allowed = []
-            for obj in evidence:
-                not_allowed.extend(obj["sentences"])
-            not_allowed = set(not_allowed)
-            allowed = [
-                abstract[index] for index in set(range(0, len(abstract))) - not_allowed
-            ]
-            chosen = sample(allowed, min(2, len(allowed)))
-            write_to_tf_record(writer, claim_embedding, 0, 0, *chosen)
+        evidence_obj = claim["evidence"]
+        if evidence_obj:
+            for doc_id, evidence in evidence_obj.items():
+                abstract = id_to_abstact_map[doc_id]
+                not_allowed = []
+                for obj in evidence:
+                    not_allowed.extend(obj["sentences"])
+                not_allowed = set(not_allowed)
+                allowed = [
+                    abstract[index]
+                    for index in set(range(0, len(abstract))) - not_allowed
+                ]
+                chosen = sample(allowed, min(2, len(allowed)))
+                write_to_tf_record(writer, claim_embedding, 0, 0, *chosen)
+        # else use the abstract found in the cited_doc_ids value
+        else:
+            cited_doc_ids = claim["cited_doc_ids"]
+            for abstract in [id_to_abstact_map[str(ident)] for ident in cited_doc_ids]:
+                chosen = sample(abstract, min(2, len(abstract)))
+                write_to_tf_record(writer, claim_embedding, 0, 0, *chosen)
 
     # flush and close()
     writer.flush()
