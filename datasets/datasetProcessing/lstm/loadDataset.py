@@ -1,4 +1,4 @@
-import os 
+import os
 from pathlib import Path
 
 import tensorflow as tf
@@ -9,6 +9,7 @@ trainint_set_path = (
 validation_set_path = (
     Path(os.path.realpath(__file__)).resolve().parents[1] / "LstmValidationDataset"
 )
+
 
 def read_relevance_tfrecord(serialized_example):
     feature_description = {
@@ -23,20 +24,17 @@ def read_relevance_tfrecord(serialized_example):
 
     return X, Y
 
+
 def read_lstm_tfrecord_dataset():
-    filenames = [
-        str(trainint_set_path / x)
-        for x in os.listdir(trainint_set_path)
-    ]
+    filenames = [str(trainint_set_path / x) for x in os.listdir(trainint_set_path)]
     dataset = tf.data.TFRecordDataset(filenames)
 
     return dataset.shuffle(30000).map(read_relevance_tfrecord)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     count = 0
     for x in read_lstm_tfrecord_dataset():
-        assert x[0].shape[0] / x[1].shape[0] == 768*2
-        count+=1
+        assert x[0].shape[0] / x[1].shape[0] == 768 * 2
+        count += 1
     print(count)
-
-    
