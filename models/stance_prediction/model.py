@@ -4,7 +4,7 @@ from tensorflow.python.keras import Input
 from tensorflow.keras.models import Sequential
 import tensorflow as tf
 from pathlib import Path
-from datasets.datasetProcessing.loadDataset import (
+from datasets.datasetProcessing.basic.loadDataset import (
     load_label_validation_dataset,
     load_label_training_dataset,
 )
