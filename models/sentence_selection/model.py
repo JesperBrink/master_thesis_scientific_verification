@@ -2,7 +2,7 @@ import numpy as np
 from tensorflow.python.keras.layers import Dense
 from tensorflow.python.keras import Input
 from tensorflow.keras.models import Sequential
-from datasets.datasetProcessing.loadDataset import (
+from datasets.datasetProcessing.basic.loadDataset import (
     load_relevance_training_dataset,
     load_relevance_validation_dataset,
 )
