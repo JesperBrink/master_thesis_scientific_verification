@@ -49,12 +49,13 @@ def _int64_feature(value):
     return tf.train.Feature(int64_list=tf.train.Int64List(value=value))
 
 
-def serialize_example(inp, label):
+def serialize_example(inp, label, shape):
     feature = {
         "sequence": _float_feature(inp),  # the flattende matrix of the abstract
         "label": _int64_feature(
             label
         ),  # sequence of 0 and 1 denoting rationale sentences
+        "shape": _int64_feature(shape)
     }
 
     example_proto = tf.train.Example(features=tf.train.Features(feature=feature))
@@ -70,7 +71,7 @@ def write_to_tf_record(writer, claim_embedding, label_sequence, abstract, model)
         (claim_embedding_matrix, abstract_embedding_matrix), axis=1
     )
     flattened_sequence = sequence.flatten()
-    writer.write(serialize_example(flattened_sequence, label_sequence))
+    writer.write(serialize_example(flattened_sequence, label_sequence, sequence.shape))
 
 
 def create_scifact_dataset(claim_path, corpus_path, model, dataset_type):
