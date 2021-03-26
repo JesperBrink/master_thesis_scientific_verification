@@ -10,3 +10,4 @@ datasets/datasetProcessing/subTrainingDataset/*
 datasets/datasetProcessing/LstmTrainingDataset/*
 BioSentVecEmbeddings/
 datasets/fever/*
+models/trained_models/*
