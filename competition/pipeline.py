@@ -2,9 +2,12 @@ import jsonlines
 import numpy as np
 from tqdm import tqdm
 import models.sentence_selection.model as sentence_selection_module
+from models.sentence_selection.cosine_similarity_model import CosineSimilaritySentenceSelector
 import models.stance_prediction.model as stance_prediction_module
 import time
 import tensorflow as tf
+import enum
+import argparse
 
 
 def sentence_selection(claim, model, sentence_embeddings, corp_id, threshold):
@@ -102,21 +105,57 @@ def setup_sentence_embeddings(corpus_path):
     return sentence_embeddings, corp_id
 
 
-def run_pipeline(corpus_path, claims_path):
+def run_pipeline(corpus_path, claims_path, sentence_selection_model, stance_prediction_model):
     threshold = 0.5
-    abstract_retriever_model = sentence_selection_module.load()
-    stance_prediction_model = stance_prediction_module.load() 
+    
     sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
     with jsonlines.open("predictions.jsonl", "w") as output:
         with jsonlines.open(claims_path) as claims:
             for claim in tqdm(claims):
-                relevant_sentences_dict = sentence_selection(claim, abstract_retriever_model, sentence_embeddings, corp_id, threshold)
+                relevant_sentences_dict = sentence_selection(claim, sentence_selection_model, sentence_embeddings, corp_id, threshold)
                 prediction = stance_prediction(claim, relevant_sentences_dict, stance_prediction_model) 
                 output.write(prediction)
+
+
+class SentenceSelctionModel(enum.Enum):
+    TWO_LAYER_DENSE = "twolayer"
+    SBERT_COSINE_SIMILARITY = "cosine"
+
+class StancePredictionModel(enum.Enum):
+    TWO_LAYER_DENSE = "twolayer"
 
 
 if __name__ == "__main__":
     corpus_path = "sbert-embedded-corpus.jsonl"
     claims_path = "sbert-embedded-dev-claims.jsonl"
 
-    run_pipeline(corpus_path, claims_path)
+    parser = argparse.ArgumentParser(
+        description="Script to run evaluation pipeline"
+    )
+    parser.add_argument(
+        "sentence_selection_model",
+        metavar="sentence_selection_model",
+        type=SentenceSelctionModel,
+        help="Which sentence selection model to use. twolayer = Two layer dense, cosine = SBERT cosine similarity",
+    )
+    parser.add_argument(
+        "stance_prediction_model",
+        metavar="stance_prediction_model",
+        type=StancePredictionModel,
+        help="Which stance prediction model to use. twolayer = Two layer dense",
+    )
+
+    args = parser.parse_args()
+    if args.sentence_selection_model == SentenceSelctionModel.TWO_LAYER_DENSE:
+        sentence_selection_model = sentence_selection_module.load()
+    elif args.sentence_selection_model == SentenceSelctionModel.SBERT_COSINE_SIMILARITY:
+        sentence_selection_model = CosineSimilaritySentenceSelector()
+    else:
+        raise NotImplementedError()
+
+    if args.stance_prediction_model == StancePredictionModel.TWO_LAYER_DENSE:
+        stance_prediction_model = stance_prediction_module.load()
+    else:
+        raise NotImplementedError()
+
+    run_pipeline(corpus_path, claims_path, sentence_selection_model, stance_prediction_model)
