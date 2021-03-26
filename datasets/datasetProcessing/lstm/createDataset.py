@@ -4,6 +4,7 @@ import jsonlines
 from pathlib import Path
 import os
 from datetime import datetime as time
+import random
 
 import numpy as np
 import tensorflow as tf
@@ -74,6 +75,10 @@ def write_to_tf_record(writer, claim_embedding, label_sequence, abstract, model)
     writer.write(serialize_example(flattened_sequence, label_sequence, sequence.shape))
 
 
+def create_data_point(model, writer, claim_embedding, abstract, rationale_indices=[]):
+    classification_sequence = [1 if x in rationale_indices else 0 for x in range(0, len(abstract))]
+    write_to_tf_record(writer, claim_embedding, classification_sequence, abstract, model)
+
 def create_scifact_dataset(claim_path, corpus_path, model, dataset_type):
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)
     directory = (
@@ -88,6 +93,16 @@ def create_scifact_dataset(claim_path, corpus_path, model, dataset_type):
     writer = tf.io.TFRecordWriter(str(directory / file_name))
     for claim in tqdm(jsonlines.open(claim_path)):
         claim_embedding = model.encode(claim["claim"]).tolist()
+
+        # use a random abstract not connected to the claim
+        random_doc_id = random.sample(id_to_abstact_map.keys(), 1)[0]
+        while int(random_doc_id) in claim["cited_doc_ids"]:
+            random_doc_id = random.sample(id_to_abstact_map.keys(), 1)[0]
+
+        random_abstract = id_to_abstact_map[str(random_doc_id)]
+        create_data_point(model, writer, claim_embedding, random_abstract)
+
+        #use evidence set if present        
         evidence_set = claim["evidence"]
         if evidence_set:
             for abstract_id, rationales in evidence_set.items():
@@ -95,19 +110,13 @@ def create_scifact_dataset(claim_path, corpus_path, model, dataset_type):
                 for indices in [rationale["sentences"] for rationale in rationales]:
                     rationale_indices.extend(indices)
                 abstract = id_to_abstact_map[str(abstract_id)]
-                classification_sequence = [
-                    1 if x in rationale_indices else 0 for x in range(0, len(abstract))
-                ]
-                write_to_tf_record(
-                    writer, claim_embedding, classification_sequence, abstract, model
-                )
+                create_data_point(model, writer, claim_embedding, abstract, rationale_indices)
             continue
 
-        # Has no evidence use cited_doc_ids
+        # else use cited_doc_ids
         for doc_id in claim["cited_doc_ids"]:
             abstract = id_to_abstact_map[str(doc_id)]
-            zeroes = [0 for _ in range(len(abstract))]
-            write_to_tf_record(writer, claim_embedding, zeroes, abstract, model)
+            create_data_point(model, writer, claim_embedding, abstract)
 
     writer.flush()
     writer.close()
