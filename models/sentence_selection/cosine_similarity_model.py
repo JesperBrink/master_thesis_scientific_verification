@@ -11,7 +11,7 @@ class CosineSimilaritySentenceSelector():
         for claim_sent_embedding in claim_sent_embeddings:
             claim_embedding = claim_sent_embedding[:768]
             sentence_embedding = claim_sent_embedding[768:]
-            claim_sent_similarity = cosine_dist(claim_embedding, sentence_embedding)
+            claim_sent_similarity = -1 * cosine_dist(claim_embedding, sentence_embedding) # -1 because tf flips value as it is a loss, i.e. -1 is completely similar
             similarities.append([claim_sent_similarity])
         #t2 = time.time()
 
