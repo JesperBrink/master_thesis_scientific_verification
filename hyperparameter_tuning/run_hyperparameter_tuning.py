@@ -152,8 +152,12 @@ def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
     )
     with jsonlines.open(output_path, "w", flush=True) as output_file:
         for hyper_parameters in hyperparameter_grid:
-            model = sentence_selection_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"])
+            model = sentence_selection_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"], hyper_parameters["learning_rate"])
             class_weight = {0: int(hyper_parameters["class_weight_0"]), 1: int(hyper_parameters["class_weight_1"])}
+
+            if class_weight[0] == class_weight[1] and class_weight[0] > 1:
+                continue
+
             model = sentence_selection_module.train(model, "fever", BATCH_SIZE, hyper_parameters["fever_epochs"], class_weight)
             model = sentence_selection_module.train(model, "scifact", BATCH_SIZE, hyper_parameters["scifact_epochs"], class_weight)
             for threshold in thresholds:
@@ -181,7 +185,7 @@ def evaluate_hyperparameters_stance_prediction(claims_path, corpus_path):
     )
     with jsonlines.open(output_path, "w", flush=True) as output_file:
         for hyper_parameters in hyperparameter_grid:
-            model = stance_prediction_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"])
+            model = stance_prediction_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"], hyper_parameters["learning_rate"])
             model = stance_prediction_module.train(model, "fever", BATCH_SIZE, hyper_parameters["fever_epochs"])
             model = stance_prediction_module.train(model, "scifact", BATCH_SIZE, hyper_parameters["scifact_epochs"])
             result_dict = evaluate_stance_predicion_model(model, claims_path, abstract_id_to_abstract_embedding_map)
