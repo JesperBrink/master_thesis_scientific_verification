@@ -25,7 +25,7 @@ class TwoLayerStancePredictor(tf.keras.Model):
         super(TwoLayerStancePredictor, self).__init__()
         self.layer_1 = Dense(units, activation="relu")
         self.layer_2 = Dense(units, activation="relu")
-        self.dropout = Dropout(.5)
+        self.dropout = Dropout(0.5)
         self.classifier = Dense(1, activation="sigmoid")
 
     def call(self, inputs, training=None):
