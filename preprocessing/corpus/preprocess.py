@@ -48,7 +48,6 @@ if __name__ == "__main__":
     parser.add_argument(
         "-e",
         "--embed",
-        action="store_true",
         help="whether or not the preprocessing should end out in an embedding",
     )
 
@@ -63,6 +62,6 @@ if __name__ == "__main__":
             preprocessors.append(remove_stopwords)
 
     if args.embed:
-        preprocessors.append(s_bert_embed)
+        preprocessors.append(lambda d: s_bert_embed(d, args.embed))
 
     preprocess(args.corpus_path, args.output_path, *preprocessors)

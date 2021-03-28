@@ -4,6 +4,7 @@ import enum
 from tqdm import tqdm
 from embed import s_bert_embed
 from functools import reduce
+from removestopwords import remove_stopwords
 
 
 def execute(inp, function):
@@ -30,9 +31,13 @@ if __name__ == "__main__":
         help="the path to the preprocessed output",
     )
     parser.add_argument(
+        "-s",
+        "--stopwords",
+        help="set if you want to filter away stop-words",
+    )
+    parser.add_argument(
         "-e",
         "--embed",
-        action="store_true",
         help="whether or not the preprocessing should end out in an embedding",
     )
 
@@ -40,6 +45,8 @@ if __name__ == "__main__":
     preprocessors = []
 
     if args.embed:
-        preprocessors.append(s_bert_embed)
+        preprocessors.append(lambda d: s_bert_embed(d, args.embed))
+    if args.stopwords:
+        preprocessors.append(remove_stopwords)
 
     preprocess(args.claims_path, args.output_path, *preprocessors)
