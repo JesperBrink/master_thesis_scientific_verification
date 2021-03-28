@@ -36,7 +36,7 @@ def get_abstract_id_to_abstract_embedding_map(corpus_path):
 def convert_to_scifact_format(claim_id, pred):
     if not pred:
         return {"id": claim_id, "evidence": {}}
-        
+
     evidence = dict()
     for abstract in pred.keys():
         predicted_sentences = [sentence_dict["id"] for sentence_dict in pred[abstract]]
@@ -55,7 +55,10 @@ def make_evidence_from_grund_truth(claim, abstract_id_to_abstract_embedding_map)
 
         for sent_dict in sentence_list:
             for sent_id in sent_dict["sentences"]:
-                embedding = claim["claim"] + abstract_id_to_abstract_embedding_map[int(abstract)][sent_id]
+                embedding = (
+                    claim["claim"]
+                    + abstract_id_to_abstract_embedding_map[int(abstract)][sent_id]
+                )
                 converted_sentence_list.append({"id": sent_id, "embedding": embedding})
 
         evidence[abstract] = converted_sentence_list
@@ -89,7 +92,7 @@ def evaluate_stance_predicion_model(
     }
 
     return results_dict
-    
+
 
 def evaluate_sentence_selection_model(
     model, claims_path, sentence_embeddings, corp_id, threshold
@@ -107,7 +110,9 @@ def evaluate_sentence_selection_model(
                 claim, model, sentence_embeddings, corp_id, threshold
             )
 
-            predictions_list.append(convert_to_scifact_format(claim["id"], relevant_sentences_dict))
+            predictions_list.append(
+                convert_to_scifact_format(claim["id"], relevant_sentences_dict)
+            )
 
             retrieved_abstracts = relevant_sentences_dict.keys()
             gold_docs = [int(x) for x in claim["evidence"].keys()]
@@ -141,7 +146,9 @@ def evaluate_sentence_selection_model(
 
 def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
     BATCH_SIZE = 32
-    hyperparameter_grid, thresholds = load_hyperparameter_grid("hyperparameter_dicts/sentence_selection_hyperparameter_dict.json")
+    hyperparameter_grid, thresholds = load_hyperparameter_grid(
+        "hyperparameter_dicts/sentence_selection_hyperparameter_dict.json"
+    )
     sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
 
     if not os.path.exists("output"):
@@ -152,14 +159,33 @@ def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
     )
     with jsonlines.open(output_path, "w", flush=True) as output_file:
         for hyper_parameters in hyperparameter_grid:
-            model = sentence_selection_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"], hyper_parameters["learning_rate"])
-            class_weight = {0: int(hyper_parameters["class_weight_0"]), 1: int(hyper_parameters["class_weight_1"])}
+            model = sentence_selection_module.initialize_model(
+                BATCH_SIZE,
+                hyper_parameters["dense_units"],
+                hyper_parameters["learning_rate"],
+            )
+            class_weight = {
+                0: int(hyper_parameters["class_weight_0"]),
+                1: int(hyper_parameters["class_weight_1"]),
+            }
 
             if class_weight[0] == class_weight[1] and class_weight[0] > 1:
                 continue
 
-            model = sentence_selection_module.train(model, "fever", BATCH_SIZE, hyper_parameters["fever_epochs"], class_weight)
-            model = sentence_selection_module.train(model, "scifact", BATCH_SIZE, hyper_parameters["scifact_epochs"], class_weight)
+            model = sentence_selection_module.train(
+                model,
+                "fever",
+                BATCH_SIZE,
+                hyper_parameters["fever_epochs"],
+                class_weight,
+            )
+            model = sentence_selection_module.train(
+                model,
+                "scifact",
+                BATCH_SIZE,
+                hyper_parameters["scifact_epochs"],
+                class_weight,
+            )
             for threshold in thresholds:
                 result_dict = evaluate_sentence_selection_model(
                     model,
@@ -174,8 +200,12 @@ def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
 
 def evaluate_hyperparameters_stance_prediction(claims_path, corpus_path):
     BATCH_SIZE = 32
-    hyperparameter_grid, _ = load_hyperparameter_grid("hyperparameter_dicts/stance_prediction_hyperparameter_dict.json")
-    abstract_id_to_abstract_embedding_map = get_abstract_id_to_abstract_embedding_map(corpus_path)
+    hyperparameter_grid, _ = load_hyperparameter_grid(
+        "hyperparameter_dicts/stance_prediction_hyperparameter_dict.json"
+    )
+    abstract_id_to_abstract_embedding_map = get_abstract_id_to_abstract_embedding_map(
+        corpus_path
+    )
 
     if not os.path.exists("output"):
         os.makedirs("output")
@@ -185,10 +215,20 @@ def evaluate_hyperparameters_stance_prediction(claims_path, corpus_path):
     )
     with jsonlines.open(output_path, "w", flush=True) as output_file:
         for hyper_parameters in hyperparameter_grid:
-            model = stance_prediction_module.initialize_model(BATCH_SIZE, hyper_parameters["dense_units"], hyper_parameters["learning_rate"])
-            model = stance_prediction_module.train(model, "fever", BATCH_SIZE, hyper_parameters["fever_epochs"])
-            model = stance_prediction_module.train(model, "scifact", BATCH_SIZE, hyper_parameters["scifact_epochs"])
-            result_dict = evaluate_stance_predicion_model(model, claims_path, abstract_id_to_abstract_embedding_map)
+            model = stance_prediction_module.initialize_model(
+                BATCH_SIZE,
+                hyper_parameters["dense_units"],
+                hyper_parameters["learning_rate"],
+            )
+            model = stance_prediction_module.train(
+                model, "fever", BATCH_SIZE, hyper_parameters["fever_epochs"]
+            )
+            model = stance_prediction_module.train(
+                model, "scifact", BATCH_SIZE, hyper_parameters["scifact_epochs"]
+            )
+            result_dict = evaluate_stance_predicion_model(
+                model, claims_path, abstract_id_to_abstract_embedding_map
+            )
             output_file.write({"params": hyper_parameters, "results": result_dict})
 
 
