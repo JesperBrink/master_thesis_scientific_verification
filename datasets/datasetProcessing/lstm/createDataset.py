@@ -9,117 +9,7 @@ import random
 import numpy as np
 import tensorflow as tf
 from tqdm import tqdm
-from sentence_transformers import SentenceTransformer
-
-trainingset_path = (
-    Path(os.path.realpath(__file__)).resolve().parents[1] / "LstmTrainingDataset"
-)
-validation_path = (
-    Path(os.path.realpath(__file__)).resolve().parents[1] / "LstmValidationDataset"
-)
-
-
-def approve_overwriting(path, *file_names):
-    if any([os.path.exists(path / file_name) for file_name in file_names]):
-        choice = input(
-            "you are about to overwrite one or more files? are you sure? [yes/no]\n"
-        )
-        if choice.lower().strip() in ["yes", "y", "ye"]:
-            return True
-        else:
-            return False
-    return True
-
-
-def create_id_to_abstract_map(corpus_path):
-    abstract_id_to_abstract = dict()
-    corpus = jsonlines.open(corpus_path)
-    for data in corpus:
-        abstract_id_to_abstract[str(data["doc_id"])] = data["abstract"]
-
-    return abstract_id_to_abstract
-
-
-def _float_feature(value):
-    """Returns a float_list from a float / double."""
-    return tf.train.Feature(float_list=tf.train.FloatList(value=value))
-
-
-def _int64_feature(value):
-    """Returns an int64_list from a bool / enum / int / uint."""
-    return tf.train.Feature(int64_list=tf.train.Int64List(value=value))
-
-
-def serialize_example(inp, label, shape):
-    feature = {
-        "sequence": _float_feature(inp),  # the flattende matrix of the abstract
-        "label": _int64_feature(
-            label
-        ),  # sequence of 0 and 1 denoting rationale sentences
-        "shape": _int64_feature(shape)
-    }
-
-    example_proto = tf.train.Example(features=tf.train.Features(feature=feature))
-    return example_proto.SerializeToString()
-
-
-def write_to_tf_record(writer, claim_embedding, label_sequence, abstract, model):
-    claim_embedding_matrix = np.full(
-        (len(abstract), len(claim_embedding)), claim_embedding
-    )
-    abstract_embedding_matrix = model.encode(abstract)
-    sequence = np.concatenate(
-        (claim_embedding_matrix, abstract_embedding_matrix), axis=1
-    )
-    flattened_sequence = sequence.flatten()
-    writer.write(serialize_example(flattened_sequence, label_sequence, sequence.shape))
-
-
-def create_data_point(model, writer, claim_embedding, abstract, rationale_indices=[]):
-    classification_sequence = [1 if x in rationale_indices else 0 for x in range(0, len(abstract))]
-    write_to_tf_record(writer, claim_embedding, classification_sequence, abstract, model)
-
-def create_scifact_dataset(claim_path, corpus_path, model, dataset_type):
-    id_to_abstact_map = create_id_to_abstract_map(corpus_path)
-    directory = (
-        trainingset_path if dataset_type == DatasetType.train else validation_path
-    )
-    file_name = "scifact.tfrecord"
-
-    if not approve_overwriting(directory, file_name):
-        print("aborting dataset creation")
-        return
-
-    writer = tf.io.TFRecordWriter(str(directory / file_name))
-    for claim in tqdm(jsonlines.open(claim_path)):
-        claim_embedding = model.encode(claim["claim"]).tolist()
-
-        # use a random abstract not connected to the claim
-        random_doc_id = random.sample(id_to_abstact_map.keys(), 1)[0]
-        while int(random_doc_id) in claim["cited_doc_ids"]:
-            random_doc_id = random.sample(id_to_abstact_map.keys(), 1)[0]
-
-        random_abstract = id_to_abstact_map[str(random_doc_id)]
-        create_data_point(model, writer, claim_embedding, random_abstract)
-
-        #use evidence set if present        
-        evidence_set = claim["evidence"]
-        if evidence_set:
-            for abstract_id, rationales in evidence_set.items():
-                rationale_indices = []
-                for indices in [rationale["sentences"] for rationale in rationales]:
-                    rationale_indices.extend(indices)
-                abstract = id_to_abstact_map[str(abstract_id)]
-                create_data_point(model, writer, claim_embedding, abstract, rationale_indices)
-            continue
-
-        # else use cited_doc_ids
-        for doc_id in claim["cited_doc_ids"]:
-            abstract = id_to_abstact_map[str(doc_id)]
-            create_data_point(model, writer, claim_embedding, abstract)
-
-    writer.flush()
-    writer.close()
+from transformers import DistilBertTokenizer
 
 
 class DatasetType(enum.Enum):
@@ -127,41 +17,166 @@ class DatasetType(enum.Enum):
     validation = "validation"
 
 
+class ScifactLSTMDataset:
+    _set_type_to_directory = {
+        DatasetType.train: "LstmTrainingDataset",
+        DatasetType.validation: "LstmValidationDataset",
+    }
+
+    def __init__(self, set_type, claim_path="", corpus_path="", max_length=128):
+        self.sequence_lenght = max_length
+        
+        directory = self._set_type_to_directory[set_type]
+        self.dest = (
+            Path(os.path.realpath(__file__)).resolve().parents[1]
+            / directory
+            / "scifact.tfrecord"
+        )
+       
+        self.corpus_path = corpus_path
+        self.claim_path = claim_path
+
+    def __call__(self):
+        writer = tf.io.TFRecordWriter(str(self.dest))
+        if not self._approve_overwriting():
+            print("aborting dataset creation")
+            return
+
+        print("initializing tokenizer")
+        self.tokenizer = DistilBertTokenizer.from_pretrained(
+            "distilbert-base-uncased",
+            do_lower_case=True,
+            add_special_tokens=True,
+        )
+        print("initializing id to abstact map")
+        id_to_abstract_map = self._create_id_to_abstract_map()
+        print("creating dataset and writeing to {}".format(self.dest))
+        zeroes = tf.zeros((1,self.sequence_lenght), dtype=tf.dtypes.int32)
+
+        for claim in tqdm(jsonlines.open(self.claim_path)):
+            tokenized_claim, claim_mask = self._tokenize(claim['claim'])
+            evidence_set = claim.get("evidence", {})
+            for abstract_id, rationales in evidence_set.items():
+                abstract = id_to_abstract_map[str(abstract_id)]
+
+                rat_indices = [
+                    sent_index
+                    for rationale in rationales
+                    for sent_index in rationale["sentences"]
+                ]  # a list of all the indices of the rationales
+
+                for index in rat_indices:
+                    context, context_mask = (zeroes, zeroes) if index == 0 else self._tokenize(abstract[index-1])
+                    rationale, rationale_mask = self._tokenize(abstract[index])
+                    sequence = tf.concat([tokenized_claim, context, rationale], 0)
+                    sequence_mask = tf.concat([claim_mask, context_mask, rationale_mask], 0)
+                    self._write(writer, sequence, sequence_mask, 1)
+            
+            # TODO: Create negative examples
+        
+        writer.flush()
+        writer.close()
+    
+    def load(self):
+        dataset = tf.data.TFRecordDataset(str(self.dest))
+        return dataset.map(self._deserialize_example)
+
+    """------------------------------- helper functions -------------------------------"""
+
+    def _write(self, writer, sequence, sequence_mask, label):
+        example = self._serialize_example(sequence, sequence_mask, label)
+        writer.write(example)
+
+
+    def _serialize_example(self, sequence, sequence_mask, label):
+        features = {
+            "sequence": self._int64_feature(
+                tf.reshape(sequence, [-1])
+            ),  # flattened tensor for wordpieces
+            "sequence_mask": self._int64_feature(tf.reshape(sequence_mask, [-1])), # flattened tensor of mask matching sequence 
+            "label": self._int64_feature(
+                [label]
+            ),  # sequence of 0 and 1 denoting rationale sentences
+        }
+
+        example_proto = tf.train.Example(features=tf.train.Features(feature=features))
+        return example_proto.SerializeToString()
+
+    def _deserialize_example(self, serialized_example):
+        features = {
+            "sequence": tf.io.FixedLenFeature([3, self.sequence_lenght], tf.int64),
+            "sequence_mask": tf.io.FixedLenFeature([3, self.sequence_lenght], tf.int64),
+            "label": tf.io.FixedLenFeature([1], tf.int64)
+        }
+
+        example = tf.io.parse_single_example(serialized_example, features)
+        X = (example["sequence"], example["sequence_mask"])
+        Y = example["label"]
+        return X, Y
+
+
+    def _approve_overwriting(self):
+        if os.path.exists(self.dest):
+            choice = input(
+                "you are about to overwrite one or more files? are you sure? [yes/no]\n"
+            )
+            if choice.lower().strip() in ["yes", "y", "ye"]:
+                return True
+            else:
+                return False
+        return True
+
+    def _create_id_to_abstract_map(self):
+        abstract_id_to_abstract = dict()
+        corpus = jsonlines.open(self.corpus_path)
+        for data in corpus:
+            abstract_id_to_abstract[str(data["doc_id"])] = data["abstract"]
+
+        return abstract_id_to_abstract
+
+    def _tokenize(self, sentence):
+        return self.tokenizer(
+            sentence,
+            return_attention_mask=True,
+            return_tensors="tf",
+            padding="max_length",
+            max_length=self.sequence_lenght,
+            truncation=True,
+        ).values()
+
+    @staticmethod
+    def _int64_feature(value):
+        """Returns an int64_list from a bool / enum / int / uint."""
+        return tf.train.Feature(int64_list=tf.train.Int64List(value=value))
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="")
     parser.add_argument(
-        "claim_path", metavar="path", type=str, help="the path to the sentence claims"
+        "claim_path",
+        metavar="claim_path",
+        type=str,
+        help="the path to the sentence claims",
     )
     parser.add_argument(
-        "set_type", metavar="type", type=DatasetType, help="validation or train"
-    )
-    parser.add_argument(
-        "-f", "--fever", action="store_true", help="is it a fever dataset or not"
-    )
-    parser.add_argument(
-        "-c",
-        "--corpus_path",
-        metavar="path",
+        "corpus_path",
+        metavar="corpus_path",
         type=str,
         help="the path to the sentence corpus",
     )
     parser.add_argument(
-        "-k",
-        metavar="k",
+        "set_type", metavar="set_type", type=DatasetType, help="validation or train"
+    )
+    parser.add_argument(
+        "-l",
+        "--max_length",
+        metavar="max_length",
         type=int,
         help="the number of not relevant sentence pr claim",
-        default=5,
+        default=128,
     )
 
     args = parser.parse_args()
-    print("initializing model")
-    model = SentenceTransformer("stsb-distilbert-base")
-    print("creating dataset")
-    if args.fever:
-        print("f is set")
-    elif args.corpus_path:
-        create_scifact_dataset(args.claim_path, args.corpus_path, model, args.set_type)
-    else:
-        print(
-            "Argument Error: use -f if its a feverdataset, else the -c argument is needed"
-        )
+    t = ScifactLSTMDataset(
+        args.set_type, args.claim_path, args.corpus_path, args.max_length
+    )()
