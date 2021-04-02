@@ -2,90 +2,83 @@ import os
 from pathlib import Path
 
 import tensorflow as tf
-from models.utils import get_highest_count, setup_tensorboard
-from datasets.datasetProcessing.lstm.loadDataset import load_lstm_validation_set, load_lstm_train_set
+from transformers import TFDistilBertModel, DistilBertConfig
 
-os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
+from models.utils import get_highest_count, setup_tensorboard
+from datasets.datasetProcessing.lstm.createDataset import (
+    ScifactLSTMDataset,
+    DatasetType,
+)
 
 _model_dir = (
     Path(os.path.realpath(__file__)).resolve().parents[1]
     / "trained_models/sentence_selection"
 )
 
+os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
-if not tf.test.is_gpu_available:
-    print("tf not availabel")
-    exit()
+def lstm_abstract_retriever(untis):
+    config = DistilBertConfig(dropout=0.2, attention_dropout=0.2)
+    config.output_hidden_states = False
 
-class TwoLayerAbstractRetriever(tf.keras.Model):
-    def __init__(self, units):
-        super(TwoLayerAbstractRetriever, self).__init__()
-        self.layer_1 = tf.keras.layers.LSTM(
-            units, return_sequences=True, recurrent_initializer="glorot_uniform"
-        )
-        # self.layer_2 = tf.keras.layers.LSTM(
-        #     units, recurrent_activation="relu", recurrent_initializer="glorot_uniform"
-        # )
-        self.classifier = tf.keras.layers.Dense(1, activation="softmax")
+    inputs = tf.keras.Input(shape=(3,128,), dtype="int32", name="sequence")
+    inputs_mask = tf.keras.Input(
+        shape=(3, 128,), dtype="int32", name="attention_masks"
+    )
+    reshaped_inputs = tf.reshape(inputs,[-1,128], name="seq_reshape")
+    reshaped_mask = tf.reshape(inputs_mask,[-1,128], name="seq_mask_reshape")
 
-    def call(self, inputs):
-        x = self.layer_1(inputs)
-        # x = self.layer_2(inputs)
-        return self.classifier(x)
+    embedding = TFDistilBertModel.from_pretrained(
+        "distilbert-base-uncased", config=config
+    )(reshaped_inputs, attention_mask=reshaped_mask)[0]
+    cls_tokens = embedding[:,0,:]
+    reshaped_cls = tf.reshape(cls_tokens, [-1, 3, 768], name="cls_reshape")
 
+    lstm = tf.keras.layers.LSTM(
+        untis, return_sequences=False, recurrent_initializer="glorot_uniform"
+    )(reshaped_cls)
 
-def train(model, batch_size, epochs):
-    data_set = (
-        load_lstm_train_set()
-        .shuffle(10000)
-        .batch(batch_size, drop_remainder=True)
+    outputs = tf.keras.layers.Dense(1, activation="sigmoid")(lstm)
+
+    model = tf.keras.Model(
+        inputs=[inputs, inputs_mask], outputs=outputs, name="bert-lstm-abstract-retriever"
     )
 
-    validation_set = (
-        load_lstm_validation_set()
-        .shuffle(10000)
-        .batch(batch_size, drop_remainder=True)
-    )
-
-    model.fit(
-        data_set,
-        validation_data=validation_set,
-        epochs=epochs,
-    )
+    model.summary()
 
     return model
 
+def train(model, epochs=10, batch_size=16, shuffle=True):
+    train = ScifactLSTMDataset(DatasetType.train).load().batch(batch_size)
+    val = ScifactLSTMDataset(DatasetType.validation).load().batch(batch_size)
 
+    model.fit(
+        train,
+        epochs=epochs,
+        shuffle=shuffle,
+        validation_data=val,
+    )
+
+# TODO: doesn't work right so find other way of doing thi.
 def load():
     count = get_highest_count(_model_dir)
-    path = str(_model_dir / "TwoLayerAbstractRetriever_{}".format(count))
+    path = str(_model_dir / "bert_lstm_abstract_retriver_{}".format(count))
     model = tf.keras.models.load_model(path)
     return model
 
+# TODO: doesn't work right
 def save(model):
     count = get_highest_count(_model_dir) + 1
-    path = str(_model_dir / "TwoLayerAbstractRetriever_{}".format(count))
+    path = str(_model_dir / "bert_lstm_abstract_retriver_{}".format(count))
     model.save(path)
     print("model saved to {}".format(path))
 
-
-def initialize_model(batch_size, units):
-    loss = tf.keras.losses.BinaryCrossentropy()
-    m = TwoLayerAbstractRetriever(units)
-    m.build((batch_size, None, 1536))
-    m.compile(optimizer="adam", loss=loss, metrics=["accuracy"])
-    m.summary()
-    return m
-
-
 if __name__ == "__main__":
-    BATCH_SIZE = 1
-
-    m = initialize_model(BATCH_SIZE, 512)
-
-    m = train(m, BATCH_SIZE, 10)
-
+    m = lstm_abstract_retriever(512)
+    loss = tf.keras.losses.BinaryCrossentropy()
+    m.compile(optimizer="adam", loss=loss)
+    
     save(m)
+    loaded = load()
+    loaded.summary()
 
-    loaded_model = load()
-    loaded_model.summary()
