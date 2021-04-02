@@ -8,6 +8,7 @@ datasets/validationDataset/*
 datasets/devDataset/*
 datasets/datasetProcessing/subTrainingDataset/*
 datasets/datasetProcessing/LstmTrainingDataset/*
+datasets/datasetProcessing/LstmValidationDataset/*
 BioSentVecEmbeddings/
 datasets/fever/*
 models/trained_models/*
