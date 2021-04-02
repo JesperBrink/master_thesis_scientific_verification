@@ -116,7 +116,9 @@ def run_pipeline(corpus_path, claims_path):
 
 
 if __name__ == "__main__":
-    corpus_path = "sbert-embedded-corpus.jsonl"
-    claims_path = "sbert-embedded-dev-claims.jsonl"
+    #corpus_path = "sbert-embedded-corpus.jsonl"
+    #claims_path = "sbert-embedded-dev-claims.jsonl"
+    corpus_path = "../stsb-distilbert-base-finetuned-scifact100-embedded-corpus.jsonl"
+    claims_path = "../stsb-distilbert-base-finetuned-scifact100-embedded-dev-claims.jsonl"
 
     run_pipeline(corpus_path, claims_path)
