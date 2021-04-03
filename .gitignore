@@ -6,9 +6,7 @@ __pycache__/
 datasets/trainingDataset/*
 datasets/validationDataset/*
 datasets/devDataset/*
-datasets/datasetProcessing/subTrainingDataset/*
-datasets/datasetProcessing/LstmTrainingDataset/*
-datasets/datasetProcessing/LstmValidationDataset/*
+datasets/datasetProcessing/tfrecords/*
 BioSentVecEmbeddings/
 datasets/fever/*
 models/trained_models/*
