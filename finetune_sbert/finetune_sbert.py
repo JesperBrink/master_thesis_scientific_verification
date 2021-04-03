@@ -54,9 +54,9 @@ def finetune_sbert(pretrained_model, fever_epochs, scifact_epochs, preprocess_st
 
 def get_output_name(pretrained_model, dataset_type, epochs, preprocess_stopwords):
     if preprocess_stopwords:
-        return "{}-{}-{}-no-stopwords".format(pretrained_model, dataset_type, epochs)
+        return "{}-finetuned-on-{}-{}-no-stopwords".format(pretrained_model, dataset_type, epochs)
     
-    return "{}-{}-{}".format(pretrained_model, dataset_type, epochs)
+    return "{}-finetuned-on-{}-{}".format(pretrained_model, dataset_type, epochs)
 
 
 if __name__ == "__main__":
