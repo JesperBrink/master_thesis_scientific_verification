@@ -7,8 +7,8 @@ from sentence_transformers import evaluation
 
 
 def load_training_data(preprocess_stopwords):
-    #fever_claims_path = "../datasets/fever/fever_train.jsonl"
-    fever_claims_path = "../datasets/fever/fever_dev.jsonl"
+    fever_claims_path = "../datasets/fever/fever_train.jsonl"
+    #fever_claims_path = "../datasets/fever/fever_dev.jsonl"
     
     if preprocess_stopwords:
         scifact_claims_path = "../datasets/scifact/claims_sub_train_no_stopwords.jsonl"
