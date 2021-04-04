@@ -4,7 +4,6 @@ from tqdm import tqdm
 import models.sentence_selection.model as sentence_selection_module
 from models.sentence_selection.cosine_similarity_model import CosineSimilaritySentenceSelector
 from models.filter_corpus.cosine_similarity import CosineSimilarityFilterModel
-from models.filter_corpus.bm25 import BM25FilterModel
 import models.stance_prediction.model as stance_prediction_module
 import time
 import tensorflow as tf
@@ -125,7 +124,6 @@ def run_pipeline(corpus_path, claims_path, sentence_selection_model, stance_pred
 class FilterModel(enum.Enum):
     NONE = "none"
     SBERT_COSINE_SIMILARITY = "cosine"
-    BM25 = "bm25" # separate bm25, i.e. bm25-sent and bm25-abstract?
 
 class SentenceSelctionModel(enum.Enum):
     TWO_LAYER_DENSE = "twolayer"
@@ -148,7 +146,7 @@ if __name__ == "__main__":
         "filter_model",
         metavar="filter",
         type=FilterModel,
-        help="Which pruning model to use. none = No pruning, cosine = SBERT + cosine similarity, bm25 = BM25",
+        help="Which pruning model to use. none = No pruning, cosine = SBERT + cosine similarity",
     )
     parser.add_argument(
         "sentence_selection_model",
@@ -169,8 +167,6 @@ if __name__ == "__main__":
         filter_model = None
     elif args.filter_model == FilterModel.SBERT_COSINE_SIMILARITY:
         filter_model = CosineSimilarityFilterModel()
-    elif args.filter_model == FilterModel.BM25:
-        filter_model = BM25FilterModel(corpus_path)
     else:
         raise NotImplementedError()
 
