@@ -28,7 +28,7 @@ def finetune_sbert(pretrained_model, fever_epochs, scifact_epochs, with_dense_la
     if fever_epochs > 0:
         fever_model = initialize_model(pretrained_model, with_dense_layer)
         train_loss = losses.CosineSimilarityLoss(fever_model)
-        fever_output_name = get_output_name(pretrained_model, "fever", fever_epochs, preprocess_stopwords)
+        fever_output_name = get_output_name(pretrained_model, "fever", fever_epochs, with_dense_layer, preprocess_stopwords)
 
         if  os.path.exists(fever_output_name):
             print("Adding 'NEW' to model name, instead of overwriting existing")
@@ -45,10 +45,10 @@ def finetune_sbert(pretrained_model, fever_epochs, scifact_epochs, with_dense_la
     if scifact_epochs > 0:
         if fever_epochs > 0:
             scifact_model = SentenceTransformer(fever_output_name)
-            scifact_output_name = get_output_name(pretrained_model, "fever-{}-scifact".format(fever_epochs), scifact_epochs, preprocess_stopwords)
+            scifact_output_name = get_output_name(pretrained_model, "fever-{}-scifact".format(fever_epochs), scifact_epochs, with_dense_layer, preprocess_stopwords)
         else:
             scifact_model = initialize_model(pretrained_model, with_dense_layer)
-            scifact_output_name = get_output_name(pretrained_model, "scifact", scifact_epochs, preprocess_stopwords)
+            scifact_output_name = get_output_name(pretrained_model, "scifact", scifact_epochs, with_dense_layer, preprocess_stopwords)
 
         scifact_train_loss = losses.CosineSimilarityLoss(scifact_model)
 
@@ -65,11 +65,15 @@ def finetune_sbert(pretrained_model, fever_epochs, scifact_epochs, with_dense_la
         )
 
 
-def get_output_name(pretrained_model, dataset_type, epochs, preprocess_stopwords):
+def get_output_name(pretrained_model, dataset_type, epochs, with_dense_layer, preprocess_stopwords):
+    output = "{}-finetuned-on-{}-{}".format(pretrained_model, dataset_type, epochs)
+
+    if with_dense_layer:
+        output += "-dense"
     if preprocess_stopwords:
-        return "{}-finetuned-on-{}-{}-no-stopwords".format(pretrained_model, dataset_type, epochs)
+        output += "-no-stopwords"
     
-    return "{}-finetuned-on-{}-{}".format(pretrained_model, dataset_type, epochs)
+    return output
 
 
 if __name__ == "__main__":
