@@ -1,19 +1,32 @@
 import os
 import argparse
 
-from sentence_transformers import SentenceTransformer, losses
+from sentence_transformers import SentenceTransformer, losses, models
 from torch.utils.data import DataLoader
+from torch import nn
+
 from load_data import load_training_data, load_evaluator
 
 
-def finetune_sbert(pretrained_model, fever_epochs, scifact_epochs, preprocess_stopwords):
+def initialize_model(pretrained_model, with_dense_layer=False):
+    if not with_dense_layer:
+        return SentenceTransformer(pretrained_model)
+
+    word_embedding_model = models.Transformer(pretrained_model)
+    pooling_model = models.Pooling(word_embedding_model.get_word_embedding_dimension())
+    dense_model = models.Dense(in_features=pooling_model.get_sentence_embedding_dimension(), out_features=256, activation_function=nn.Tanh())
+    
+    return SentenceTransformer(modules=[word_embedding_model, pooling_model, dense_model])
+
+
+def finetune_sbert(pretrained_model, fever_epochs, scifact_epochs, with_dense_layer, preprocess_stopwords):
     scifact_training_data, fever_training_data = load_training_data(preprocess_stopwords)
     scifact_train_dataloader = DataLoader(scifact_training_data, shuffle=True, batch_size=32)
     fever_train_dataloader = DataLoader(fever_training_data, shuffle=True, batch_size=32)
     evaluator = load_evaluator(preprocess_stopwords)
 
     if fever_epochs > 0:
-        fever_model = SentenceTransformer(pretrained_model)
+        fever_model = initialize_model(pretrained_model, with_dense_layer)
         train_loss = losses.CosineSimilarityLoss(fever_model)
         fever_output_name = get_output_name(pretrained_model, "fever", fever_epochs, preprocess_stopwords)
 
@@ -34,7 +47,7 @@ def finetune_sbert(pretrained_model, fever_epochs, scifact_epochs, preprocess_st
             scifact_model = SentenceTransformer(fever_output_name)
             scifact_output_name = get_output_name(pretrained_model, "fever-{}-scifact".format(fever_epochs), scifact_epochs, preprocess_stopwords)
         else:
-            scifact_model = SentenceTransformer(pretrained_model)
+            scifact_model = initialize_model(pretrained_model, with_dense_layer)
             scifact_output_name = get_output_name(pretrained_model, "scifact", scifact_epochs, preprocess_stopwords)
 
         scifact_train_loss = losses.CosineSimilarityLoss(scifact_model)
@@ -78,6 +91,12 @@ if __name__ == "__main__":
         "--scifact_epochs",
         help="number of epochs on scifact",
         type=int,
+    )
+    parser.add_argument(
+        "-d",
+        "--dense",
+        help="set if you want the model to have a dense layer",
+        action="store_true",
     ) 
     parser.add_argument(
         "-p",
@@ -87,5 +106,5 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    finetune_sbert(args.pretrained_model, args.fever_epochs, args.scifact_epochs, args.preprocess_stopwords)
+    finetune_sbert(args.pretrained_model, args.fever_epochs, args.scifact_epochs, args.dense, args.preprocess_stopwords)
     
