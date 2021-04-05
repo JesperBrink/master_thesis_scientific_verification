@@ -10,3 +10,4 @@ datasets/datasetProcessing/tfrecords/*
 BioSentVecEmbeddings/
 datasets/fever/*
 models/trained_models/*
+logs/*
