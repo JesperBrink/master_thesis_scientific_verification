@@ -5,9 +5,13 @@ from tqdm import tqdm
 from removeparentheses import remove_parentheses
 from removesections import remove_sections
 from removestopwords import remove_stopwords
+from lemmatization import lemmatization
+from lowercase import lowercase
 from embed import s_bert_embed
 from functools import reduce
 
+# lowercasing (or is this handled during tokenization?)
+# noise removal (e.g. unicode)?
 
 def execute(inp, function):
     return function(inp)
@@ -25,6 +29,8 @@ class Preprocessor(enum.Enum):
     Parantheses = "paren"
     Section = "section"
     StopWords = "stopwords"
+    Lemmatization = "lemma"
+    Lowercase = "lowercase"
 
 
 if __name__ == "__main__":
@@ -60,6 +66,8 @@ if __name__ == "__main__":
             preprocessors.append(remove_sections)
         elif preprocessor == Preprocessor.StopWords:
             preprocessors.append(remove_stopwords)
+        elif preprocessor == Preprocessor.Lemmatization:
+            preprocessors.append(lemmatization)
 
     if args.embed:
         preprocessors.append(lambda d: s_bert_embed(d, args.embed))
