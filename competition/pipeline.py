@@ -167,8 +167,6 @@ if __name__ == "__main__":
         filter_model = None
     elif args.filter_model == FilterModel.SBERT_COSINE_SIMILARITY:
         filter_model = CosineSimilarityFilterModel()
-    elif args.filter_model == FilterModel.BM25:
-        filter_model = BM25FilterModel(corpus_path)
     else:
         raise NotImplementedError()
 
