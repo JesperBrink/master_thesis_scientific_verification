@@ -1,0 +1,2 @@
+## How to run
+Give path to claims (either raw text or embeddings, depending on model), path to corpus (either raw text or embeddings, depending on model), level (abstract or sentence), and finally which filter model to use

@@ -14,10 +14,11 @@ class CosineSimilarityFilterModel():
         return top_k_embeddings
     
 
-    def get_top_k_by_similarity_with_ids(self, claim, corpus_embeddings, corp_id, k):
+    def get_top_k_by_similarity_with_ids(self, claim, corpus_embeddings, corp_id, k, level):
         claim_embedding = tf.cast(claim["claim"], tf.float64)
         similarities = get_cosine_similarities(claim_embedding, corpus_embeddings)
         values, indices = tf.math.top_k(similarities, k, sorted=True)
         top_k_sentences = tf.gather(corp_id, indices)
+        # TODO: Does not work for abstract level, as this requires handling level either here or in corp_id
 
         return top_k_sentences
