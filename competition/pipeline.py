@@ -125,7 +125,6 @@ def run_pipeline(corpus_path, claims_path, sentence_selection_model, stance_pred
 class FilterModel(enum.Enum):
     NONE = "none"
     SBERT_COSINE_SIMILARITY = "cosine"
-    BM25 = "bm25" # separate bm25, i.e. bm25-sent and bm25-abstract?
 
 class SentenceSelctionModel(enum.Enum):
     TWO_LAYER_DENSE = "twolayer"
