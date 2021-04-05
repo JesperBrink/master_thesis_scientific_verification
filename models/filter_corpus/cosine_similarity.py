@@ -19,6 +19,8 @@ class CosineSimilarityFilterModel():
         similarities = get_cosine_similarities(claim_embedding, corpus_embeddings)
         values, indices = tf.math.top_k(similarities, k, sorted=True)
         top_k_sentences = tf.gather(corp_id, indices)
-        # TODO: Does not work for abstract level, as this requires handling level either here or in corp_id
+        
+        if level == "abstract":
+            print("Note: Not yet implemented, currently compares similarity for (and returns) sentences, but compares to gold abstracts")
 
         return top_k_sentences

@@ -1,7 +1,6 @@
 from competition.pipeline import setup_sentence_embeddings
 from models.filter_corpus.cosine_similarity import CosineSimilarityFilterModel
 from models.filter_corpus.bm25 import BM25FilterModel
-from models.filter_corpus.bm25_v2 import BM25V2FilterModel
 from utils.evaluationutils import compute_f1, compute_precision, compute_recall
 import jsonlines
 from tqdm import tqdm
@@ -71,7 +70,6 @@ def get_correct_at_top_k(claim, top, k, level):
 class FilterModel(enum.Enum):
     SBERT_COSINE_SIMILARITY = "cosine"
     BM25 = "bm25"
-    BM25V2 = "bm25v2"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Calculate accuracies of sentence selection")
@@ -91,18 +89,14 @@ if __name__ == "__main__":
         "filter_model",
         metavar="filter",
         type=FilterModel,
-        help="Which pruning model to use. cosine = SBERT + cosine similarity, bm25 = BM25",
+        help="Which pruning model to use. cosine = SBERT + cosine similarity, bm25 = BM25 Pyserini version (used in VERT5ERINI)",
     )
     args = parser.parse_args()
-
-    model = CosineSimilarityFilterModel()
 
     if args.filter_model == FilterModel.SBERT_COSINE_SIMILARITY:
         filter_model = CosineSimilarityFilterModel()
     elif args.filter_model == FilterModel.BM25:
-        filter_model = BM25FilterModel("../../datasets/scifact/corpus.jsonl", args.level)
-    elif args.filter_model == FilterModel.BM25V2:
-        filter_model = BM25V2FilterModel("../../datasets/scifact/corpus.jsonl", "bm25_corpus.jsonl", "bm25_index.jsonl", args.level)
+        filter_model = BM25FilterModel("../../datasets/scifact/corpus.jsonl", "bm25_corpus.jsonl", "bm25_index.jsonl", args.level)
     else:
         raise NotImplementedError()
 
