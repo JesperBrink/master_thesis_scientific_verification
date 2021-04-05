@@ -68,6 +68,8 @@ if __name__ == "__main__":
             preprocessors.append(remove_stopwords)
         elif preprocessor == Preprocessor.Lemmatization:
             preprocessors.append(lemmatization)
+        elif preprocessor == Preprocessor.Lowercase:
+            preprocessors.append(lowercase)
 
     if args.embed:
         preprocessors.append(lambda d: s_bert_embed(d, args.embed))
