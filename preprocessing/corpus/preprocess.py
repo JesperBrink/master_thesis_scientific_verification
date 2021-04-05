@@ -7,10 +7,10 @@ from removesections import remove_sections
 from removestopwords import remove_stopwords
 from lemmatization import lemmatization
 from lowercase import lowercase
+from stemming import stemming
 from embed import s_bert_embed
 from functools import reduce
 
-# lowercasing (or is this handled during tokenization?)
 # noise removal (e.g. unicode)?
 
 def execute(inp, function):
@@ -31,6 +31,7 @@ class Preprocessor(enum.Enum):
     StopWords = "stopwords"
     Lemmatization = "lemma"
     Lowercase = "lowercase"
+    Stemming = "stem"
 
 
 if __name__ == "__main__":
@@ -70,6 +71,8 @@ if __name__ == "__main__":
             preprocessors.append(lemmatization)
         elif preprocessor == Preprocessor.Lowercase:
             preprocessors.append(lowercase)
+        elif preprocessor == Preprocessor.Stemming:
+            preprocessors.append(stemming)
 
     if args.embed:
         preprocessors.append(lambda d: s_bert_embed(d, args.embed))
