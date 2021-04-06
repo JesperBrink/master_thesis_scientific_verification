@@ -13,6 +13,7 @@ import time
 import tensorflow as tf
 import enum
 import argparse
+import torch
 
 
 class NoopAbstractRetriever:
@@ -64,6 +65,7 @@ class FilterModel(enum.Enum):
 class SentenceSelctionModel(enum.Enum):
     TWO_LAYER_DENSE = "twolayer"
     SBERT_COSINE_SIMILARITY = "cosine"
+    PYTORCH_PRETRAINED_TWO_LAYER_DENSE = "pytorch_twolayer" 
 
 class StancePredictionModel(enum.Enum):
     TWO_LAYER_DENSE = "twolayer"
