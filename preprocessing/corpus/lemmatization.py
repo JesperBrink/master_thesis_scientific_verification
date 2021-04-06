@@ -8,9 +8,9 @@ def lemmatization(doc):
 
     for sentence_idx, sentence in enumerate(doc["abstract"]):
         sent = []
-        for w in word_tokenize(sentence):
+        for w in sentence.split():
             # NOTE: To get pos tag we need to tokenize, which may not be desirable, as we then do more than one thing
-            for word, pos in pos_tag(w): 
+            for word, pos in pos_tag(word_tokenize(w)): 
                 # Simply lemmatizing everything may give wrong results according to SO, as the lemmatizer assumes noun if no POS tag is given
                 if get_wordnet_pos(pos) is not None:
                     word = lemmatizer.lemmatize(word, get_wordnet_pos(pos))
