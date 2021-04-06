@@ -5,6 +5,10 @@ from tqdm import tqdm
 from embed import s_bert_embed
 from functools import reduce
 from removestopwords import remove_stopwords
+from lemmatization import lemmatization
+from lowercase import lowercase
+from stemming import stemming
+
 
 
 def execute(inp, function):
@@ -19,6 +23,12 @@ def preprocess(data_set_path, out_put_path, *options):
                 output.write(preprocessed_doc)
 
 
+class Preprocessor(enum.Enum):
+    StopWords = "stopwords"
+    Lemmatization = "lemma"
+    Lowercase = "lowercase"
+    Stemming = "stem"
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Preprocess a claims")
     parser.add_argument(
@@ -31,9 +41,11 @@ if __name__ == "__main__":
         help="the path to the preprocessed output",
     )
     parser.add_argument(
-        "-s",
-        "--stopwords",
-        help="set if you want to filter away stop-words",
+        "preprocessors",
+        metavar="preprocessors",
+        type=Preprocessor,
+        help="list of functions used for preprocessing",
+        nargs="*",
     )
     parser.add_argument(
         "-e",
@@ -44,9 +56,17 @@ if __name__ == "__main__":
     args = parser.parse_args()
     preprocessors = []
 
+    for preprocessor in args.preprocessors:
+        if preprocessor == Preprocessor.StopWords:
+            preprocessors.append(remove_stopwords)
+        elif preprocessor == Preprocessor.Lemmatization:
+            preprocessors.append(lemmatization)
+        elif preprocessor == Preprocessor.Lowercase:
+            preprocessors.append(lowercase)
+        elif preprocessor == Preprocessor.Stemming:
+            preprocessors.append(stemming)
+
     if args.embed:
         preprocessors.append(lambda d: s_bert_embed(d, args.embed))
-    if args.stopwords:
-        preprocessors.append(remove_stopwords)
 
     preprocess(args.claims_path, args.output_path, *preprocessors)
