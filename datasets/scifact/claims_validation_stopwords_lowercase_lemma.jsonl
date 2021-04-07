@@ -1,0 +1,80 @@
+{"id": 1268, "claim": "risk cancer rise level alcohol consumption .", "evidence": {"52072815": [{"sentences": [8], "label": "SUPPORT"}, {"sentences": [11], "label": "SUPPORT"}]}, "cited_doc_ids": [52072815]}
+{"id": 1269, "claim": "risk female prisoner harm ten time male prisoner .", "evidence": {"13900610": [{"sentences": [7], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}]}, "cited_doc_ids": [13900610]}
+{"id": 1275, "claim": "tip inner tube toxic type vi secretion system ( t6ss ) antibacterial effector escherichia coli ( e . coli ) decorate vgrg paar protein .", "evidence": {}, "cited_doc_ids": [27731651]}
+{"id": 1276, "claim": "tissue surround granuloma immune cell induces anti-inflammatory immune response .", "evidence": {"3475317": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [3475317]}
+{"id": 1284, "claim": "therapeutics receive accelerate approval encounter low frequency post-marketing safety event", "evidence": {"3578380": [{"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [3578380]}
+{"id": 1288, "claim": "positive correlation hip fracture statin use .", "evidence": {"4687948": [{"sentences": [7], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}, {"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [4687948]}
+{"id": 1289, "claim": "relation erythromycin use hypertrophic pyloric stenosis .", "evidence": {"21239672": [{"sentences": [9], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [21239672]}
+{"id": 1291, "claim": "association hnf4a mutation diabetes risk .", "evidence": {}, "cited_doc_ids": [56893404]}
+{"id": 1293, "claim": "increase risk hypospadias clomiphene .", "evidence": {"43329366": [{"sentences": [1], "label": "CONTRADICT"}]}, "cited_doc_ids": [43329366]}
+{"id": 1294, "claim": "know interaction pioneer factor oct3/4 major chromatin remodel factor .", "evidence": {"2078658": [{"sentences": [3], "label": "CONTRADICT"}], "30507607": [{"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [2078658, 30507607]}
+{"id": 1295, "claim": "relation erythromycin use hypertrophic pyloric stenosis .", "evidence": {"21239672": [{"sentences": [9], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}]}, "cited_doc_ids": [21239672]}
+{"id": 1297, "claim": "estimate 30 million case pneumonia young child worldwide 2010 .", "evidence": {"9167230": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [9167230]}
+{"id": 1300, "claim": "thiopurine active metabolite catabolize dephosphorylation thioguanine nucleotide .", "evidence": {}, "cited_doc_ids": [6421792]}
+{"id": 1302, "claim": "tirasemtiv effect cardiac muscle .", "evidence": {}, "cited_doc_ids": [12631697]}
+{"id": 1304, "claim": "tirasemtiv target cardiac muscle .", "evidence": {}, "cited_doc_ids": [12631697]}
+{"id": 1305, "claim": "tirasemtiv target fast-twitch muscle .", "evidence": {"12631697": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [12631697]}
+{"id": 1306, "claim": "toll-like receptor ( tlr ) signal involve pathogenesis human mds .", "evidence": {}, "cited_doc_ids": [6000423, 5836]}
+{"id": 1307, "claim": "tonic signal scfv induces constitutive stimulation .", "evidence": {}, "cited_doc_ids": [18231807]}
+{"id": 1308, "claim": "tonic signal scfv amplify myd88/cd40 .", "evidence": {}, "cited_doc_ids": [18231807]}
+{"id": 1309, "claim": "tonic signal scfv prevents constitutive stimulation .", "evidence": {}, "cited_doc_ids": [18231807]}
+{"id": 1310, "claim": "traditional review bias interpretation .", "evidence": {}, "cited_doc_ids": [8042158]}
+{"id": 1311, "claim": "trans-acting factor , lncrnas , influence mrna translation .", "evidence": {"13763195": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [13763195]}
+{"id": 1312, "claim": "transcription factor eb induces transcription pro-inflammatory cytokine macrophage infect staphylococcus aureus .", "evidence": {"24177706": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [24177706]}
+{"id": 1314, "claim": "transcription rate s . cerevisiae range 0.7 2 kb/min .", "evidence": {}, "cited_doc_ids": [13072112, 16237005]}
+{"id": 1315, "claim": "transcription rate s . cerevisiae range 7 12 kb/min .", "evidence": {}, "cited_doc_ids": [13072112, 16237005]}
+{"id": 1322, "claim": "transplanted human glial progenitor cell mature host animal .", "evidence": {"16284655": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [16284655]}
+{"id": 1323, "claim": "treatment protein name fn impairs regenerative ability age muscle .", "evidence": {"19912367": [{"sentences": [2], "label": "CONTRADICT"}, {"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [19912367]}
+{"id": 1324, "claim": "treatment protein name fn restores regenerative ability age muscle .", "evidence": {"19912367": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [19912367]}
+{"id": 1325, "claim": "treatment ec uptake inhibitor am404 result dose-dependent decrease expression immobility .", "evidence": {}, "cited_doc_ids": [40476126]}
+{"id": 1327, "claim": "tuberculosis incidence occurs high rate sparsely populate area uk .", "evidence": {"24241932": [{"sentences": [6], "label": "CONTRADICT"}, {"sentences": [7], "label": "CONTRADICT"}], "22194407": [{"sentences": [3], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [24241932, 22194407]}
+{"id": 1328, "claim": "tuberculosis-induced granuloma express different immune system protein signature surround tissue .", "evidence": {"3475317": [{"sentences": [4, 5], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [3475317]}
+{"id": 1330, "claim": "tumor development occurs conjunction suppression pro-inflammatory cytokine .", "evidence": {}, "cited_doc_ids": [14075252]}
+{"id": 1331, "claim": "tumor development occurs conjunction upregulation pro-inflammatory cytokine .", "evidence": {}, "cited_doc_ids": [14075252]}
+{"id": 1333, "claim": "two variant chromosome 6q21 associate radiation therapy-induced second malignancy pediatric hodgkin lymphoma patient .", "evidence": {"1649738": [{"sentences": [1], "label": "SUPPORT"}]}, "cited_doc_ids": [1649738]}
+{"id": 1334, "claim": "type 1 diabetes associate subtle perturbation reg development .", "evidence": {"13940200": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}], "11899391": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [13923140, 13940200, 11899391]}
+{"id": 1340, "claim": "ultrasound guidance significantly reduces number needle insertion attempt necessary give procedure .", "evidence": {"15482274": [{"sentences": [9], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [15482274]}
+{"id": 1341, "claim": "ultrasound guidance significantly reduces number traumatic procedure attempt needle insertion .", "evidence": {"15482274": [{"sentences": [7, 8, 9], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [15482274]}
+{"id": 1342, "claim": "understanding epigenetic regulation replication essential reational design episomally replicate vector .", "evidence": {}, "cited_doc_ids": [8148122]}
+{"id": 1345, "claim": "up-regulation p53 pathway related molecular event speed cancer progression .", "evidence": {}, "cited_doc_ids": [9559146]}
+{"id": 1346, "claim": "upon develop tyrosine-kinase inhibitor resistance , new mutation epidermal growth factor receptor emerge cause treatment failure .", "evidence": {"9505402": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [9505402]}
+{"id": 1347, "claim": "upon viral challenge , influenza-specific memory cd4+ cell greatly diminish early production inflammatory chemokines lung .", "evidence": {"19005293": [{"sentences": [2], "label": "CONTRADICT"}]}, "cited_doc_ids": [19005293]}
+{"id": 1348, "claim": "upon viral challenge , influenza-specific memory cd4+ cell greatly enhance early production inflammatory chemokines lung .", "evidence": {"19005293": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [19005293]}
+{"id": 1349, "claim": "upregulation pd1 cause downmodulation satb1 .", "evidence": {}, "cited_doc_ids": [5377642]}
+{"id": 1350, "claim": "upregulation pd1 cause upregulation satb1 .", "evidence": {}, "cited_doc_ids": [5377642]}
+{"id": 1351, "claim": "upregulation dynein drosophila neuron increase number microtubule plus-ends grow toward cell body neuron .", "evidence": {"28369117": [{"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [28369117]}
+{"id": 1353, "claim": "urbanization important risk factor related transmission dengue fever .", "evidence": {}, "cited_doc_ids": [18816720]}
+{"id": 1355, "claim": "v-9302 inhibits antitumor response decrease cell death oxidative stress .", "evidence": {"5256564": [{"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [5256564]}
+{"id": 1356, "claim": "vaccinating gastrointestinal tract induces protection rectal vaginal mucosa .", "evidence": {"13764090": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [13764090]}
+{"id": 1360, "claim": "varenicline monotherapy effective 26 week treatment compare combination nicotine replacement therapy varenicline bupropion .", "evidence": {"11614737": [{"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [11614737]}
+{"id": 1361, "claim": "varying expression level ebi2 affect position migration b cell .", "evidence": {"15488881": [{"sentences": [2, 3], "label": "SUPPORT"}], "15058155": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [15488881, 15058155]}
+{"id": 1364, "claim": "venules less significant tunica adventitia arteriole .", "evidence": {}, "cited_doc_ids": [8290953]}
+{"id": 1366, "claim": "vgrg ( tssl ) protein puncture membrane form spike tip tube apparatus .", "evidence": {"4406819": [{"sentences": [2, 4], "label": "SUPPORT"}]}, "cited_doc_ids": [4406819]}
+{"id": 1367, "claim": "vitamin deficiency effect birth weight .", "evidence": {"2425364": [{"sentences": [10], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}]}, "cited_doc_ids": [2425364]}
+{"id": 1371, "claim": "vitamin important factor relationship calcium parathyroid hormone .", "evidence": {"16256507": [{"sentences": [7], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}]}, "cited_doc_ids": [16256507]}
+{"id": 1372, "claim": "walking traffic area london improve lung function elderly adult .", "evidence": {"21003930": [{"sentences": [10], "label": "SUPPORT"}, {"sentences": [11, 12], "label": "SUPPORT"}, {"sentences": [15], "label": "SUPPORT"}]}, "cited_doc_ids": [21003930]}
+{"id": 1373, "claim": "walking traffic area london improves lung function elderly adult .", "evidence": {"21003930": [{"sentences": [10], "label": "CONTRADICT"}, {"sentences": [11, 12], "label": "CONTRADICT"}, {"sentences": [15], "label": "CONTRADICT"}]}, "cited_doc_ids": [21003930]}
+{"id": 1374, "claim": "weighed food record ( wfr ) result high completion since they 're cheap run impose low participant burden .", "evidence": {}, "cited_doc_ids": [21993510]}
+{"id": 1375, "claim": "weighed food record ( wfr ) result poor completion since they 're costly run impose high participant burden .", "evidence": {}, "cited_doc_ids": [21993510]}
+{"id": 1376, "claim": "whole brain radiotherapy increase occurrence new brain metastasis .", "evidence": {"3944632": [{"sentences": [6], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}]}, "cited_doc_ids": [3944632]}
+{"id": 1378, "claim": "women susceptible death due pneumonia compare men .", "evidence": {"2488880": [{"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [2488880]}
+{"id": 1380, "claim": "women low birth weight likely develop breast cancer later life .", "evidence": {"16322674": [{"sentences": [5], "label": "CONTRADICT"}, {"sentences": [6], "label": "CONTRADICT"}], "23557241": [{"sentences": [6], "label": "CONTRADICT"}], "17450673": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [16322674, 23557241, 17450673]}
+{"id": 1381, "claim": "yap/taz require intestinal regeneration mouse model ulcerative colitis .", "evidence": {"13481880": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [13481880]}
+{"id": 1383, "claim": "apkcz cause tumour suppression affect glutamine metabolism .", "evidence": {"17755060": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [17755060]}
+{"id": 1386, "claim": "csmac formation represses weak ligand signalling .", "evidence": {"306006": [{"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [306006]}
+{"id": 1387, "claim": "ernas influence link senescence , aging , carcinogenesis .", "evidence": {}, "cited_doc_ids": [9669099]}
+{"id": 1390, "claim": "mcm 5 2 u require proper decode nnr codon eukaryote .", "evidence": {"2890952": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [2890952]}
+{"id": 1391, "claim": "mir-142-5p know regulator raise body temperature .", "evidence": {"6766459": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [6766459]}
+{"id": 1392, "claim": "mir-142-5p temperature-sensitive microrna ( mirna ) .", "evidence": {"6766459": [{"sentences": [4, 5], "label": "SUPPORT"}]}, "cited_doc_ids": [6766459]}
+{"id": 1393, "claim": "mirnas enforce homeostasis suppress low-level ''leaky '' transcription .", "evidence": {"12440953": [{"sentences": [1], "label": "SUPPORT"}]}, "cited_doc_ids": [2000038, 12440953]}
+{"id": 1394, "claim": "mirnas regulate unique suite mrnas maintain homeostasis cell .", "evidence": {}, "cited_doc_ids": [2251426]}
+{"id": 1397, "claim": "p16ink4a degradation link abnormal wound response cause microinvasive step advanced oral potentially malignant lesions ( opmls ) .", "evidence": {}, "cited_doc_ids": [17717391]}
+{"id": 1398, "claim": "p16ink4a degradation encode cdkn2a .", "evidence": {}, "cited_doc_ids": [17717391]}
+{"id": 1400, "claim": "p75 ntr - associate cell death executor ( nade ) interacts p75 ntr death domain", "evidence": {}, "cited_doc_ids": [14706752]}
+{"id": 1401, "claim": "qsofa score associate length stay emergency department patient .", "evidence": {}, "cited_doc_ids": [5185871]}
+{"id": 1402, "claim": "r-protein chaperone found complex r-protein binding partner .", "evidence": {}, "cited_doc_ids": [8126244]}
+{"id": 1403, "claim": "sirna knockdown a20 accelerates tumor progression vivo murine xenograft model .", "evidence": {"33370": [{"sentences": [6], "label": "CONTRADICT"}], "38355793": [{"sentences": [7], "label": "CONTRADICT"}, {"sentences": [8], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [33370, 38355793]}
+{"id": 1404, "claim": "sirna knockdown a20 slows tumor progression vivo murine xenograft model .", "evidence": {"33370": [{"sentences": [6], "label": "SUPPORT"}], "38355793": [{"sentences": [7], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}]}, "cited_doc_ids": [33370, 38355793]}
+{"id": 1405, "claim": "taa1 tar1 tar2 triple mutant arabidopsis make root meristem embryogenesis .", "evidence": {}, "cited_doc_ids": [10504681]}
+{"id": 1406, "claim": "β-sheet opening occurs pleurotolysin pore formation .", "evidence": {"2617858": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [2617858]}
+{"id": 1407, "claim": "β1/ketel able bind microtubule .", "evidence": {}, "cited_doc_ids": [8087082, 29863668]}

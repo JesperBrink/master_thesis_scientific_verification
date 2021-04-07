@@ -1,0 +1,729 @@
+{"id": 0, "claim": "0-dimension biomateri lack induct properti .", "evidence": {}, "cited_doc_ids": [31715818]}
+{"id": 2, "claim": "1 5 million uk abnorm prp posit .", "evidence": {"13734012": [{"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [13734012]}
+{"id": 4, "claim": "1-1 % colorect cancer patient diagnos region distant metastas .", "evidence": {}, "cited_doc_ids": [22942787]}
+{"id": 6, "claim": "10 % sudden infant death syndrom ( sid ) death happen newborn age less 6 month .", "evidence": {}, "cited_doc_ids": [2613775]}
+{"id": 9, "claim": "32 % liver transplant program requir patient discontinu methadon treatment 2001 .", "evidence": {"44265107": [{"sentences": [15], "label": "SUPPORT"}]}, "cited_doc_ids": [44265107]}
+{"id": 10, "claim": "4-pba treatment decreas endoplasm reticulum stress respons general endoplasm reticulum stress marker .", "evidence": {}, "cited_doc_ids": [32587939]}
+{"id": 11, "claim": "4-pba treatment rais endoplasm reticulum stress respons general endoplasm reticulum stress marker .", "evidence": {}, "cited_doc_ids": [32587939]}
+{"id": 12, "claim": "40mg/day dosag folic acid 2mg/day dosag vitamin b12 affect chronic kidney diseas ( ckd ) progress .", "evidence": {"33409100": [{"sentences": [8], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}]}, "cited_doc_ids": [33409100]}
+{"id": 14, "claim": "5'-nucleotidas metabol 6mp .", "evidence": {}, "cited_doc_ids": [641786]}
+{"id": 15, "claim": "50 % patient expos radiat activ marker mesenchym stem cell .", "evidence": {}, "cited_doc_ids": [22080671]}
+{"id": 17, "claim": "53 % perinat mortal due low birth weight .", "evidence": {}, "cited_doc_ids": [1606628]}
+{"id": 18, "claim": "61 % colorect cancer patient diagnos region distant metastas .", "evidence": {}, "cited_doc_ids": [22942787]}
+{"id": 19, "claim": "7-day-old adult caenorhabd elegan exhibit approxim 5 % learn capac seen 1-day old adult .", "evidence": {}, "cited_doc_ids": [3202143]}
+{"id": 20, "claim": "7-day-old adult caenorhabd elegan exhibit approxim 75 % learn capac seen 1-day old adult .", "evidence": {}, "cited_doc_ids": [3202143]}
+{"id": 21, "claim": "70 % burn patient admit hospit treatment appear hospit emerg ward outpati clinic .", "evidence": {}, "cited_doc_ids": [41493639]}
+{"id": 22, "claim": "76-85 % peopl sever mental disord receiv treatment low middl incom countri .", "evidence": {"6490571": [{"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [6490571]}
+{"id": 24, "claim": "90 % patient melanoma object respons pd-1 blockad experi progress melanoma .", "evidence": {}, "cited_doc_ids": [3471191]}
+{"id": 25, "claim": "90 % sudden infant death syndrom ( sid ) death happen newborn age less 6 month .", "evidence": {}, "cited_doc_ids": [2613775]}
+{"id": 26, "claim": "100g dose chloroquin chemoprophylact regimen result retin toxic 1 year week intak .", "evidence": {}, "cited_doc_ids": [32390525]}
+{"id": 27, "claim": "100g dose chloroquin chemoprophylact regimen result retin toxic 5-6 year week intak .", "evidence": {}, "cited_doc_ids": [32390525]}
+{"id": 28, "claim": "helper 2 cell ( th2 ) environ imped diseas develop patient system lupus erythematosus ( sle ) .", "evidence": {"12670680": [{"sentences": [1], "label": "CONTRADICT"}, {"sentences": [2], "label": "CONTRADICT"}, {"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [12670680]}
+{"id": 30, "claim": "breast cancer patient 's capac metabol tamoxifen influenc treatment outcom .", "evidence": {"24341590": [{"sentences": [10], "label": "SUPPORT"}, {"sentences": [11], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}, {"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [24341590]}
+{"id": 32, "claim": "countri 's vaccin allianc ( gavi ) elig indictiv acceler adopt hub vaccin .", "evidence": {"12428497": [{"sentences": [8], "label": "CONTRADICT"}]}, "cited_doc_ids": [12428497]}
+{"id": 34, "claim": "defici folat increas blood level homocystein .", "evidence": {"11705328": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [11705328]}
+{"id": 35, "claim": "defici vitamin b12 decreas blood level homocystein .", "evidence": {}, "cited_doc_ids": [5152028, 11705328]}
+{"id": 37, "claim": "defici vitamin b6 decreas blood level homocystein .", "evidence": {}, "cited_doc_ids": [5152028, 11705328]}
+{"id": 39, "claim": "diminish ovarian reserv sole indic infertil priori non-infertil popul .", "evidence": {"13497630": [{"sentences": [7], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}, {"sentences": [11], "label": "SUPPORT"}]}, "cited_doc_ids": [13497630]}
+{"id": 40, "claim": "diminish ovarian reserv strong indic infertil , even priori non-infertil popul .", "evidence": {"13497630": [{"sentences": [7], "label": "CONTRADICT"}, {"sentences": [8], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}, {"sentences": [11], "label": "CONTRADICT"}]}, "cited_doc_ids": [13497630]}
+{"id": 41, "claim": "high microerythrocyt count protect sever anemia homozyg alpha ( + ) - thalassemia trait subject .", "evidence": {"18174210": [{"sentences": [1, 9], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [18174210]}
+{"id": 43, "claim": "low percentag hematopoiet progenitor cell suscept hiv-1 infect ex vivo .", "evidence": {}, "cited_doc_ids": [7224723]}
+{"id": 44, "claim": "mutat hnf4a lead increas risk develop diabet age 14 year .", "evidence": {"56893404": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [56893404]}
+{"id": 45, "claim": "mutat hnf4a lead increas risk diabet age 14 year .", "evidence": {}, "cited_doc_ids": [56893404]}
+{"id": 46, "claim": "singl nucleotid variant gene dgkk strong associ increas risk hypospadia .", "evidence": {"380526": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [380526]}
+{"id": 47, "claim": "strong bias phage genom locat spacer deriv observ mani crispr subtyp confer immun phage .", "evidence": {"26996935": [{"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [3512154, 26996935]}
+{"id": 52, "claim": "aldh1 express associ poorer prognosi breast cancer primari tumor .", "evidence": {"45638119": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [45638119]}
+{"id": 55, "claim": "amp-activ protein kinas ( ampk ) activ reduc inflammation-rel fibrosi lung .", "evidence": {"49556906": [{"sentences": [5], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [49556906]}
+{"id": 58, "claim": "apoe4 express ipsc-deriv neuron result decreas tau phosphoryl .", "evidence": {"4709641": [{"sentences": [1], "label": "CONTRADICT"}]}, "cited_doc_ids": [4709641]}
+{"id": 60, "claim": "art effect infect hiv-posit peopl .", "evidence": {"13899137": [{"sentences": [5], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}, {"sentences": [11], "label": "CONTRADICT"}]}, "cited_doc_ids": [13899137, 13901073]}
+{"id": 61, "claim": "art substanti reduc infect hiv-posit peopl .", "evidence": {"13899137": [{"sentences": [5], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}, {"sentences": [11], "label": "SUPPORT"}]}, "cited_doc_ids": [13899137, 13901073]}
+{"id": 62, "claim": "atf4 general endoplasm reticulum stress marker .", "evidence": {}, "cited_doc_ids": [32587939]}
+{"id": 63, "claim": "atm rad3 relat protein critic sens dna damag .", "evidence": {}, "cited_doc_ids": [40349336]}
+{"id": 64, "claim": "atm rad3 relat protein role sens dna damag .", "evidence": {}, "cited_doc_ids": [40349336]}
+{"id": 66, "claim": "azt given ribavirin increas anemia .", "evidence": {}, "cited_doc_ids": [14806256]}
+{"id": 67, "claim": "activ cdk5 phosphoryl atm protein respons dna damag .", "evidence": {"21295300": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [21295300]}
+{"id": 68, "claim": "activ cdk5 regul dna damage-induc neuron death .", "evidence": {"21295300": [{"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [21295300]}
+{"id": 69, "claim": "activ ppm1d enhanc p53 function .", "evidence": {"5956380": [{"sentences": [5, 6], "label": "CONTRADICT"}], "4414547": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [5956380, 4414547]}
+{"id": 71, "claim": "activ rac1 homolog ced-10 kill viabl cell srgp-1 mutant caenorhabd elegan .", "evidence": {"1127562": [{"sentences": [4, 5], "label": "SUPPORT"}]}, "cited_doc_ids": [1127562]}
+{"id": 73, "claim": "activator-inhibitor pair provid ventral xrl-sizzl .", "evidence": {}, "cited_doc_ids": [6076903]}
+{"id": 74, "claim": "activ h. pylori ureas polymer structur consist five distinct subunit .", "evidence": {}, "cited_doc_ids": [4387784]}
+{"id": 76, "claim": "activ ly49q induc neutrophil polar .", "evidence": {"5531479": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [5531479]}
+{"id": 77, "claim": "activ ly49q prevent neutrophil polar .", "evidence": {"5531479": [{"sentences": [1], "label": "CONTRADICT"}, {"sentences": [6], "label": "CONTRADICT"}]}, "cited_doc_ids": [5531479]}
+{"id": 78, "claim": "activ caspase-11 particip regul phagosome-lysosom fusion .", "evidence": {"5099266": [{"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [5099266]}
+{"id": 79, "claim": "activ caspase-11 protein promot pyroptosi .", "evidence": {"5099266": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [5099266]}
+{"id": 80, "claim": "acut ablat kras caus sever growth impair .", "evidence": {}, "cited_doc_ids": [4920376]}
+{"id": 81, "claim": "acut ablat snail embryon cortex affect prolifer number embryon cortic precursor .", "evidence": {}, "cited_doc_ids": [1797622]}
+{"id": 82, "claim": "addit bmp4 , activin a , chir99021 , su504 reprogram fibroblast generat , expand maintain cardiovascular progenitor cell ( cpcs )", "evidence": {}, "cited_doc_ids": [3619372]}
+{"id": 85, "claim": "adult tissue-resid macrophag seed birth .", "evidence": {"7521113": [{"sentences": [4], "label": "SUPPORT"}], "22406695": [{"sentences": [1], "label": "SUPPORT"}]}, "cited_doc_ids": [7521113, 22406695]}
+{"id": 86, "claim": "adult tissue-resid macrophag seed birth .", "evidence": {"7521113": [{"sentences": [4], "label": "SUPPORT"}], "22406695": [{"sentences": [1], "label": "SUPPORT"}]}, "cited_doc_ids": [7521113, 22406695]}
+{"id": 88, "claim": "adult tissue-resid macrophag possess self-renew capac .", "evidence": {"7521113": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [7521113, 22406695]}
+{"id": 89, "claim": "adult tissue-resid macrophag stem embryon yolk sac fetal liver .", "evidence": {}, "cited_doc_ids": [7521113, 22406695]}
+{"id": 90, "claim": "adult tissue-resid macrophag stem embryon yolk sac fetal liver .", "evidence": {}, "cited_doc_ids": [22406695]}
+{"id": 91, "claim": "age patient less suscept ischaemia/reperfus injuri .", "evidence": {}, "cited_doc_ids": [1084345]}
+{"id": 92, "claim": "age patient suscept ischaemia/reperfus injuri .", "evidence": {}, "cited_doc_ids": [1084345]}
+{"id": 93, "claim": "aggrav inflamm depend nlrp3 inflammasom activ .", "evidence": {"2692522": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [2692522]}
+{"id": 95, "claim": "albendazol use treat soil-transmit helminth .", "evidence": {}, "cited_doc_ids": [1215116]}
+{"id": 96, "claim": "algerian physician constitu largest compon sub-saharan africa-train physician unit state .", "evidence": {}, "cited_doc_ids": [14500725]}
+{"id": 98, "claim": "alirocumab treatment reduc apo ( a ) fraction clearanc rate .", "evidence": {"6540064": [{"sentences": [9, 10], "label": "CONTRADICT"}, {"sentences": [12], "label": "CONTRADICT"}, {"sentences": [14], "label": "CONTRADICT"}, {"sentences": [16], "label": "CONTRADICT"}]}, "cited_doc_ids": [6540064]}
+{"id": 104, "claim": "allogen mechan circulatori support effect autolog mechan circulatori support treat acut myocardi infarct .", "evidence": {"40164383": [{"sentences": [8], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}, {"sentences": [11], "label": "CONTRADICT"}, {"sentences": [15], "label": "CONTRADICT"}]}, "cited_doc_ids": [40164383]}
+{"id": 105, "claim": "alter origin fire caus chang termin zone okazaki fragment .", "evidence": {"36606083": [{"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [36606083]}
+{"id": 106, "claim": "ambulatori blood pressur monitor inaccur diagnos hypertens .", "evidence": {"25515907": [{"sentences": [6], "label": "CONTRADICT"}, {"sentences": [8], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}], "5151024": [{"sentences": [0], "label": "CONTRADICT"}, {"sentences": [8], "label": "CONTRADICT"}]}, "cited_doc_ids": [25515907, 5151024]}
+{"id": 108, "claim": "amitriptylin effect treatment chronic tension-typ headach .", "evidence": {"6191684": [{"sentences": [7], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}], "22995579": [{"sentences": [0], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}], "23865182": [{"sentences": [0], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}]}, "cited_doc_ids": [6191684, 22995579, 23865182]}
+{"id": 109, "claim": "m2-like phenotyp brown adipos tissu macrophag quick induc cold exposur .", "evidence": {"4319174": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [4319174]}
+{"id": 111, "claim": "androgenet haploid mous embryon stem cell ( esc ) deriv genet manipul vitro .", "evidence": {"13513790": [{"sentences": [5], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [13513790]}
+{"id": 112, "claim": "angiotensin convert enzym inhibitor associ decreas risk function renal insuffici .", "evidence": {"6157837": [{"sentences": [2], "label": "CONTRADICT"}, {"sentences": [7], "label": "CONTRADICT"}]}, "cited_doc_ids": [6157837]}
+{"id": 114, "claim": "anthrax spore difficult dispos dispers .", "evidence": {"33872649": [{"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [33872649]}
+{"id": 116, "claim": "anthrax spore remain dead affect area decontamin .", "evidence": {"33872649": [{"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [33872649]}
+{"id": 119, "claim": "antidepress increas sever migrain .", "evidence": {"14606752": [{"sentences": [6], "label": "CONTRADICT"}, {"sentences": [8], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}]}, "cited_doc_ids": [14606752]}
+{"id": 120, "claim": "antidepress reduc sever migrain .", "evidence": {"14606752": [{"sentences": [6], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [14606752]}
+{"id": 121, "claim": "antimicrobi agent less effect due pressur antimicrobi usag .", "evidence": {"31460499": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [31460499]}
+{"id": 122, "claim": "antimicrobi agent effect due pressur antimicrobi usag .", "evidence": {"31460499": [{"sentences": [0], "label": "CONTRADICT"}]}, "cited_doc_ids": [31460499]}
+{"id": 123, "claim": "antiretrovir therapi increas rate tuberculosi across broad rang cd4 strata .", "evidence": {"4883040": [{"sentences": [8], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}]}, "cited_doc_ids": [4883040]}
+{"id": 126, "claim": "approxim 250,000 peopl infect human t-cell lymphotrop virus type 1 unit kingdom .", "evidence": {}, "cited_doc_ids": [24512064]}
+{"id": 134, "claim": "assess treatment adher benefici clinic practic measur routin outcom .", "evidence": {}, "cited_doc_ids": [4695046]}
+{"id": 138, "claim": "asymptomat visual impair screen elder popul lead improv vision .", "evidence": {"26016929": [{"sentences": [7, 9], "label": "CONTRADICT"}]}, "cited_doc_ids": [26016929]}
+{"id": 139, "claim": "least 85 % patient expos radiat activ marker myofibroblast .", "evidence": {}, "cited_doc_ids": [22080671]}
+{"id": 144, "claim": "autolog transplant mesenchym stem cell better graft function induct therapi anti-interleukin-2 receptor antibodi .", "evidence": {"10582939": [{"sentences": [8], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}]}, "cited_doc_ids": [10582939]}
+{"id": 149, "claim": "autophagi defici liver increas vulner insulin resist .", "evidence": {"6227220": [{"sentences": [2], "label": "CONTRADICT"}, {"sentences": [5], "label": "CONTRADICT"}, {"sentences": [6], "label": "CONTRADICT"}]}, "cited_doc_ids": [6227220]}
+{"id": 152, "claim": "b cell go though plasmablast differenti antibodi product continu express ebi2 .", "evidence": {"15488881": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [15488881]}
+{"id": 153, "claim": "b3-galectin decreas cell resist tyrosin kinas inhibitor ( tkis ) engag altern kras-ralb signal complex downstream egfr .", "evidence": {}, "cited_doc_ids": [4702639]}
+{"id": 154, "claim": "b3-galectin increas cell resist tyrosin kinas inhibitor ( tkis ) engag altern kras-ralb signal complex downstream egfr .", "evidence": {}, "cited_doc_ids": [4702639]}
+{"id": 155, "claim": "bcl-2 activ antagon apoptot effect c-myc .", "evidence": {"37549932": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [37549932]}
+{"id": 156, "claim": "bcl-2 promot apoptot effect c-myc .", "evidence": {"37549932": [{"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [37549932]}
+{"id": 157, "claim": "blm gene encod recq-class dna helicas .", "evidence": {"13439128": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [13439128]}
+{"id": 159, "claim": "brca 1 mutat carrier ' risk breast ovarian cancer depend mutat locat .", "evidence": {"9394119": [{"sentences": [16], "label": "SUPPORT"}, {"sentences": [17], "label": "SUPPORT"}]}, "cited_doc_ids": [9394119]}
+{"id": 160, "claim": "bacteri mening diagnos basi posit cerebrospin fluid ( csf ) cultur .", "evidence": {"52874170": [{"sentences": [14], "label": "SUPPORT"}]}, "cited_doc_ids": [52874170]}
+{"id": 161, "claim": "bacteriophaga ms2 qβ member levivirida .", "evidence": {}, "cited_doc_ids": [6903077]}
+{"id": 164, "claim": "bariatr surgeri increas rate colorect cancer .", "evidence": {"5824985": [{"sentences": [11], "label": "SUPPORT"}]}, "cited_doc_ids": [5824985]}
+{"id": 165, "claim": "bariatr surgeri increas rate postmenopaus breast cancer .", "evidence": {"5824985": [{"sentences": [11], "label": "SUPPORT"}]}, "cited_doc_ids": [5824985]}
+{"id": 166, "claim": "bariatr surgeri lead negat outcom mental health .", "evidence": {"18872233": [{"sentences": [9], "label": "CONTRADICT"}, {"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [18872233]}
+{"id": 167, "claim": "bariatr surgeri lead posit outcom mental health .", "evidence": {"18872233": [{"sentences": [9], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}]}, "cited_doc_ids": [18872233]}
+{"id": 168, "claim": "bariatr surgeri reduc colorect cancer .", "evidence": {"5824985": [{"sentences": [11], "label": "CONTRADICT"}]}, "cited_doc_ids": [5824985]}
+{"id": 169, "claim": "bariatr surgeri reduc postmenopaus breast cancer .", "evidence": {"5824985": [{"sentences": [11], "label": "CONTRADICT"}]}, "cited_doc_ids": [5824985]}
+{"id": 172, "claim": "basophil promot diseas develop patient system lupus erythematosus ( sle ) .", "evidence": {"12670680": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [2], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [12670680]}
+{"id": 173, "claim": "bcp1 chaperon rpl23 .", "evidence": {}, "cited_doc_ids": [8126244]}
+{"id": 174, "claim": "beta-band coher diminish visibl stimuli invis stimuli .", "evidence": {}, "cited_doc_ids": [1710116]}
+{"id": 175, "claim": "beta-band coher enhanc visibl stimuli invis stimuli .", "evidence": {}, "cited_doc_ids": [1710116]}
+{"id": 176, "claim": "bip general endoplasm reticulum stress marker .", "evidence": {}, "cited_doc_ids": [32587939]}
+{"id": 177, "claim": "bind p53 enhanc region ( p53ber ) regul activ p53 transcript cell cycl arrest product p53-depend erna .", "evidence": {"9669099": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [9669099]}
+{"id": 178, "claim": "birth-weight negat associ breast cancer .", "evidence": {"16322674": [{"sentences": [5], "label": "CONTRADICT"}, {"sentences": [6], "label": "CONTRADICT"}, {"sentences": [11], "label": "CONTRADICT"}], "27123743": [{"sentences": [4], "label": "CONTRADICT"}], "23557241": [{"sentences": [6], "label": "CONTRADICT"}], "17450673": [{"sentences": [5], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [16322674, 27123743, 23557241, 17450673]}
+{"id": 181, "claim": "block interact tdp-43 respiratori complex protein nd3 nd6 prevent tdp-43-induc neuron loss .", "evidence": {"16966326": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [16966326]}
+{"id": 182, "claim": "bone marrow ( bm ) transplant use treat acut myeloid leukemia ( aml )", "evidence": {}, "cited_doc_ids": [11369420]}
+{"id": 184, "claim": "bone marrow cell contribut adult macrophag compart .", "evidence": {"12827098": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [12827098]}
+{"id": 186, "claim": "british femal student bulli british male student .", "evidence": {}, "cited_doc_ids": [16855829]}
+{"id": 187, "claim": "british male student bulli british femal student .", "evidence": {}, "cited_doc_ids": [16855829]}
+{"id": 189, "claim": "broad hiv-1 neutral antibodi ( bnab ) 10eb affin phospholipid .", "evidence": {"4421578": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [4421578]}
+{"id": 196, "claim": "c2 work synergist a-769662 activ dephosphoryl ampk .", "evidence": {"19313533": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [19313533]}
+{"id": 197, "claim": "ccl19 ligand ccr7 .", "evidence": {"2177022": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [2177022]}
+{"id": 199, "claim": "ccl19 predomin present within dlns .", "evidence": {}, "cited_doc_ids": [2177022]}
+{"id": 200, "claim": "cd28 initi tonic signal convent cell , caus exhaust phenotyp limit effici .", "evidence": {"18231807": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [18231807]}
+{"id": 201, "claim": "cd28 signal regul traffick murin auto-react cell target tissu .", "evidence": {"2462673": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [2462673]}
+{"id": 203, "claim": "cd44v6 associ constitut reprogram cancer stem cell drive cancer metastasi .", "evidence": {"9558539": [{"sentences": [1], "label": "CONTRADICT"}, {"sentences": [3], "label": "CONTRADICT"}, {"sentences": [4], "label": "CONTRADICT"}, {"sentences": [5], "label": "CONTRADICT"}, {"sentences": [7], "label": "CONTRADICT"}]}, "cited_doc_ids": [9558539]}
+{"id": 204, "claim": "cdk6 show impair bind loss-of-funct variant p18 ink4c .", "evidence": {}, "cited_doc_ids": [7898952]}
+{"id": 205, "claim": "cdk6 show improv bind loss-of-funct variant p18 ink4c .", "evidence": {}, "cited_doc_ids": [7898952, 470625]}
+{"id": 209, "claim": "chop general endoplasm reticulum stress marker .", "evidence": {}, "cited_doc_ids": [32587939]}
+{"id": 210, "claim": "copi coatmer involv lipid homeostasi .", "evidence": {"13794374": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [13794374]}
+{"id": 211, "claim": "copi coatmer involv viral replic .", "evidence": {}, "cited_doc_ids": [13794374]}
+{"id": 214, "claim": "crp posit correl postop mortal follow coronari arteri bypass graft ( cabg ) surgeri .", "evidence": {}, "cited_doc_ids": [13625993]}
+{"id": 220, "claim": "ca2+ cycl control whole-bodi energi homeostasi beig fat .", "evidence": {"19205437": [{"sentences": [3, 4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [19205437]}
+{"id": 221, "claim": "ca2+ cycl ucp1-depend thermogen mechan .", "evidence": {"19205437": [{"sentences": [1], "label": "CONTRADICT"}, {"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [19205437]}
+{"id": 222, "claim": "ca2+ cycl ucp1-independ thermogen mechan .", "evidence": {"19205437": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [19205437]}
+{"id": 223, "claim": "cancer cell stimul accumul intra-tumour myeloid-deriv suppressor cell promot granulocyt coloni stimul factor product .", "evidence": {"2014909": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [2014909]}
+{"id": 224, "claim": "cancer-associ fibroblast ( caf ) constitu tumor microenviron", "evidence": {}, "cited_doc_ids": [6944800]}
+{"id": 225, "claim": "cancer-associ fibroblast ( caf ) known interact cancer cell format activ caf .", "evidence": {}, "cited_doc_ids": [6944800]}
+{"id": 226, "claim": "cancer-associ fibroblast ( caf ) interact cancer cell mediat format activ caf .", "evidence": {}, "cited_doc_ids": [6944800]}
+{"id": 227, "claim": "cancer initi benefit epiderm growth factor receptor target therapi later becom refractori sever mechan .", "evidence": {"26973393": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [26973393]}
+{"id": 228, "claim": "cardiac tissue-resid macrophag direct contribut electr activ .", "evidence": {"4928057": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [4928057]}
+{"id": 229, "claim": "carrier hnf4a mutat reduc risk diabet .", "evidence": {}, "cited_doc_ids": [56893404]}
+{"id": 235, "claim": "cell autonom sex determin somat cell occur galliform .", "evidence": {"4388470": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [4388470]}
+{"id": 241, "claim": "cellular clock associ mitosi time nih 3t3 cell .", "evidence": {"2212067": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [2212067, 10608822]}
+{"id": 242, "claim": "cellular clock predict mitosi time nih 3t3 cell .", "evidence": {"2212067": [{"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [2212067, 10608822]}
+{"id": 243, "claim": "cellular differenti embryon stem cell accompani chang replic time , transcript nuclear local .", "evidence": {"8148122": [{"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [8148122]}
+{"id": 244, "claim": "certain immunomodulator-human dialyz leukocyt extract ( hdle ) peptid recogn toll-lik receptor ( tlrs ) macrophag dendrit cell .", "evidence": {}, "cited_doc_ids": [21498497]}
+{"id": 245, "claim": "charcoal effect treatment acut paraquat poison .", "evidence": {"3430789": [{"sentences": [8], "label": "CONTRADICT"}]}, "cited_doc_ids": [8447873, 3430789]}
+{"id": 246, "claim": "charcoal show benefit acut paraquat poison .", "evidence": {"3430789": [{"sentences": [8], "label": "SUPPORT"}]}, "cited_doc_ids": [8447873, 3430789]}
+{"id": 247, "claim": "chemic injuri repress transglutaminas 2 activ .", "evidence": {}, "cited_doc_ids": [13578199]}
+{"id": 250, "claim": "chenodeoxychol acid treatment decreas brown adipos tissu activ .", "evidence": {"1568684": [{"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [1568684]}
+{"id": 251, "claim": "chenodeoxychol acid treatment increas brown adipos tissu activ .", "evidence": {"1568684": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [1568684]}
+{"id": 253, "claim": "chines individu tt homozygos mthfr gene less vulner stroke caus low level folat intak .", "evidence": {}, "cited_doc_ids": [37424881]}
+{"id": 254, "claim": "chines individu tt homozygos mthfr gene vulner stroke caus low level folat intak .", "evidence": {}, "cited_doc_ids": [37424881]}
+{"id": 255, "claim": "chlamydia trachomati preval uk among individu 50s 60s .", "evidence": {}, "cited_doc_ids": [5850219]}
+{"id": 256, "claim": "chlamydia trachomati preval uk among sexually-experienc individu age 16 24 .", "evidence": {"5850219": [{"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [5850219]}
+{"id": 258, "claim": "cholesterol load induc klf4 express vsmcs , result express pro-inflammatori cytokin .", "evidence": {"22080671": [{"sentences": [4, 5], "label": "SUPPORT"}]}, "cited_doc_ids": [22080671]}
+{"id": 259, "claim": "chronic hiv stimul b cell lead prematur exhaust b cell .", "evidence": {}, "cited_doc_ids": [8883846]}
+{"id": 262, "claim": "cis-act lncrnas control express gene posit vicin transcript site .", "evidence": {}, "cited_doc_ids": [14610165]}
+{"id": 263, "claim": "citrullin protein extern neutrophil extracellular trap act indirect disrupt inflammatori cycl .", "evidence": {"11328820": [{"sentences": [7, 9], "label": "CONTRADICT"}], "30041340": [{"sentences": [0, 1], "label": "CONTRADICT"}, {"sentences": [11], "label": "CONTRADICT"}]}, "cited_doc_ids": [11328820, 30041340, 14853989]}
+{"id": 264, "claim": "citrullin protein extern neutrophil extracellular trap act indirect perpetu inflammatori cycl via induct autoantibodi .", "evidence": {"11328820": [{"sentences": [7, 8, 9, 10], "label": "SUPPORT"}]}, "cited_doc_ids": [11328820]}
+{"id": 265, "claim": "clathrin stabil spindl fiber apparatus mitosi .", "evidence": {"2033917": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [2033917]}
+{"id": 266, "claim": "cnn1 recruit vari cell cycl time .", "evidence": {"22405338": [{"sentences": [5], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [22405338]}
+{"id": 267, "claim": "cognit behavior therapi ineffect treatment insomnia", "evidence": {"5912283": [{"sentences": [7], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}, {"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [5912283, 31554917]}
+{"id": 272, "claim": "combin nicotin replac therapi vareniclin bupropion effect 12 week reatment compar vareniclin monotherapi .", "evidence": {"11614737": [{"sentences": [8], "label": "SUPPORT"}]}, "cited_doc_ids": [11614737]}
+{"id": 277, "claim": "commelina yellow mottl virus ( comymv ) three typic badnavirus orf , capabl encod protein 23 , 15 , 216 kd .", "evidence": {"14376683": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [14376683]}
+{"id": 278, "claim": "commelina yellow mottl virus ' ( comymv ) genom consist 2140 bais pair .", "evidence": {"14376683": [{"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [14376683]}
+{"id": 280, "claim": "compar transcriptom analysi identifi new platelet protein structur featur suggest role platelet function .", "evidence": {"25001628": [{"sentences": [6, 7], "label": "SUPPORT"}]}, "cited_doc_ids": [25001628]}
+{"id": 281, "claim": "concentr snv cnv stem-cel regulatori element bind site transcript factor ipsc-lin distinct found cell .", "evidence": {}, "cited_doc_ids": [4632921]}
+{"id": 283, "claim": "consumpt whole fruit increas risk type 2 diabet .", "evidence": {"1974176": [{"sentences": [11], "label": "CONTRADICT"}]}, "cited_doc_ids": [1974176]}
+{"id": 285, "claim": "continu hhv-8 transmiss among msm san francisco may explain urogenit contact .", "evidence": {}, "cited_doc_ids": [5548081]}
+{"id": 286, "claim": "convert apoe4 apoe3 gene edit prevent patholog associ apoe4 human ipscderiv neuron .", "evidence": {"4709641": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [4709641]}
+{"id": 287, "claim": "convert apoe4 apoe3 gene edit worsen patholog associ apoe4 human ipscderiv neuron .", "evidence": {"4709641": [{"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [4709641]}
+{"id": 290, "claim": "cost effect evalu base crct data accur reflect price patient actual clinic practic .", "evidence": {"15048300": [{"sentences": [10, 11], "label": "CONTRADICT"}, {"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [15048300]}
+{"id": 292, "claim": "cost effect evalu base crct data lack extern valid .", "evidence": {"15048300": [{"sentences": [8], "label": "SUPPORT"}, {"sentences": [10, 11], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}]}, "cited_doc_ids": [15048300]}
+{"id": 293, "claim": "crossov hot spot found within gene promot saccharomyc cerevisia .", "evidence": {}, "cited_doc_ids": [10874408]}
+{"id": 296, "claim": "cyclin a2 destruct necessari switch unstabl stabl kt-mt attach mitosi .", "evidence": {"4398832": [{"sentences": [5], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [4398832]}
+{"id": 299, "claim": "cytochrom c transfer cytosol mitochondri intermembran space apoptosi .", "evidence": {"39381118": [{"sentences": [0], "label": "CONTRADICT"}]}, "cited_doc_ids": [39381118]}
+{"id": 301, "claim": "cytosol protein bind iron-respons element mrnas code tfrc1 .", "evidence": {}, "cited_doc_ids": [3553087]}
+{"id": 304, "claim": "dms3 protein enabl pol v transcript vivo .", "evidence": {}, "cited_doc_ids": [14797520]}
+{"id": 305, "claim": "drd1 protein enabl pol v transcript vivo .", "evidence": {"14797520": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [14797520]}
+{"id": 306, "claim": "dusp4 decreas apoptosi .", "evidence": {"7821634": [{"sentences": [6], "label": "CONTRADICT"}]}, "cited_doc_ids": [7821634]}
+{"id": 308, "claim": "dusp4 downregul deactiv ras-erk pathway", "evidence": {"7821634": [{"sentences": [4, 5], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [7821634]}
+{"id": 309, "claim": "dusp4 increas apoptosi .", "evidence": {"7821634": [{"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [7821634]}
+{"id": 310, "claim": "de novo assembl sequenc data fewer specif contig unassembl sequenc data .", "evidence": {}, "cited_doc_ids": [6173523]}
+{"id": 313, "claim": "de novo assembl sequenc data shorter contig unassembl sequenc data .", "evidence": {}, "cited_doc_ids": [6173523]}
+{"id": 315, "claim": "decreas p62 prostat tumor stroma result defect autophagi .", "evidence": {}, "cited_doc_ids": [3701541]}
+{"id": 316, "claim": "decreas convers pge 2 ppari ligand 15-ket-pg 2 caus accumul pge .", "evidence": {}, "cited_doc_ids": [712078]}
+{"id": 317, "claim": "decreas diastol blood pressur ( dbp ) associ abdomin aortic aneurysm .", "evidence": {"4506414": [{"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [4506414]}
+{"id": 323, "claim": "delet raptor increas g-csf level .", "evidence": {}, "cited_doc_ids": [2014909]}
+{"id": 325, "claim": "delet atm rad3 relat protein predict acut tissu loss .", "evidence": {}, "cited_doc_ids": [40349336]}
+{"id": 326, "claim": "delet atm rad3 relat protein lead acut tissu loss .", "evidence": {}, "cited_doc_ids": [40349336]}
+{"id": 330, "claim": "deltex known interact eif3f .", "evidence": {"9505448": [{"sentences": [6], "label": "CONTRADICT"}]}, "cited_doc_ids": [9505448]}
+{"id": 331, "claim": "deltex interact eif3 . known interact deltex elf3", "evidence": {"9505448": [{"sentences": [6], "label": "CONTRADICT"}]}, "cited_doc_ids": [9505448]}
+{"id": 332, "claim": "deplet t-helper 17 ( th17 ) cell simian immunodefici virus ( siv ) infect decreas dissemin salmonella typhimurium gut .", "evidence": {"29023309": [{"sentences": [1], "label": "CONTRADICT"}, {"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [29023309]}
+{"id": 333, "claim": "deplet t-helper 17 ( th17 ) cell simian immunodefici virus ( siv ) infect increas dissemin salmonella typhimurium gut .", "evidence": {"29023309": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [29023309]}
+{"id": 334, "claim": "deplet nitric oxid respons vasospasm .", "evidence": {"25079962": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}]}, "cited_doc_ids": [25079962]}
+{"id": 335, "claim": "deregul hand2 crucial step endometri carcinogenesi mice .", "evidence": {"1780819": [{"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [1780819]}
+{"id": 336, "claim": "destin contain port throughput ( cpt ) negat relat dengu virus ( denv-1 ) diffus air traffic shipment .", "evidence": {}, "cited_doc_ids": [2097256]}
+{"id": 337, "claim": "destin contain port throughput ( cpt ) posit relat dengu virus ( denv-1 ) diffus air traffic shipment .", "evidence": {}, "cited_doc_ids": [2097256]}
+{"id": 339, "claim": "dexamethason increas risk postop bleed .", "evidence": {"23349986": [{"sentences": [10, 11], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}, {"sentences": [15], "label": "SUPPORT"}]}, "cited_doc_ids": [23349986]}
+{"id": 340, "claim": "diabet remiss occur less peopl treat convent therapi peopl treat laparoscop adjust gastric band surgeri .", "evidence": {"7098463": [{"sentences": [9], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}, {"sentences": [14], "label": "SUPPORT"}]}, "cited_doc_ids": [7098463]}
+{"id": 341, "claim": "diabet remiss occur peopl treat convent therapi peopl treat laparoscop adjust gastric band surgeri .", "evidence": {"7098463": [{"sentences": [9], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}, {"sentences": [14], "label": "CONTRADICT"}]}, "cited_doc_ids": [7098463]}
+{"id": 342, "claim": "diabet patient acut coronari syndrom experi decreas short-term long-term risk bleed event .", "evidence": {"5884524": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [7873737, 5884524]}
+{"id": 345, "claim": "differenti e2f-1 , -2 , -3 tko cell intestin exhibit apoptosi .", "evidence": {}, "cited_doc_ids": [4394817]}
+{"id": 346, "claim": "differenti progenitor cell myeloid cell skew upon activ insulin signal .", "evidence": {"11902109": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [11902109]}
+{"id": 347, "claim": "differenti progenitor cell myeloid cell skew insulin signal suppress .", "evidence": {"11902109": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [11902109]}
+{"id": 349, "claim": "diminish ovarian reserv reliabl indic infertil non-infertil popul .", "evidence": {"13497630": [{"sentences": [7], "label": "CONTRADICT"}, {"sentences": [8], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}, {"sentences": [11], "label": "CONTRADICT"}]}, "cited_doc_ids": [13497630]}
+{"id": 351, "claim": "distant cres import transcript regul .", "evidence": {}, "cited_doc_ids": [14658685]}
+{"id": 352, "claim": "distant cres less conserv among speci .", "evidence": {}, "cited_doc_ids": [14658685]}
+{"id": 355, "claim": "drosophila supracellular actomyosin structur found boundari wing imagin disc .", "evidence": {"12800122": [{"sentences": [8], "label": "SUPPORT"}], "38380061": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [12800122, 38380061]}
+{"id": 356, "claim": "dscam1 act hypervari pattern-recognit receptor immun system .", "evidence": {"6144337": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [6144337]}
+{"id": 357, "claim": "non-homolog end join , ligat step toler disrepair distort join 3 ' strand break compar 5 ' strand break .", "evidence": {}, "cited_doc_ids": [18111172]}
+{"id": 358, "claim": "non-homolog end join , ligat step toler disrepair distort join 5 ' strand break compar 3 ' strand break .", "evidence": {}, "cited_doc_ids": [18111172]}
+{"id": 361, "claim": "primari earli antibodi respons activ b cell migrat toward inner-and outer follicular area oxysterol accumul generat stromal cell .", "evidence": {}, "cited_doc_ids": [38587347]}
+{"id": 363, "claim": "eg7 tumor kill system oxaliplatin prime cd8+ cell tumor-drain lymph node cell .", "evidence": {}, "cited_doc_ids": [5386514]}
+{"id": 364, "claim": "egr2 import myelin peripher nervous system .", "evidence": {}, "cited_doc_ids": [1550937]}
+{"id": 365, "claim": "er-loc phosphatas sac1 process pi4p coordin osbp endosome-loc protein sort nexin 2 .", "evidence": {}, "cited_doc_ids": [600437]}
+{"id": 366, "claim": "erap1 snps epistat hla allel ankylos spondyl .", "evidence": {"13956305": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [13956305]}
+{"id": 367, "claim": "earli patent ductus ateriosus ( pda ) screen decreas in-hospit mortal .", "evidence": {"27099731": [{"sentences": [10], "label": "SUPPORT"}, {"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [27099731]}
+{"id": 368, "claim": "earli patent ductus ateriosus ( pda ) screen increas in-hospit mortal .", "evidence": {"27099731": [{"sentences": [10], "label": "CONTRADICT"}, {"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [27099731]}
+{"id": 369, "claim": "ectop express sall4 , nanog , esrrb , lin28 generat induc pluripot stem cell mous embryon fibroblast effici factor combin .", "evidence": {"6826100": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [6826100]}
+{"id": 370, "claim": "egr2 regul homeostasi b cell .", "evidence": {"1550937": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [1550937]}
+{"id": 371, "claim": "egr3 regul homeostasi b cell .", "evidence": {"1550937": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [1550937]}
+{"id": 372, "claim": "eilat virus ( eilv ) produc mosquito elicit rapid long-last neutral antibodi nonhuman primat .", "evidence": {"24922825": [{"sentences": [7, 8], "label": "SUPPORT"}]}, "cited_doc_ids": [24922825]}
+{"id": 375, "claim": "elev cell-fre mitochondri dna level associ mortal .", "evidence": {"1522647": [{"sentences": [5], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}]}, "cited_doc_ids": [1522647]}
+{"id": 376, "claim": "elimin last sporad case malaria requir consider fund .", "evidence": {}, "cited_doc_ids": [22401061]}
+{"id": 377, "claim": "emodin form hydrogen bond residu involv pgam1 substrat bind .", "evidence": {}, "cited_doc_ids": [18810195]}
+{"id": 378, "claim": "energi balanc requir hypothalam glutam neurotransmiss .", "evidence": {"45154987": [{"sentences": [5], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}], "10534299": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}], "11886686": [{"sentences": [7], "label": "SUPPORT"}], "17150648": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [45154987, 10534299, 11886686, 25007443, 17150648]}
+{"id": 379, "claim": "enhanc earli product inflammatori chemokin damag viral control lung .", "evidence": {"19005293": [{"sentences": [2], "label": "CONTRADICT"}]}, "cited_doc_ids": [19005293]}
+{"id": 381, "claim": "environment factor influenc develop breast cancer .", "evidence": {"18340282": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [18340282]}
+{"id": 382, "claim": "environmentally-induc senesc mimick diseas model ad specif molecul cultur system .", "evidence": {"11659421": [{"sentences": [1, 2], "label": "SUPPORT"}, {"sentences": [4, 5], "label": "SUPPORT"}]}, "cited_doc_ids": [11659421]}
+{"id": 383, "claim": "epidemiolog diseas burden noncommunic diseas preval high econom set .", "evidence": {}, "cited_doc_ids": [13770184]}
+{"id": 389, "claim": "ethanol stress increas express ibp bacteria .", "evidence": {}, "cited_doc_ids": [1148122]}
+{"id": 390, "claim": "ethanol stress increas express psp bacteria .", "evidence": {}, "cited_doc_ids": [1148122]}
+{"id": 391, "claim": "ethanol stress increas express srl bacteria .", "evidence": {}, "cited_doc_ids": [1148122]}
+{"id": 392, "claim": "ethanol stress lower express psp bacteria .", "evidence": {}, "cited_doc_ids": [1148122]}
+{"id": 393, "claim": "ethanol stress reduc express srl bacteria .", "evidence": {}, "cited_doc_ids": [1148122]}
+{"id": 394, "claim": "excess gestat weight gain associ obesity-rel pregnanc outcom .", "evidence": {"11360768": [{"sentences": [8], "label": "SUPPORT"}, {"sentences": [11], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}]}, "cited_doc_ids": [11360768]}
+{"id": 396, "claim": "exercis increas cancer mortal rate among chines citizen .", "evidence": {"1456068": [{"sentences": [8], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}, {"sentences": [11], "label": "CONTRADICT"}]}, "cited_doc_ids": [1456068]}
+{"id": 397, "claim": "exercis reduc cancer mortal rate among chines citizen .", "evidence": {"1456068": [{"sentences": [8], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}, {"sentences": [11], "label": "SUPPORT"}]}, "cited_doc_ids": [1456068]}
+{"id": 398, "claim": "exhaust b cell contribut poor ab respons hiv-infect individu .", "evidence": {}, "cited_doc_ids": [8883846]}
+{"id": 400, "claim": "exposur fine particul air pollut unrel anxieti preval .", "evidence": {"791050": [{"sentences": [7], "label": "CONTRADICT"}, {"sentences": [11], "label": "CONTRADICT"}]}, "cited_doc_ids": [791050]}
+{"id": 401, "claim": "express msx2 induc 3 hour addit bmp4 , earlier cdx2 .", "evidence": {}, "cited_doc_ids": [5633876]}
+{"id": 403, "claim": "express oncolyt virus antigen peptid make relaps like .", "evidence": {}, "cited_doc_ids": [1921218]}
+{"id": 404, "claim": "express oncolyt virus antigen peptid permit addit protect relaps .", "evidence": {}, "cited_doc_ids": [1921218]}
+{"id": 406, "claim": "f4/80+ macrophag regul matur osteoblast mainten .", "evidence": {}, "cited_doc_ids": [6796297]}
+{"id": 407, "claim": "fact histon chaperon ( s ) compens histon 2a ( h2a ) -histon 2b ( h2b ) dimer evict histon exchang process .", "evidence": {}, "cited_doc_ids": [9889151]}
+{"id": 413, "claim": "femal carrier apolipoprotein e4 ( apoe4 ) allel decreas risk dementia .", "evidence": {"6309659": [{"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [6309659]}
+{"id": 414, "claim": "femal carrier apolipoprotein e4 ( apoe4 ) allel increas risk alzheim 's diseas .", "evidence": {"6309659": [{"sentences": [12], "label": "SUPPORT"}]}, "cited_doc_ids": [6309659]}
+{"id": 416, "claim": "femal carrier apolipoprotein e4 ( apoe4 ) allel longer lifetim exposur estrogen due increas reproduct period .", "evidence": {"6309659": [{"sentences": [12], "label": "SUPPORT"}]}, "cited_doc_ids": [6309659]}
+{"id": 417, "claim": "femal carrier apolipoprotein e4 ( apoe4 ) allel shorter lifetim exposur estrogen due decreas reproduct period .", "evidence": {"6309659": [{"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [6309659]}
+{"id": 418, "claim": "fibroblast growth factor ligand signal receptor tyrosin kinas .", "evidence": {}, "cited_doc_ids": [16660256]}
+{"id": 420, "claim": "fibroblast growth factor 21 protect atherosclerosi modul adiponectin srebp2 level .", "evidence": {"9315213": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [9315213]}
+{"id": 422, "claim": "flexibl molecul experi less steric hindranc tumor microenviro rigid molecul .", "evidence": {}, "cited_doc_ids": [11172205]}
+{"id": 423, "claim": "folat vitamin b12 level influenc associ homocystein preeclampsia .", "evidence": {}, "cited_doc_ids": [8595678]}
+{"id": 425, "claim": "everi 1,000 children cerebr palsi , 300 prematur underweight birth .", "evidence": {}, "cited_doc_ids": [33257464]}
+{"id": 426, "claim": "forkhead 0 ( fox0 ) transcript factor involv apoptosi .", "evidence": {"16728949": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [16728949]}
+{"id": 428, "claim": "forkhead 0 ( fox0 ) transcript factor involv cellular differenti .", "evidence": {"16728949": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [16728949]}
+{"id": 429, "claim": "format n-termin pyroglutam glutamin cyclas ( gc ) compet ntaq1 nt-gln substrat .", "evidence": {}, "cited_doc_ids": [36540079]}
+{"id": 430, "claim": "foxo3a activ neuron death inhibit reactiv oxygen speci ( ros ) .", "evidence": {"28937856": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [28937856]}
+{"id": 432, "claim": "foxk2 regul autophagi gene muscl cell fibroblast cell .", "evidence": {"8002887": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [8002887]}
+{"id": 434, "claim": "foxp3 enabl express transcript regul implic memori cell develop .", "evidence": {}, "cited_doc_ids": [9500590]}
+{"id": 435, "claim": "foxp3 repress express transcript regul implic memori cell develop .", "evidence": {}, "cited_doc_ids": [9500590]}
+{"id": 441, "claim": "g-csf increas expans infiltr mdscs tumor .", "evidence": {"2014909": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [2014909]}
+{"id": 444, "claim": "gata3 regul cell cycl progress bone marrow hematopoiet stem cell .", "evidence": {"10165258": [{"sentences": [5, 6], "label": "SUPPORT"}]}, "cited_doc_ids": [10165258]}
+{"id": 445, "claim": "gata3 regul self-renew capac bone marrow hematopoiet stem cell .", "evidence": {"10165258": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [10165258]}
+{"id": 447, "claim": "gastric infect helicobact pylori decreas risk gastric cancer human .", "evidence": {"2052720": [{"sentences": [6], "label": "CONTRADICT"}, {"sentences": [7], "label": "CONTRADICT"}]}, "cited_doc_ids": [2052720]}
+{"id": 448, "claim": "gastric infect helicobact pylori increas risk gastric cancer human .", "evidence": {"2052720": [{"sentences": [6], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [2052720]}
+{"id": 449, "claim": "gastric lavag effect treatment acut paraquat poison .", "evidence": {}, "cited_doc_ids": [12209494, 3430789]}
+{"id": 453, "claim": "general exercis therapi effect rotat cuff exercis reduc pain improv function shoulder .", "evidence": {"4200695": [{"sentences": [11], "label": "CONTRADICT"}]}, "cited_doc_ids": [4200695]}
+{"id": 454, "claim": "general exercis therapi effect scapular stabil exercis reduc pain improv function shoulder .", "evidence": {"4200695": [{"sentences": [11], "label": "CONTRADICT"}, {"sentences": [12], "label": "CONTRADICT"}, {"sentences": [14], "label": "CONTRADICT"}]}, "cited_doc_ids": [4200695]}
+{"id": 455, "claim": "gene involv pre-mrna splice signific impact genom stabil .", "evidence": {"12643937": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [12643937]}
+{"id": 456, "claim": "gene regul esrrb transcript factor sensit mbd3 function .", "evidence": {}, "cited_doc_ids": [30507607]}
+{"id": 458, "claim": "genet defici mast cell lead decreas weight gain mous model diet-induc obes .", "evidence": {"597790": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [597790]}
+{"id": 461, "claim": "genet delet jam-a increas gut permeabl .", "evidence": {"40096222": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [40096222]}
+{"id": 463, "claim": "genom aberr metastas provid inform target therapi .", "evidence": {"19736671": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [19736671]}
+{"id": 466, "claim": "genom sequenc involv altern splice respons hutchinson-gilford progeria syndrom ( hgps ) abund `` progerinon '' allel lmna knock-in model .", "evidence": {"22544171": [{"sentences": [0, 4, 5], "label": "CONTRADICT"}]}, "cited_doc_ids": [22544171]}
+{"id": 469, "claim": "glial calcium wave influenc seizur .", "evidence": {"1410197": [{"sentences": [6, 10], "label": "SUPPORT"}]}, "cited_doc_ids": [1410197]}
+{"id": 470, "claim": "glioblastoma multiform ( gbm ) character extens invas , rapid growth , necrosi , angiogenesi .", "evidence": {"12685434": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [12685434]}
+{"id": 472, "claim": "glucos restrict 0.05 % reduc rls ( replic life span ) 20-40 % s. cerevisia .", "evidence": {}, "cited_doc_ids": [7185591, 26330861, 4414481]}
+{"id": 473, "claim": "glycan adapt involv insertion-delet event .", "evidence": {}, "cited_doc_ids": [4373433]}
+{"id": 474, "claim": "glycan adapt rare observ b-cell repertoir .", "evidence": {}, "cited_doc_ids": [4373433]}
+{"id": 479, "claim": "gpr124 increas bbb breakdown mous model ischem stroke .", "evidence": {"6325527": [{"sentences": [2], "label": "CONTRADICT"}]}, "cited_doc_ids": [6325527]}
+{"id": 480, "claim": "gpr124 suppress bbb breakdown mous model ischem stroke .", "evidence": {"6325527": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [6325527]}
+{"id": 481, "claim": "guanin nucleotid dissoci inhibitor ( rho-gdi ) interact p75 ntr death domain", "evidence": {}, "cited_doc_ids": [14706752]}
+{"id": 482, "claim": "guanin nucleotid exchang factor ( gef ) mediat rhoa activ respons tension forc fibronectin-bind integrin .", "evidence": {"10991183": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [10991183]}
+{"id": 483, "claim": "h.pylori-medi gastric cancer occur due accumul mutat host epitheli cell .", "evidence": {"22703082": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [22703082]}
+{"id": 484, "claim": "h4 g94p protein induc chromatin assembl , increas free histon .", "evidence": {}, "cited_doc_ids": [14637235]}
+{"id": 485, "claim": "h4 g94p protein induc degrad free histon via rad53-depend mechan .", "evidence": {}, "cited_doc_ids": [14637235]}
+{"id": 486, "claim": "h4 g94p protein inhibit chromatin assembl , decreas free histon .", "evidence": {}, "cited_doc_ids": [14637235]}
+{"id": 487, "claim": "h4 g94p protein suppress degrad free histon via rad53-depend mechan .", "evidence": {}, "cited_doc_ids": [14637235]}
+{"id": 488, "claim": "hand2 methyl key step earli endometri carcinogenesi .", "evidence": {"1780819": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}, {"sentences": [11], "label": "SUPPORT"}]}, "cited_doc_ids": [1780819]}
+{"id": 489, "claim": "hiv trans-activ protein ( tat ) effect transport larg small molecul across cellular membran larger popul neuron .", "evidence": {}, "cited_doc_ids": [6625693]}
+{"id": 490, "claim": "hnf4a mutat associ macrosomia infanc .", "evidence": {}, "cited_doc_ids": [56893404]}
+{"id": 492, "claim": "hoxb4 facilit hsc expans co-cultur hscs .", "evidence": {}, "cited_doc_ids": [19583924]}
+{"id": 493, "claim": "hoxb4 high express compon cellular secretom fetal liver cell popul .", "evidence": {}, "cited_doc_ids": [19583924]}
+{"id": 494, "claim": "hsct-t dosag may diagnost onset symptom occur less 3 hour ami .", "evidence": {}, "cited_doc_ids": [34873974]}
+{"id": 495, "claim": "main partner improv hiv outcom .", "evidence": {"17077004": [{"sentences": [7], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}]}, "cited_doc_ids": [17077004]}
+{"id": 498, "claim": "main partner worsen hiv outcom .", "evidence": {"17077004": [{"sentences": [7], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [17077004]}
+{"id": 499, "claim": "hba1c consist overestim glycem control black individu sickl cell trait ( sct ) .", "evidence": {"26064662": [{"sentences": [10], "label": "CONTRADICT"}, {"sentences": [11], "label": "CONTRADICT"}, {"sentences": [13], "label": "CONTRADICT"}, {"sentences": [14], "label": "CONTRADICT"}, {"sentences": [15], "label": "CONTRADICT"}]}, "cited_doc_ids": [26064662]}
+{"id": 500, "claim": "headach correl cognit impair .", "evidence": {"17930286": [{"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [17930286]}
+{"id": 504, "claim": "healthi volunt exhibit rapid transient increas cellular atp bolus-inject fructos .", "evidence": {"10883736": [{"sentences": [11], "label": "CONTRADICT"}]}, "cited_doc_ids": [10883736]}
+{"id": 505, "claim": "helicobact pylori-induc aberr nf-kb-depend express activation-induc cytidin deaminas contribut mutagenesi host dna .", "evidence": {"22703082": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [22703082]}
+{"id": 506, "claim": "helminth interfer immun system control coinfect microbi pathogen 16 .", "evidence": {"7433668": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [2], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [7433668]}
+{"id": 509, "claim": "hematopoiet stem cell purif reach puriti rate 90 % .", "evidence": {}, "cited_doc_ids": [13980338]}
+{"id": 515, "claim": "high level crp lead higher risk exacerb chronic obstruct pulmonari diseas ( copd ) .", "evidence": {"29564505": [{"sentences": [8], "label": "SUPPORT"}, {"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [29564505]}
+{"id": 523, "claim": "higher plasma level i-carnitin , associ trimethylamin n-oxid , negat correl cardiovascular event human .", "evidence": {"14803797": [{"sentences": [1], "label": "CONTRADICT"}, {"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [14803797]}
+{"id": 524, "claim": "higher plasma level i-carnitin , associ trimethylamin n-oxid , posit correl cardiovascular event human .", "evidence": {"14803797": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [14803797]}
+{"id": 526, "claim": "homozyg delet murin sbds gene osterix-express mesenchym stem progenitor cell ( mpcs ) induc oxid stress .", "evidence": {}, "cited_doc_ids": [3863543]}
+{"id": 529, "claim": "human embryon stem cell give rise cell type three embryon germ layer .", "evidence": {"10546779": [{"sentences": [2], "label": "SUPPORT"}], "25413327": [{"sentences": [0], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}], "36651210": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [10546779, 25413327, 36651210]}
+{"id": 530, "claim": "human embryon stem cell give rise cell type outer embryon germ layer , two layer .", "evidence": {"10546779": [{"sentences": [2], "label": "CONTRADICT"}], "25413327": [{"sentences": [0], "label": "CONTRADICT"}, {"sentences": [5], "label": "CONTRADICT"}], "36651210": [{"sentences": [0], "label": "CONTRADICT"}]}, "cited_doc_ids": [10546779, 25413327, 36651210, 87610599]}
+{"id": 531, "claim": "human embryon stem cell capac give rise differenti progeni repres three embryon germ layer .", "evidence": {"10546779": [{"sentences": [2], "label": "SUPPORT"}], "25413327": [{"sentences": [0], "label": "SUPPORT"}], "36651210": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [10546779, 25413327, 36651210]}
+{"id": 537, "claim": "hypocretin neuron suppress panicpron state rat .", "evidence": {"16056514": [{"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [16056514]}
+{"id": 541, "claim": "hypothalam glutam neurotransmiss unrel energi balanc .", "evidence": {"45154987": [{"sentences": [7], "label": "CONTRADICT"}, {"sentences": [8], "label": "CONTRADICT"}], "11886686": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [45154987, 11886686, 25007443]}
+{"id": 542, "claim": "ifi16 imped sting phosphoryl transloc , result reduc activ sting .", "evidence": {"19688024": [{"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [19688024]}
+{"id": 545, "claim": "ifit1 speed viral replic allow prolifer mis-cap viral rnas .", "evidence": {}, "cited_doc_ids": [24221369]}
+{"id": 547, "claim": "il-10 product monocyt inhibit cd4 + cell respons .", "evidence": {"10648422": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [10648422]}
+{"id": 548, "claim": "il-6 signal play major role atherosclerot cardiovascular diseas .", "evidence": {"18199839": [{"sentences": [8, 9], "label": "SUPPORT"}, {"sentences": [11], "label": "SUPPORT"}]}, "cited_doc_ids": [18199839]}
+{"id": 550, "claim": "itam phosphoryl allow transfer cell receptor ( tcr ) signal echo-domain cytoplasm tail cell receptor ( tcr ) .", "evidence": {}, "cited_doc_ids": [33499189]}
+{"id": 553, "claim": "iga plasma cell specif transglutaminas 2 scarc duoden mucosa celiac diseas patient diseas activ .", "evidence": {"1471041": [{"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [1471041]}
+{"id": 555, "claim": "immun complex trigger cell death lead extracellular releas nuclear dna .", "evidence": {}, "cited_doc_ids": [1049501]}
+{"id": 557, "claim": "immun complex trigger cell death lead sequestr oxid mitochondri dna .", "evidence": {}, "cited_doc_ids": [1049501]}
+{"id": 559, "claim": "immun respons immun cell geograph segreg .", "evidence": {"3475317": [{"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [3475317]}
+{"id": 562, "claim": "improv oer catalyst show stabl activ sever hundr hour .", "evidence": {"20101846": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [20101846]}
+{"id": 563, "claim": "british men , haplogroup decreas risk cardiovascular diseas .", "evidence": {"2867345": [{"sentences": [7], "label": "CONTRADICT"}]}, "cited_doc_ids": [2867345]}
+{"id": 564, "claim": "british men , haplogroup increas risk cardiovascular diseas 50 % .", "evidence": {"2867345": [{"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [2867345]}
+{"id": 565, "claim": "s. cerevisia , absenc rna surveil pathway caus sensit high iron condit .", "evidence": {"16120395": [{"sentences": [1, 2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [16120395]}
+{"id": 566, "claim": "s. cerevisia , absenc rna surveil pathway reduc sensit high iron condit .", "evidence": {"16120395": [{"sentences": [1, 2], "label": "CONTRADICT"}, {"sentences": [3], "label": "CONTRADICT"}, {"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [16120395]}
+{"id": 568, "claim": "naiv state , block wingless-int-1 secret mous embryon stem cell inhibit self-renew mous embryon stem cell .", "evidence": {"23418635": [{"sentences": [5], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [23418635]}
+{"id": 570, "claim": "breast cancer , loss myoepitheli cell promot transit ductal carcinoma situ invas carcinoma .", "evidence": {"20333864": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [20333864]}
+{"id": 571, "claim": "breast cancer , loss myoepitheli cell slow transit ductal carcinoma situ invas carcinoma .", "evidence": {"20333864": [{"sentences": [2], "label": "CONTRADICT"}, {"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [20333864]}
+{"id": 572, "claim": "chronic viral infect tumor , peptid select inhibit ptprs util boost insuffici activ pdcs .", "evidence": {}, "cited_doc_ids": [4447055]}
+{"id": 573, "claim": "domest popul saccharomyc cerevisia , segment aneuploidi common .", "evidence": {}, "cited_doc_ids": [10300888]}
+{"id": 574, "claim": "domest popul saccharomyc cerevisia , segment aneuploidi occur infrequ .", "evidence": {}, "cited_doc_ids": [10300888]}
+{"id": 576, "claim": "melanoma , anti-ctla-4 treatment reinvigor exhaust pd-1+eomes+cd8 cell .", "evidence": {"4468861": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [4468861]}
+{"id": 579, "claim": "patient congenit heart defect , β-blocker signific improv clinic heart failur outcom .", "evidence": {"34139429": [{"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [34139429]}
+{"id": 580, "claim": "pediatr tissu , cell naiv cell emigr thymus .", "evidence": {"23460562": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [23460562]}
+{"id": 582, "claim": "rhesus macaqu , daili subcutan inject emtricitabin ineffect protect rectal transmit simian-human immunodefici virus .", "evidence": {}, "cited_doc_ids": [14260013]}
+{"id": 584, "claim": "rhesus macaqu , daili subcutan inject tenofovir protect rectal transmit simian-human immunodefici virus .", "evidence": {"14260013": [{"sentences": [9], "label": "SUPPORT"}]}, "cited_doc_ids": [14260013]}
+{"id": 585, "claim": "uk , drown affect boy girl equal .", "evidence": {}, "cited_doc_ids": [42291761]}
+{"id": 588, "claim": "transgen mice harbor green floresc protein control sox2 promot , 50 percent cell green floresc coloc cell prolifer marker .", "evidence": {}, "cited_doc_ids": [16999023]}
+{"id": 590, "claim": "young middle-ag adult , current remot use adhd medic increas risk serious cardiovascular event .", "evidence": {"10984005": [{"sentences": [9, 10], "label": "CONTRADICT"}, {"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [10984005]}
+{"id": 591, "claim": "incid 10/66 dementia higher incid dsm-iv dementia .", "evidence": {"14682243": [{"sentences": [8], "label": "SUPPORT"}]}, "cited_doc_ids": [14682243]}
+{"id": 592, "claim": "incid 10/66 dementia lower incid dsm-iv dementia .", "evidence": {"14682243": [{"sentences": [8], "label": "CONTRADICT"}]}, "cited_doc_ids": [14682243]}
+{"id": 594, "claim": "incid heart failur increas 10 % women sinc 1979 .", "evidence": {"19675911": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [19675911]}
+{"id": 595, "claim": "incid sepsi fallen substanti 2009 2014 .", "evidence": {"4824840": [{"sentences": [9], "label": "CONTRADICT"}, {"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [4824840]}
+{"id": 600, "claim": "includ pharmacist round team alter incid advers drug event ( ade ) .", "evidence": {"12258338": [{"sentences": [11], "label": "CONTRADICT"}, {"sentences": [14], "label": "CONTRADICT"}]}, "cited_doc_ids": [12258338]}
+{"id": 601, "claim": "includ pharmacist round team reduc incid advers drug event ( ade ) .", "evidence": {"12258338": [{"sentences": [11], "label": "SUPPORT"}, {"sentences": [14], "label": "SUPPORT"}]}, "cited_doc_ids": [12258338]}
+{"id": 602, "claim": "increas p62 prostat tumor stroma result defect autophagi .", "evidence": {}, "cited_doc_ids": [3701541]}
+{"id": 603, "claim": "increas ldl receptor play role reduct plasma lp ( a ) .", "evidence": {"6540064": [{"sentences": [9, 10, 11], "label": "SUPPORT"}, {"sentences": [16], "label": "SUPPORT"}]}, "cited_doc_ids": [6540064]}
+{"id": 606, "claim": "increas convers pge 2 ppari ligand 15-ket-pg 2 caus accumul pge .", "evidence": {}, "cited_doc_ids": [712078]}
+{"id": 607, "claim": "increas diastol blood pressur ( dbp ) associ abdomin aortic aneurysm .", "evidence": {"4506414": [{"sentences": [9], "label": "SUPPORT"}]}, "cited_doc_ids": [4506414]}
+{"id": 609, "claim": "increas flux microbi product provok immun respons .", "evidence": {}, "cited_doc_ids": [40096222]}
+{"id": 610, "claim": "increas flux microbi product suppress immun respons .", "evidence": {}, "cited_doc_ids": [40096222]}
+{"id": 611, "claim": "increas lipolysi lead higher p38 phosphoryl adipos tissu .", "evidence": {}, "cited_doc_ids": [32408470]}
+{"id": 612, "claim": "increas microtubul acetyl exacerb lrrk2 roc-cor domain mutat induc locomotor deficit .", "evidence": {"9638032": [{"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [9638032]}
+{"id": 614, "claim": "increas microtubul acetyl repair interfer axon transport caus lrrk2 roc-cor domain mutat .", "evidence": {"9638032": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [9638032]}
+{"id": 615, "claim": "increas microtubul acetyl worsen interfer axon transport caus lrrk2 roc-cor domain mutat .", "evidence": {"9638032": [{"sentences": [4], "label": "CONTRADICT"}, {"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [9638032]}
+{"id": 616, "claim": "increas mobil retrotransposon lead mutat higher tumorigenesi rate .", "evidence": {}, "cited_doc_ids": [18670]}
+{"id": 617, "claim": "increas mobil retrotransposon assosci mutat higher tumorigenesi rate .", "evidence": {}, "cited_doc_ids": [18670]}
+{"id": 618, "claim": "increas puriti cytoplasm membran isol overexpressor indic stronger spot ompf 2d bn-page gel .", "evidence": {}, "cited_doc_ids": [6836086]}
+{"id": 620, "claim": "increas vessel densiti along reduct fibrosi improv efficaci chemotherapi treatment .", "evidence": {}, "cited_doc_ids": [2565138]}
+{"id": 621, "claim": "individu alzheim particip six month physic activ improv cognit function 18 month .", "evidence": {"1642727": [{"sentences": [9], "label": "SUPPORT"}, {"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [1642727]}
+{"id": 622, "claim": "individu low serum vitamin concentr decreas risk multipl sclerosi .", "evidence": {}, "cited_doc_ids": [17000834]}
+{"id": 624, "claim": "induc hepat stem cell possess potenti differenti cholangiocyt cell .", "evidence": {"20033112": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [20033112]}
+{"id": 625, "claim": "induc hepat stem cell possess potenti differenti hepatocyt cell .", "evidence": {"20033112": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [20033112]}
+{"id": 626, "claim": "induct urokinas receptor signal podocyt caus foot process effac proteinuria .", "evidence": {"16355392": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [16355392]}
+{"id": 631, "claim": "inhibit hdac6 increas surviv mice arid1a mutat tumor .", "evidence": {"5468807": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [5468807]}
+{"id": 632, "claim": "inhibit focal adhes format enabl cell convert mechan strain eventu scar .", "evidence": {"5172048": [{"sentences": [3], "label": "CONTRADICT"}, {"sentences": [5], "label": "CONTRADICT"}, {"sentences": [6], "label": "CONTRADICT"}, {"sentences": [7], "label": "CONTRADICT"}]}, "cited_doc_ids": [5172048]}
+{"id": 633, "claim": "inhibit focal adhes format increas rate cell convert mechan strain inflamm fibrosi .", "evidence": {"5172048": [{"sentences": [3], "label": "CONTRADICT"}, {"sentences": [7], "label": "CONTRADICT"}]}, "cited_doc_ids": [5172048]}
+{"id": 635, "claim": "inhibit glucose-6-phosp dehydrogenas improv lipogenesi deactiv lkb1-ampk signal .", "evidence": {"1686997": [{"sentences": [1, 2], "label": "CONTRADICT"}]}, "cited_doc_ids": [1686997]}
+{"id": 638, "claim": "input mental physic health care profession effect decreas homeless .", "evidence": {}, "cited_doc_ids": [25649714]}
+{"id": 640, "claim": "insid bodi , falciparum parasit reproduc asexu .", "evidence": {"6503185": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [6503185]}
+{"id": 642, "claim": "insulin decreas risk sever kidney failur .", "evidence": {}, "cited_doc_ids": [13619127]}
+{"id": 643, "claim": "insulin effect appetit via ventral tegment neuron .", "evidence": {"15535511": [{"sentences": [3, 5], "label": "SUPPORT"}]}, "cited_doc_ids": [15535511]}
+{"id": 645, "claim": "intak folic acid ( fa ) vitamin b6 ( vb6 ) increas level homocystein .", "evidence": {"12810152": [{"sentences": [0], "label": "CONTRADICT"}]}, "cited_doc_ids": [12810152]}
+{"id": 646, "claim": "intak folic acid ( fa ) vitamin b6 ( vb6 ) reduc level homocystein .", "evidence": {"12810152": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [12810152]}
+{"id": 647, "claim": "integr care ineffect tackl multipl comorbid .", "evidence": {"15041758": [{"sentences": [6], "label": "CONTRADICT"}, {"sentences": [7], "label": "CONTRADICT"}, {"sentences": [8], "label": "CONTRADICT"}]}, "cited_doc_ids": [15041758]}
+{"id": 648, "claim": "integr care success tackl multipl comorbid .", "evidence": {"15041758": [{"sentences": [6], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}]}, "cited_doc_ids": [15041758]}
+{"id": 650, "claim": "integr classroom-bas collabor learn web-bas collabor learn offer best class perform .", "evidence": {}, "cited_doc_ids": [12789595]}
+{"id": 651, "claim": "interferon stimul gene ( isg ) irf1 , irg1 , ifi27 , rsad2 encourag west nile virus replic cortic neuron .", "evidence": {}, "cited_doc_ids": [9433958]}
+{"id": 652, "claim": "interferon stimul gene ( isg ) irf1 , irg1 , ifi27 , rsad2 inhibit west nile virus replic cortic neuron .", "evidence": {}, "cited_doc_ids": [9433958]}
+{"id": 653, "claim": "interleukin-18 play import role pathogenesi atherosclerosi .", "evidence": {"24384587": [{"sentences": [0], "label": "SUPPORT"}, {"sentences": [1], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [24384587]}
+{"id": 654, "claim": "intra-cerebroventricular infus amyloid-β oligom increas express fibronectin type-iii domain-contain protein 5 mrna mice hippocampi .", "evidence": {}, "cited_doc_ids": [57574395]}
+{"id": 655, "claim": "intra-cerebroventricular infus amyloid-β oligom reduc express fibronectin type-iii domain-contain protein 5 mrna mice hippocampi .", "evidence": {}, "cited_doc_ids": [57574395]}
+{"id": 657, "claim": "intramembran cleavag signal peptid peptidas aid degrad protein complex membran orient .", "evidence": {"8533245": [{"sentences": [2, 3], "label": "SUPPORT"}]}, "cited_doc_ids": [8533245]}
+{"id": 658, "claim": "proven moder consumpt candi chocol reduc risk cardiovascular diseas ( cvd ) specif .", "evidence": {}, "cited_doc_ids": [5293024]}
+{"id": 661, "claim": "jmjd6 catalyz hydroxyl c-termin lysin supress transcript activ .", "evidence": {"37204802": [{"sentences": [3, 4, 6], "label": "SUPPORT"}]}, "cited_doc_ids": [37204802]}
+{"id": 662, "claim": "jmjd6 slow hydroxyl c-termin lysin", "evidence": {"37204802": [{"sentences": [3, 4, 6], "label": "CONTRADICT"}]}, "cited_doc_ids": [37204802]}
+{"id": 663, "claim": "klf4 necessari vsmcs gain genet characterist cell type within atherosclerot lesion .", "evidence": {"22080671": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [22080671]}
+{"id": 665, "claim": "krt17 modul express transcript regul air diseas epithelia .", "evidence": {"12580014": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [12580014]}
+{"id": 666, "claim": "kir7.1 modul channel activ g protein-coupl melanocortin-4 receptor ( mc4r ) paraventricular nucleus hypothalamus .", "evidence": {"4469125": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [4469125]}
+{"id": 667, "claim": "klf2 import proper myeloid cell function .", "evidence": {"6493422": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [6493422]}
+{"id": 668, "claim": "klf4 import proper myeloid cell differenti .", "evidence": {"25148216": [{"sentences": [0], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [6493422, 25148216]}
+{"id": 669, "claim": "klf4 requir proper myeloid cell differenti .", "evidence": {"25148216": [{"sentences": [0], "label": "CONTRADICT"}, {"sentences": [4], "label": "CONTRADICT"}, {"sentences": [5], "label": "CONTRADICT"}, {"sentences": [6], "label": "CONTRADICT"}]}, "cited_doc_ids": [6493422, 25148216]}
+{"id": 670, "claim": "knockout proxim tubule-specif delet bmp receptor alk3 caus epitheli damag .", "evidence": {"5573975": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [5573975]}
+{"id": 671, "claim": "knockout proxim tubule-specif delet bmp receptor alk3 caus fibrosi .", "evidence": {"5573975": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [5573975]}
+{"id": 672, "claim": "l3mbtl2 bind h2ak119ub mark chromatin form prc1 complex .", "evidence": {}, "cited_doc_ids": [15635366]}
+{"id": 673, "claim": "ldl cholesterol causal role develop cardiovascular diseas .", "evidence": {"2095573": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [2095573]}
+{"id": 676, "claim": "lrba prevent ctla - 4 recycl .", "evidence": {}, "cited_doc_ids": [857189]}
+{"id": 677, "claim": "lrba promot ctla - 4 recycl .", "evidence": {}, "cited_doc_ids": [857189]}
+{"id": 679, "claim": "lsd1-posit promot associ rna polymeras ii", "evidence": {}, "cited_doc_ids": [13639330]}
+{"id": 680, "claim": "lack fgf21 mice increas life expect .", "evidence": {"9315213": [{"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [9315213]}
+{"id": 681, "claim": "lack fgf21 mice lead atherosclerot plaqu format .", "evidence": {"9315213": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}]}, "cited_doc_ids": [9315213]}
+{"id": 682, "claim": "lack fgf21 mice lead reduc lifespan .", "evidence": {"9315213": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [9315213]}
+{"id": 683, "claim": "lack fgf21 mice slow rate atherosclerot plaqu format .", "evidence": {"9315213": [{"sentences": [4], "label": "CONTRADICT"}, {"sentences": [5], "label": "CONTRADICT"}, {"sentences": [8], "label": "CONTRADICT"}]}, "cited_doc_ids": [9315213]}
+{"id": 685, "claim": "lamin associ nuclear membran structur mainten .", "evidence": {}, "cited_doc_ids": [4452659]}
+{"id": 686, "claim": "lamin found within inner layer mitochondri membran cell .", "evidence": {}, "cited_doc_ids": [4452659]}
+{"id": 687, "claim": "lamin found within inner layer nuclear membran cell .", "evidence": {}, "cited_doc_ids": [4452659]}
+{"id": 688, "claim": "lamin effect nuclear membran structur mainten .", "evidence": {}, "cited_doc_ids": [4452659]}
+{"id": 689, "claim": "less 10 % patient expos radiat activ marker mesenchym stem cell .", "evidence": {}, "cited_doc_ids": [22080671]}
+{"id": 694, "claim": "lice attenu siv vaccin induc stronger antigen-specif cell respons lymph node cell .", "evidence": {"1071991": [{"sentences": [1], "label": "SUPPORT"}]}, "cited_doc_ids": [1071991]}
+{"id": 696, "claim": "lipopolysaccharid inflamm independ effect kidney barrier function .", "evidence": {}, "cited_doc_ids": [16355392]}
+{"id": 698, "claim": "lmna knock-in model appropri test therapeut approach hutchinson-gilford progeria syndrom ( hgps ) .", "evidence": {}, "cited_doc_ids": [22544171]}
+{"id": 703, "claim": "local pin1 root arabidopsi requir vps9a", "evidence": {}, "cited_doc_ids": [4350400]}
+{"id": 704, "claim": "long - rang chromatin interact regul transcript .", "evidence": {}, "cited_doc_ids": [14658685]}
+{"id": 705, "claim": "long chain polyunsatur fatti acid supplement signific effect wheez asthma 3 6 year .", "evidence": {}, "cited_doc_ids": [22442133]}
+{"id": 709, "claim": "long chain polyunsatur fatti acid supplement associ lower rate atop eczema 1 year .", "evidence": {"22442133": [{"sentences": [6], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}]}, "cited_doc_ids": [22442133]}
+{"id": 710, "claim": "long chain polyunsatur fatti acid supplement reduc wheez asthma .", "evidence": {}, "cited_doc_ids": [22442133]}
+{"id": 713, "claim": "low express mir7a repress target gene exert biolog function ovari .", "evidence": {}, "cited_doc_ids": [18421962]}
+{"id": 714, "claim": "low express mir7a repress target gene exert biolog function testi .", "evidence": {}, "cited_doc_ids": [18421962]}
+{"id": 717, "claim": "low nucleosom occup correl high methyl level across speci .", "evidence": {"17587795": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [17587795]}
+{"id": 724, "claim": "ly49q direct organ neutrophil polar regul membran raft function .", "evidence": {"5531479": [{"sentences": [5], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [5531479]}
+{"id": 726, "claim": "ly6c hi monocyt higher inflammatori capac ly6c lo monocyt .", "evidence": {"36444198": [{"sentences": [9], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [7521113, 36444198]}
+{"id": 730, "claim": "lysin histon demethylas inhibitor jib 04 inact kdm5a .", "evidence": {}, "cited_doc_ids": [13400643]}
+{"id": 732, "claim": "m. stadtmana induc asc speck format blaer1 monocyt .", "evidence": {}, "cited_doc_ids": [34469966]}
+{"id": 733, "claim": "m. stadtmana induc asc speck format blaer1 monocyt .", "evidence": {}, "cited_doc_ids": [34469966]}
+{"id": 734, "claim": "mek inhibitor effect treatment ras-driven mous model cancer .", "evidence": {"4961038": [{"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [4961038]}
+{"id": 736, "claim": "mfge8 regul fat absorpt bind av-beta3 av-beta5 integrin .", "evidence": {"5389095": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [5389095]}
+{"id": 737, "claim": "mical redox enzym regul actin dynam mani cell type .", "evidence": {"16562534": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}], "6609935": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [16562534, 6609935]}
+{"id": 738, "claim": "mical redox enzym regul actin dynam .", "evidence": {"16562534": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}], "6609935": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}], "33912020": [{"sentences": [2, 3, 5], "label": "SUPPORT"}]}, "cited_doc_ids": [16562534, 6609935, 33912020]}
+{"id": 739, "claim": "mt bind domain drive amyloid structur format .", "evidence": {}, "cited_doc_ids": [4446814]}
+{"id": 740, "claim": "muc1-c activ nf-κb p65 signal pathway interact iκb kinas ß .", "evidence": {"23078022": [{"sentences": [8], "label": "SUPPORT"}]}, "cited_doc_ids": [23078022]}
+{"id": 745, "claim": "mafa phosphoryl decreas ubiquitin .", "evidence": {"11291348": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [11291348]}
+{"id": 746, "claim": "mafa phosphoryl enhanc ubiquitin .", "evidence": {"11291348": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [11291348]}
+{"id": 747, "claim": "mafa ubiquitin decreas recruit coavtiv p/caf mafa .", "evidence": {"11291348": [{"sentences": [6], "label": "CONTRADICT"}]}, "cited_doc_ids": [11291348]}
+{"id": 748, "claim": "mafa ubiquitin increas recruit coavtiv p/caf mafa .", "evidence": {"11291348": [{"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [11291348]}
+{"id": 749, "claim": "major antigen-induc signal cell receptor secondari signal costimulatori receptor requir cell activ .", "evidence": {"13868795": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [13868795]}
+{"id": 751, "claim": "major vault protein ( mvp ) lead aggress tumor regul sort tumor suppress mir-193a extracellular vesicl ( ev ) .", "evidence": {"19800147": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [19800147]}
+{"id": 752, "claim": "major vault protein regul sort tumor suppress mir-193a ev .", "evidence": {"19800147": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [19800147]}
+{"id": 753, "claim": "malaria high vectori capac .", "evidence": {}, "cited_doc_ids": [1173667]}
+{"id": 755, "claim": "mani cytokin produc cancer cell also contribut carcinogenesi .", "evidence": {}, "cited_doc_ids": [17844478]}
+{"id": 757, "claim": "mani transmembran receptor transmit signal long-rang conform chang associ alpha-helic across plasma membran .", "evidence": {}, "cited_doc_ids": [17123657]}
+{"id": 758, "claim": "marmoset brain region homolog broca 's area .", "evidence": {}, "cited_doc_ids": [14195528]}
+{"id": 760, "claim": "mathemat model predict use artemisinin-bas combin therapi nongametocytocid drug modest impact reduc malaria transmiss .", "evidence": {"1805641": [{"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [1805641]}
+{"id": 761, "claim": "mecp2 influenc synapt matur neuron .", "evidence": {}, "cited_doc_ids": [10009203]}
+{"id": 762, "claim": "measur routin outcom benefici clinic practic assess treatment adher .", "evidence": {}, "cited_doc_ids": [4695046]}
+{"id": 764, "claim": "medic treat obes high effect .", "evidence": {"7552215": [{"sentences": [8], "label": "CONTRADICT"}, {"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [7552215]}
+{"id": 765, "claim": "medic treat obes side effect .", "evidence": {"7552215": [{"sentences": [10], "label": "CONTRADICT"}, {"sentences": [11], "label": "CONTRADICT"}, {"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [7552215]}
+{"id": 766, "claim": "medic treat obes unwant side effect .", "evidence": {"7552215": [{"sentences": [10], "label": "SUPPORT"}, {"sentences": [11], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}]}, "cited_doc_ids": [7552215]}
+{"id": 767, "claim": "men suscept death due pneumonia compar women .", "evidence": {"2488880": [{"sentences": [10], "label": "CONTRADICT"}]}, "cited_doc_ids": [2488880]}
+{"id": 771, "claim": "metastat colorect cancer treat singl agent fluoropyrimidin result similar efficaci better qualiti life compar oxaliplatin-bas chemotherapi elder patient .", "evidence": {"15476777": [{"sentences": [16], "label": "CONTRADICT"}]}, "cited_doc_ids": [15476777]}
+{"id": 772, "claim": "mice incap produc neutral antibodi repons chikungunya virus ( chikv ) produc mosquito .", "evidence": {"24922825": [{"sentences": [7], "label": "CONTRADICT"}]}, "cited_doc_ids": [24922825]}
+{"id": 774, "claim": "mice defect deoxyribonucl acid ( dna ) polymeras ( poli ) fail reveal increas sensit ioniz radiat ( ir ) .", "evidence": {}, "cited_doc_ids": [32275758]}
+{"id": 776, "claim": "mice defect deoxyribonucl acid ( dna ) polymeras ( polm ) fail reveal increas sensit ioniz radiat ( ir ) .", "evidence": {}, "cited_doc_ids": [32275758]}
+{"id": 777, "claim": "mice defect deoxyribonucl acid ( dna ) polymeras ( polm ) reveal increas sensit ioniz radiat ( ir ) .", "evidence": {}, "cited_doc_ids": [32275758]}
+{"id": 778, "claim": "mice lack sirt1 sf1-express neuron immun diet-induc obes insulin resist .", "evidence": {"13001323": [{"sentences": [2, 3], "label": "CONTRADICT"}, {"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [13001323]}
+{"id": 779, "claim": "mice lack sirt1 sf1-express neuron increas suscept diet-induc obes insulin resist .", "evidence": {"13001323": [{"sentences": [2, 3], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [13001323]}
+{"id": 780, "claim": "mice lack interferon-γ receptor high suscept experiment autoimmun myocard .", "evidence": {"8246922": [{"sentences": [7], "label": "SUPPORT"}, {"sentences": [11], "label": "SUPPORT"}], "24338780": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [8246922, 24338780]}
+{"id": 782, "claim": "mice without ifn-γ receptor high suscept eam induc α-myhc/cfa .", "evidence": {"8246922": [{"sentences": [7], "label": "SUPPORT"}, {"sentences": [11], "label": "SUPPORT"}]}, "cited_doc_ids": [8246922]}
+{"id": 787, "claim": "microcin j25 encourag nucleosid triphosph ( ntp ) bind .", "evidence": {"4740447": [{"sentences": [1], "label": "CONTRADICT"}]}, "cited_doc_ids": [4740447]}
+{"id": 788, "claim": "microcin j25 inhibit nucleosid triphosph ( ntp ) bind .", "evidence": {"4740447": [{"sentences": [1], "label": "SUPPORT"}]}, "cited_doc_ids": [4740447]}
+{"id": 789, "claim": "microglia innat immun cell type central nervous system .", "evidence": {"15493354": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [15493354]}
+{"id": 790, "claim": "microglia innat immun cell type peripher nervous system .", "evidence": {"15493354": [{"sentences": [2], "label": "CONTRADICT"}, {"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [15493354]}
+{"id": 791, "claim": "migrain aura associ ischem stroke .", "evidence": {"15984735": [{"sentences": [11], "label": "SUPPORT"}, {"sentences": [16], "label": "SUPPORT"}]}, "cited_doc_ids": [15984735]}
+{"id": 792, "claim": "misunderstand doctor patient lead non-adher .", "evidence": {"3610080": [{"sentences": [6, 7], "label": "SUPPORT"}]}, "cited_doc_ids": [3610080]}
+{"id": 795, "claim": "mitochondria play major role apoptosi .", "evidence": {"8551160": [{"sentences": [1], "label": "SUPPORT"}]}, "cited_doc_ids": [8551160]}
+{"id": 797, "claim": "mitochondria play major role energi product .", "evidence": {"8551160": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [8551160]}
+{"id": 798, "claim": "mitochondria play trivial role calcium homeostasi .", "evidence": {"8551160": [{"sentences": [1], "label": "CONTRADICT"}]}, "cited_doc_ids": [8551160]}
+{"id": 799, "claim": "moder consumpt candi chocol reduc risk cardiovascular diseas ( cvd ) .", "evidence": {}, "cited_doc_ids": [5293024]}
+{"id": 801, "claim": "monoclon antibodi target n-cadherin encourag castrat resist .", "evidence": {"22180793": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [22180793]}
+{"id": 802, "claim": "monoclon antibodi target n-cadherin encourag metastasi .", "evidence": {"22180793": [{"sentences": [4], "label": "CONTRADICT"}, {"sentences": [7], "label": "CONTRADICT"}]}, "cited_doc_ids": [22180793]}
+{"id": 803, "claim": "monoclon antibodi target n-cadherin inhibit castrat resist .", "evidence": {"22180793": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [22180793]}
+{"id": 804, "claim": "monoclon antibodi target n-cadherin inhibit growth .", "evidence": {"22180793": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [22180793]}
+{"id": 807, "claim": "termin event okazaki fragment dictat initi pattern .", "evidence": {"36606083": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [36606083]}
+{"id": 810, "claim": "mous model generat use `` artifici spermatid . ''", "evidence": {"13513790": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [13513790]}
+{"id": 812, "claim": "mutant mice lack svct2 sever reduc ascorb acid level brain adren .", "evidence": {"19799455": [{"sentences": [4, 6], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}]}, "cited_doc_ids": [19799455]}
+{"id": 813, "claim": "mutat g-beta protein gnb1 present mani cancer , result loss interact g-alpha subunit concomit activ akt pathway .", "evidence": {}, "cited_doc_ids": [33387953]}
+{"id": 815, "claim": "mutat rim1 decreas level ime1 rna .", "evidence": {"8148304": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [8148304]}
+{"id": 816, "claim": "mutat rim1 rais level ime1 rna .", "evidence": {"8148304": [{"sentences": [1], "label": "CONTRADICT"}, {"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [8148304]}
+{"id": 817, "claim": "myelin sheath lipid-rich cellular structur .", "evidence": {}, "cited_doc_ids": [17814815]}
+{"id": 818, "claim": "myelin sheath play role action potenti propag .", "evidence": {"17814815": [{"sentences": [0], "label": "SUPPORT"}, {"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [17814815]}
+{"id": 822, "claim": "n348i mutat caus resist nevirapin .", "evidence": {"15319019": [{"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [15319019]}
+{"id": 825, "claim": "n348i mutat reduc resist nevirapin .", "evidence": {"15319019": [{"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [15319019]}
+{"id": 826, "claim": "nac destabil increas effect contrast agent renal function .", "evidence": {}, "cited_doc_ids": [4678846]}
+{"id": 828, "claim": "nac inhibit generat angiotensin-convert enzym .", "evidence": {}, "cited_doc_ids": [4678846]}
+{"id": 835, "claim": "nr5a2 play role develop endometri tissu .", "evidence": {"15928989": [{"sentences": [5, 6], "label": "CONTRADICT"}, {"sentences": [7], "label": "CONTRADICT"}]}, "cited_doc_ids": [15928989]}
+{"id": 838, "claim": "nr5a2 import revers cholesterol transport human .", "evidence": {}, "cited_doc_ids": [15928989]}
+{"id": 840, "claim": "natriuret peptid increas suscept diabet .", "evidence": {"15663829": [{"sentences": [4, 7], "label": "CONTRADICT"}]}, "cited_doc_ids": [15663829]}
+{"id": 841, "claim": "natriuret peptid protect diabet .", "evidence": {"15663829": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [15663829]}
+{"id": 844, "claim": "neutrophil extracellular trap ( net ) antigen may contain target autoantigen pr3 mpo .", "evidence": {"17741440": [{"sentences": [1], "label": "SUPPORT"}]}, "cited_doc_ids": [17741440]}
+{"id": 846, "claim": "neutrophil produc il-1β respons larg particl .", "evidence": {"22696649": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [22696649]}
+{"id": 848, "claim": "nigerian physician constitu largest compon sub-saharan africa-train physician unit state .", "evidence": {}, "cited_doc_ids": [14500725]}
+{"id": 853, "claim": "nonhuman primat incap produc neutral antibodi repons eilat virus ( eilv ) produc mosquito .", "evidence": {"24922825": [{"sentences": [7, 8], "label": "CONTRADICT"}]}, "cited_doc_ids": [24922825]}
+{"id": 854, "claim": "nonhypertens peopl 55 year old 90 % chanc develop hypertens lifetim .", "evidence": {"12206390": [{"sentences": [5], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}]}, "cited_doc_ids": [12206390]}
+{"id": 855, "claim": "noninvas posit pressur ventil predict acut respiratori failur solid organ transplant .", "evidence": {"8190282": [{"sentences": [8], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}, {"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [8190282]}
+{"id": 856, "claim": "nonsteroid antinflammatori drug ineffect cancer treatment .", "evidence": {"43334921": [{"sentences": [6], "label": "CONTRADICT"}, {"sentences": [8], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}]}, "cited_doc_ids": [43334921]}
+{"id": 857, "claim": "nonsteroid antinflammatori drug show potenti anticanc indic .", "evidence": {"43334921": [{"sentences": [6], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [43334921]}
+{"id": 858, "claim": "normal express runx1 caus tumorsupress effect .", "evidence": {"1982286": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [1982286]}
+{"id": 860, "claim": "normal granuloma form absenc tnf zebrafish .", "evidence": {"16066726": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [16066726]}
+{"id": 861, "claim": "normal granuloma form presenc tnf zebrafish .", "evidence": {"16066726": [{"sentences": [4], "label": "CONTRADICT"}, {"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [16066726]}
+{"id": 863, "claim": "notch signal occur tumor cell stromal cell .", "evidence": {"20568364": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}], "16361581": [{"sentences": [1], "label": "SUPPORT"}]}, "cited_doc_ids": [20568364, 16361581]}
+{"id": 866, "claim": "nuclear transfer adult human fibroblast human oocyt give rise blastocyst contain expand pluripot cell .", "evidence": {}, "cited_doc_ids": [37822406]}
+{"id": 867, "claim": "oat toler coeliac patient may oat specif inflammatori cell small bowel mucosa .", "evidence": {"14340571": [{"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [14340571]}
+{"id": 871, "claim": "obes decreas life qualiti .", "evidence": {}, "cited_doc_ids": [195689316]}
+{"id": 876, "claim": "obes rais life qualiti .", "evidence": {}, "cited_doc_ids": [195689316]}
+{"id": 877, "claim": "occipit activ level associ auditori spatial perform pariet region brain .", "evidence": {}, "cited_doc_ids": [313394]}
+{"id": 881, "claim": "omnivor produc less trimethylamin n-oxid dietari i-carnitin vegan .", "evidence": {"14803797": [{"sentences": [2], "label": "CONTRADICT"}]}, "cited_doc_ids": [14803797]}
+{"id": 883, "claim": "omnivor produc trimethylamin n-oxid dietari i-carnitin vegan .", "evidence": {"14803797": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [14803797]}
+{"id": 884, "claim": "omnivor produc trimethylamin n-oxid dietari i-carnitin vegetarian .", "evidence": {"14803797": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [14803797]}
+{"id": 885, "claim": "one five surgic random control trial discontinu earli .", "evidence": {"6477536": [{"sentences": [10], "label": "SUPPORT"}, {"sentences": [17], "label": "SUPPORT"}]}, "cited_doc_ids": [6477536]}
+{"id": 886, "claim": "one two surgic random control trial discontinu earli .", "evidence": {"6477536": [{"sentences": [10], "label": "CONTRADICT"}, {"sentences": [17], "label": "CONTRADICT"}]}, "cited_doc_ids": [6477536]}
+{"id": 890, "claim": "origin gross domest product ( gdp ) negat relat dengu virus ( denv-1 ) diffus air traffic shipment .", "evidence": {}, "cited_doc_ids": [2097256]}
+{"id": 891, "claim": "origin gross domest product ( gdp ) posit relat dengu virus ( denv-1 ) diffus air traffic shipment .", "evidence": {}, "cited_doc_ids": [2097256]}
+{"id": 893, "claim": "osteocyt essenti role g-csf induc hspc mobil .", "evidence": {"13509809": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [13509809]}
+{"id": 894, "claim": "osteoparthr ( oa ) character degener articular cartilag , joint edg , subchondr bone hyperplasia .", "evidence": {}, "cited_doc_ids": [14724693]}
+{"id": 895, "claim": "half gabones children schimmelpenning-feuerstein-mim syndrom ( sfm ) plasma lactat 5mmol/l .", "evidence": {}, "cited_doc_ids": [18750453]}
+{"id": 896, "claim": "overexpress cnp1 n-tail variant exacerb temperature-sensit growth defect scm3-139 .", "evidence": {}, "cited_doc_ids": [14338915]}
+{"id": 897, "claim": "overexpress cnp1 n-tail variant rescu temperature-sensit growth defect scm3-139 .", "evidence": {}, "cited_doc_ids": [14338915]}
+{"id": 898, "claim": "oxid dna damag activ sting signal .", "evidence": {}, "cited_doc_ids": [13106686, 5572127]}
+{"id": 899, "claim": "oxid dna damag inhibit sting signal .", "evidence": {}, "cited_doc_ids": [13106686, 5572127]}
+{"id": 900, "claim": "oxid phosphoryl one primari glycometabol pathway cell .", "evidence": {}, "cited_doc_ids": [18678095]}
+{"id": 901, "claim": "pcsk9 inhibitor decreas plasma lp ( a ) level .", "evidence": {"6540064": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [16], "label": "SUPPORT"}]}, "cited_doc_ids": [6540064]}
+{"id": 902, "claim": "pd-1 trigger monocyt enhanc il-10 product monocyt .", "evidence": {"10648422": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [10648422]}
+{"id": 908, "claim": "pge 2 suppresss intestin tumor growth alter express tumor suppress dna repair gene .", "evidence": {}, "cited_doc_ids": [6923961]}
+{"id": 909, "claim": "pkg-la larg impact express pain hypersensit pgk-la knockout mice .", "evidence": {"11254556": [{"sentences": [3], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [11254556]}
+{"id": 910, "claim": "pkg-la larg impact express spinal long term potenti pgk-la knockout mice .", "evidence": {"11254556": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [11254556]}
+{"id": 912, "claim": "pkg-la play essenti role express spinal long term potenti pgk-la knockout mice .", "evidence": {"11254556": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [11254556]}
+{"id": 916, "claim": "prc1-bound plasmid sediment slower rate unbound plasmid sucros gradient .", "evidence": {}, "cited_doc_ids": [18037805]}
+{"id": 917, "claim": "pten regul transcript activ srf", "evidence": {"34071621": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [34071621]}
+{"id": 919, "claim": "particip quit smoke reduc lung cancer risk approxim 50 % .", "evidence": {"16422880": [{"sentences": [11], "label": "SUPPORT"}]}, "cited_doc_ids": [16422880]}
+{"id": 923, "claim": "patient stabl partnership slower progress hiv aid .", "evidence": {"17077004": [{"sentences": [7], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}]}, "cited_doc_ids": [17077004]}
+{"id": 925, "claim": "patient stabl partnership progress hiv death rate patient partnership .", "evidence": {"17077004": [{"sentences": [7], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [17077004]}
+{"id": 926, "claim": "patient common epitheli cancer like emerg event first hospit admiss live resource-depriv area .", "evidence": {"16390264": [{"sentences": [6, 7], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [16390264]}
+{"id": 927, "claim": "patient common epitheli cancer less like emerg event first hospit admiss live resource-depriv area .", "evidence": {"16390264": [{"sentences": [6, 7], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}]}, "cited_doc_ids": [16390264]}
+{"id": 928, "claim": "patient microcytosi higher erythrocyt count vulner sever malari anaemia infect plasmodium falciparum .", "evidence": {"18174210": [{"sentences": [2], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}]}, "cited_doc_ids": [18174210]}
+{"id": 929, "claim": "patient microcytosi higher erythrocyt count resist sever malari anaemia infect plasmodium falciparum .", "evidence": {"18174210": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [18174210]}
+{"id": 930, "claim": "patient panic anxieti show decreas csf level hypocretin .", "evidence": {"16056514": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [16056514]}
+{"id": 933, "claim": "pediatr scd patient vaso-occlus crisi show increas morphin use breath 80 ppm ino 4 hour .", "evidence": {"14711483": [{"sentences": [12], "label": "SUPPORT"}]}, "cited_doc_ids": [14711483]}
+{"id": 934, "claim": "perigenit skin primari site hiv acquisit .", "evidence": {}, "cited_doc_ids": [8563659]}
+{"id": 935, "claim": "peroxynitrit requir induct cell toler .", "evidence": {"5483793": [{"sentences": [3, 5], "label": "SUPPORT"}]}, "cited_doc_ids": [5483793]}
+{"id": 938, "claim": "persist cell provid relaps resist cancer patient .", "evidence": {}, "cited_doc_ids": [26231129]}
+{"id": 939, "claim": "persistor cell one reason incomplet respons tyrosin kinas inhibitor ( tki ) therapi cancer patient .", "evidence": {}, "cited_doc_ids": [26231129]}
+{"id": 940, "claim": "pharmacist attend ward round increas advers event ward .", "evidence": {"12258338": [{"sentences": [11], "label": "CONTRADICT"}, {"sentences": [14], "label": "CONTRADICT"}]}, "cited_doc_ids": [12258338]}
+{"id": 941, "claim": "pharmacist attend ward round reduc advers event ward .", "evidence": {"12258338": [{"sentences": [11], "label": "SUPPORT"}, {"sentences": [14], "label": "SUPPORT"}]}, "cited_doc_ids": [12258338]}
+{"id": 942, "claim": "phase inform use predict donor-recipi match organ transplant .", "evidence": {"11527199": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [11527199]}
+{"id": 944, "claim": "physic activ improv cognit function individu alzheim .", "evidence": {"1642727": [{"sentences": [9], "label": "CONTRADICT"}, {"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [1642727]}
+{"id": 945, "claim": "physic activ level associ differ maxim oxygen consumpt black white youth .", "evidence": {}, "cited_doc_ids": [8428935, 26112696, 4463588, 13083189]}
+{"id": 946, "claim": "physic activ level associ differ maxim oxygen consumpt black white youth .", "evidence": {}, "cited_doc_ids": [8428935, 26112696, 4463588, 13083189]}
+{"id": 949, "claim": "physic injuri repress transgultaminas activ .", "evidence": {}, "cited_doc_ids": [13578199]}
+{"id": 951, "claim": "piezo1 channel sensor cell migrat epitheli cell .", "evidence": {"21414718": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}, {"sentences": [11], "label": "SUPPORT"}]}, "cited_doc_ids": [21414718]}
+{"id": 952, "claim": "pioglitazon use associ increas risk prostat cancer .", "evidence": {"3355397": [{"sentences": [12], "label": "CONTRADICT"}, {"sentences": [16], "label": "CONTRADICT"}]}, "cited_doc_ids": [3355397]}
+{"id": 953, "claim": "pioglitazon use signific associ increas risk pancreat cancer .", "evidence": {"3355397": [{"sentences": [12], "label": "SUPPORT"}, {"sentences": [13], "label": "SUPPORT"}, {"sentences": [16], "label": "SUPPORT"}]}, "cited_doc_ids": [3355397]}
+{"id": 954, "claim": "pioglitazon use signific associ increas risk prostat cancer .", "evidence": {"3355397": [{"sentences": [12], "label": "SUPPORT"}, {"sentences": [16], "label": "SUPPORT"}]}, "cited_doc_ids": [3355397]}
+{"id": 955, "claim": "pioneer factor oct3/4 interact major chromatin remodel factor .", "evidence": {"2078658": [{"sentences": [3], "label": "SUPPORT"}], "30507607": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [2078658, 30507607]}
+{"id": 959, "claim": "polym nutrit increas cardiovascular mortal .", "evidence": {"8780599": [{"sentences": [6], "label": "CONTRADICT"}, {"sentences": [8], "label": "CONTRADICT"}]}, "cited_doc_ids": [8780599]}
+{"id": 962, "claim": "post-transcript handl mitochondri transcript occur mitochondri rna granul .", "evidence": {"13931771": [{"sentences": [6], "label": "SUPPORT"}], "935538": [{"sentences": [1, 5], "label": "SUPPORT"}], "4306711": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [13931771, 935538, 4306711]}
+{"id": 963, "claim": "pre-mrna associ spliceosom compon less stabl unassoci splice substrat .", "evidence": {"4162857": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [4162857, 29828242]}
+{"id": 964, "claim": "pre-mrna associ spliceosom compon stabl unassoci splice substrat .", "evidence": {"4162857": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [4162857, 29828242]}
+{"id": 965, "claim": "prescrib exercis train improv qualiti life .", "evidence": {"40817021": [{"sentences": [10], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}, {"sentences": [14], "label": "SUPPORT"}]}, "cited_doc_ids": [40817021]}
+{"id": 969, "claim": "primpol degrad short dna replic intermedi lead strand dna replic .", "evidence": {}, "cited_doc_ids": [19356271, 17368516]}
+{"id": 970, "claim": "primpol generat short dna replic intermedi lead strand dna replic .", "evidence": {}, "cited_doc_ids": [19356271, 17368516]}
+{"id": 972, "claim": "primari cervic cancer screen hpv detect lower longitudin sensit convent cytolog detect cervic intraepitheli neoplasia grade 2 .", "evidence": {"46695481": [{"sentences": [0], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}], "27873158": [{"sentences": [0], "label": "CONTRADICT"}, {"sentences": [15], "label": "CONTRADICT"}, {"sentences": [21], "label": "CONTRADICT"}], "28617573": [{"sentences": [8], "label": "CONTRADICT"}], "9764256": [{"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [46695481, 27873158, 28617573, 9764256]}
+{"id": 973, "claim": "primari cervic cytolog screen hpv detect higher longitudin sensit detect sever cervic intraepitheli neoplasia convent cytolog .", "evidence": {"27446873": [{"sentences": [7], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}], "27873158": [{"sentences": [0], "label": "SUPPORT"}, {"sentences": [21], "label": "SUPPORT"}], "28617573": [{"sentences": [7], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}], "9764256": [{"sentences": [13], "label": "SUPPORT"}, {"sentences": [16], "label": "SUPPORT"}]}, "cited_doc_ids": [27446873, 27873158, 28617573, 9764256]}
+{"id": 976, "claim": "primari pro-inflammatori cytokin suppress secondari pro- anti-inflammatori mediat .", "evidence": {}, "cited_doc_ids": [5304891]}
+{"id": 977, "claim": "pro-inflammatori cytokin regul tumor develop .", "evidence": {"39264456": [{"sentences": [8, 9], "label": "SUPPORT"}]}, "cited_doc_ids": [14075252, 39264456]}
+{"id": 978, "claim": "pro-inflammatori cytokin repress tumor develop .", "evidence": {}, "cited_doc_ids": [14075252]}
+{"id": 979, "claim": "progerin induc prematur age stem cell .", "evidence": {"11659421": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [11659421]}
+{"id": 980, "claim": "propriospin interneuron play role plastic reorgan spinal circuit integr recoveri spinal cord injuri .", "evidence": {"20128547": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [20128547]}
+{"id": 984, "claim": "pseudogen ptenp1 encod transcript regul pten express .", "evidence": {"6828370": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [6828370]}
+{"id": 988, "claim": "pseudoknot evolutionarili conserv eukaryot .", "evidence": {}, "cited_doc_ids": [3033830]}
+{"id": 989, "claim": "pure neural progenitor cell ( npc ) popul obtain cell cultur undergo passag , filtrat , isol cell sort method .", "evidence": {}, "cited_doc_ids": [9988425]}
+{"id": 990, "claim": "pyridostatin decreas telomer fragil brca2-defici cell .", "evidence": {"16472469": [{"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [16472469]}
+{"id": 992, "claim": "pyridostatin deregul g2/m progress .", "evidence": {"16472469": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [16472469]}
+{"id": 994, "claim": "pyridostatin encourag prolifer homolog recombin - defect cell .", "evidence": {"16472469": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [16472469]}
+{"id": 996, "claim": "pyridostatin induc checkpoint activ .", "evidence": {"16472469": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [16472469]}
+{"id": 997, "claim": "pyridostatin induc double-strand break accumul .", "evidence": {"16472469": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [16472469]}
+{"id": 998, "claim": "pyridostatin prevent double-strand break accumul .", "evidence": {"16472469": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [16472469]}
+{"id": 999, "claim": "pyridostatin reduc prolifer homolog recombin - defect cell .", "evidence": {"16472469": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [16472469]}
+{"id": 1000, "claim": "pyridostatin stabil g - quadruplex telomer region .", "evidence": {"16472469": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [16472469]}
+{"id": 1001, "claim": "r2d2 stop mirna product increas select dcr2 long dsrna .", "evidence": {}, "cited_doc_ids": [5702790]}
+{"id": 1002, "claim": "ra activ dif2 nb4 cell induc hallmark transcript activ promot .", "evidence": {}, "cited_doc_ids": [13639330]}
+{"id": 1003, "claim": "rad52 involv break-induc dna replic ( bir ) .", "evidence": {"14332945": [{"sentences": [6], "label": "SUPPORT"}], "4319844": [{"sentences": [2], "label": "SUPPORT"}], "4899981": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [14332945, 4319844, 4899981]}
+{"id": 1004, "claim": "rank-rankl pathway signal known associ develop aire-express medullari thymic epitheli cell .", "evidence": {"301838": [{"sentences": [1], "label": "CONTRADICT"}, {"sentences": [3], "label": "CONTRADICT"}], "2734421": [{"sentences": [2], "label": "CONTRADICT"}, {"sentences": [3], "label": "CONTRADICT"}, {"sentences": [4], "label": "CONTRADICT"}, {"sentences": [5], "label": "CONTRADICT"}], "3952288": [{"sentences": [3], "label": "CONTRADICT"}, {"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [301838, 2734421, 3952288]}
+{"id": 1005, "claim": "rank-rankl pathway signal link develop aire-express medullari thymic epitheli cell .", "evidence": {"301838": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}], "2734421": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}], "3952288": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [301838, 2734421, 3952288]}
+{"id": 1006, "claim": "rtel1 interact trf2 c4c4 motif", "evidence": {"4926049": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [4926049]}
+{"id": 1008, "claim": "runx express skin tissu .", "evidence": {}, "cited_doc_ids": [2547636]}
+{"id": 1009, "claim": "runx1 downregul mutat tlx1 t-all .", "evidence": {"1982286": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [1982286]}
+{"id": 1011, "claim": "radioiodin treatment non-tox multinodular goitr increas thyroid volum .", "evidence": {"9745001": [{"sentences": [6], "label": "CONTRADICT"}, {"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [9745001]}
+{"id": 1015, "claim": "rapamycin delay age fruit fli .", "evidence": {"6277638": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [6277638]}
+{"id": 1016, "claim": "rapamycin increas concentr triacylglycerol fruit fli .", "evidence": {}, "cited_doc_ids": [6277638]}
+{"id": 1018, "claim": "rapid phosphotransf rate correl histidin kinas regul specif .", "evidence": {"11603066": [{"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [11603066]}
+{"id": 1023, "claim": "recognit start codon depend translat initi factor if3 .", "evidence": {"16927286": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [16927286]}
+{"id": 1025, "claim": "reduc level lipolysi lead higher p38 phosphoryl adipos tissu .", "evidence": {}, "cited_doc_ids": [32408470]}
+{"id": 1026, "claim": "reduc phosphoryl pp2a increas hdac4 dephosphoryl enhanc pp2a-hdac4 interact .", "evidence": {}, "cited_doc_ids": [3113630]}
+{"id": 1027, "claim": "reduc phosphoryl pp2a suppress hdac4 dephosphoryl .", "evidence": {}, "cited_doc_ids": [3113630]}
+{"id": 1028, "claim": "reduc respons interleukin-2 regulatori cell associ autoimmun diseas type 1 diabet .", "evidence": {"13923140": [{"sentences": [2, 3], "label": "SUPPORT"}], "11899391": [{"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [13923140, 11899391]}
+{"id": 1030, "claim": "reduc h3k4me3 methyl induc mous epiblast stem cell naiv pluripot effici .", "evidence": {"6441369": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [6441369]}
+{"id": 1031, "claim": "reduct rpl38 alter composit hox gene mrnas translat mice without lower overal protein synthesi .", "evidence": {"12486491": [{"sentences": [2], "label": "SUPPORT"}]}, "cited_doc_ids": [12486491]}
+{"id": 1032, "claim": "reduct puriti cytoplasm membran isol overexpressor indic stronger spot ompa 2d bn-page gel .", "evidence": {}, "cited_doc_ids": [6836086]}
+{"id": 1033, "claim": "reduct puriti cytoplasm membran isol overexpressor indic stronger spot ompf 2d bn-page gel .", "evidence": {}, "cited_doc_ids": [6836086]}
+{"id": 1034, "claim": "remov h3k9me3 ectop express h3k9 demethylas decreas reprogram effici scnt experi .", "evidence": {"4547102": [{"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [4547102]}
+{"id": 1035, "claim": "remov h3k9me3 ectop express h3k9 demethylas improv reprogram effici scnt experi .", "evidence": {"4547102": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [4547102]}
+{"id": 1036, "claim": "remov h3k9me3 improv reprogram effici human somat cell nuclear transfer experi .", "evidence": {"4547102": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [4547102]}
+{"id": 1037, "claim": "replac oct4 sox2 gene gata3 abil reprogram human cell .", "evidence": {}, "cited_doc_ids": [16287725]}
+{"id": 1038, "claim": "replac oct4 sox2 gene gata3 capabl reprogram human cell .", "evidence": {}, "cited_doc_ids": [16287725]}
+{"id": 1040, "claim": "replac histon h2a h2a.z acceler gene activ yeast destabil +1 nucleosom .", "evidence": {"25254425": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [25254425, 16626264]}
+{"id": 1042, "claim": "repress il-18 negat effect atherosclerot lesion composit progress .", "evidence": {"17421851": [{"sentences": [6], "label": "CONTRADICT"}, {"sentences": [7], "label": "CONTRADICT"}]}, "cited_doc_ids": [17421851]}
+{"id": 1043, "claim": "retino acid receptor-rel orphan receptor gamma ( rorγ ) therapeut target castration-resist prostat cancer ( crpc )", "evidence": {"17671145": [{"sentences": [6], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [17671145]}
+{"id": 1044, "claim": "rhythmic express cry1 translat direct circadian regul camp signal gluconeogenesi .", "evidence": {"22500262": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [22500262]}
+{"id": 1045, "claim": "rhythmic express cry1 translat direct circadian regul camp signal hepat glucos metabol .", "evidence": {"22500262": [{"sentences": [2, 3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [22500262]}
+{"id": 1046, "claim": "ribosom protein ( rp ) express control part stress-activ regul .", "evidence": {}, "cited_doc_ids": [418246, 4324278, 16712164]}
+{"id": 1047, "claim": "ribosome-inactiv protein-2 ( rip-2 ) interact p75 ntr death domain", "evidence": {}, "cited_doc_ids": [14706752]}
+{"id": 1048, "claim": "ribosomopathi high degre cell tissu specif patholog .", "evidence": {"12486491": [{"sentences": [5, 6], "label": "SUPPORT"}]}, "cited_doc_ids": [12486491]}
+{"id": 1050, "claim": "risedron increas risk vertebr non-vertebr fractur .", "evidence": {"19878070": [{"sentences": [8, 10], "label": "CONTRADICT"}]}, "cited_doc_ids": [19878070]}
+{"id": 1052, "claim": "rise temperatur caus global warm increas risk dengu fever transmiss .", "evidence": {}, "cited_doc_ids": [18816720]}
+{"id": 1053, "claim": "rise temperatur caus global warm lower risk dengu fever transmiss .", "evidence": {}, "cited_doc_ids": [18816720]}
+{"id": 1054, "claim": "risk cardiovascular event cut third use antihypertens drug therapi among hemodialysi patient .", "evidence": {"10072941": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [10072941]}
+{"id": 1055, "claim": "risk-adjust mortal rate similar teach non-teach hospit .", "evidence": {"13906581": [{"sentences": [6], "label": "SUPPORT"}, {"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [13906581]}
+{"id": 1056, "claim": "rotat cuff exercis effect general exercis therapi reduc pain improv function shoulder .", "evidence": {"4200695": [{"sentences": [11], "label": "SUPPORT"}]}, "cited_doc_ids": [4200695]}
+{"id": 1058, "claim": "rough 55 % women chronic pelvic pain under patholog .", "evidence": {}, "cited_doc_ids": [13027590]}
+{"id": 1065, "claim": "satellit cell dysfunct key factor sarcopenia develop .", "evidence": {"20418809": [{"sentences": [3], "label": "CONTRADICT"}, {"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [20418809]}
+{"id": 1067, "claim": "scpif1p higher bind abil g-rich ssdna non-g-rich ssdna .", "evidence": {}, "cited_doc_ids": [4429668]}
+{"id": 1068, "claim": "scpif1p reduc bind abil g-rich ssdna compar non-g-rich ssdna .", "evidence": {}, "cited_doc_ids": [4429668]}
+{"id": 1069, "claim": "scapular stabil exercis effect general exercis therapi reduc pain improv function shoulder .", "evidence": {"4200695": [{"sentences": [11], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}, {"sentences": [14], "label": "SUPPORT"}]}, "cited_doc_ids": [4200695]}
+{"id": 1070, "claim": "self-advocaci train effect decreas homeless .", "evidence": {}, "cited_doc_ids": [25649714]}
+{"id": 1072, "claim": "sepsi relat mortal remain stabl 2009-2014 .", "evidence": {"4824840": [{"sentences": [10], "label": "SUPPORT"}, {"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [4824840]}
+{"id": 1073, "claim": "sepsi relat mortal risen 2009 2014 .", "evidence": {"4824840": [{"sentences": [10], "label": "CONTRADICT"}, {"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [4824840]}
+{"id": 1074, "claim": "sequenc conserv gene regulatori region speci high-accuraci predictor conserv function .", "evidence": {}, "cited_doc_ids": [14658685]}
+{"id": 1075, "claim": "sequenc conserv gene regulatori region speci poor predictor conserv function .", "evidence": {}, "cited_doc_ids": [14658685]}
+{"id": 1081, "claim": "side effect associ antidepress repres mortal risk postmenopaus women .", "evidence": {"5691302": [{"sentences": [10], "label": "CONTRADICT"}, {"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [5691302]}
+{"id": 1084, "claim": "side effect associ antidepress increas risk stroke .", "evidence": {"5691302": [{"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [5691302]}
+{"id": 1085, "claim": "side effect associ antidepress lower risk myocardi infarct .", "evidence": {}, "cited_doc_ids": [5691302]}
+{"id": 1087, "claim": "sildenafil worsen erectil function men experi sexual dysfunct result use ssri antidepress .", "evidence": {"39281140": [{"sentences": [7], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [39281140]}
+{"id": 1090, "claim": "smc5/6 engag halt activ sumo e3 ligas mms21 atp-depend remold .", "evidence": {"17628888": [{"sentences": [7], "label": "CONTRADICT"}]}, "cited_doc_ids": [17628888]}
+{"id": 1091, "claim": "sn present matur dcs inflamm vivo .", "evidence": {}, "cited_doc_ids": [2603304]}
+{"id": 1096, "claim": "special function cell type deriv human pluripot stem cell .", "evidence": {}, "cited_doc_ids": [29638116]}
+{"id": 1097, "claim": "splenomegali observ knockin mous lack shp-2 mapk pathway .", "evidence": {"26851674": [{"sentences": [1], "label": "SUPPORT"}]}, "cited_doc_ids": [26851674]}
+{"id": 1098, "claim": "stack stabl purin present +5 posit ( c1698 ) .", "evidence": {}, "cited_doc_ids": [13552682]}
+{"id": 1101, "claim": "stiff substrat encourag mesoderm differenti degrad beta-catenin integrin-depend manner .", "evidence": {"3874000": [{"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [3874000]}
+{"id": 1102, "claim": "stiff substrat inhibit mesoderm differenti degrad beta-catenin integrin-depend manner .", "evidence": {"3874000": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [3874000]}
+{"id": 1103, "claim": "stroke patient prior use direct oral anticoagul higher risk in-hospit mortal stroke patient prior use warfarin .", "evidence": {"3898784": [{"sentences": [8], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}, {"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [3898784]}
+{"id": 1105, "claim": "student perform poor earli year medic school increas risk profession misconduct later career .", "evidence": {"6710713": [{"sentences": [7], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}]}, "cited_doc_ids": [6710713]}
+{"id": 1106, "claim": "student perform poor earli year medic school less like commit profession misconduct later career .", "evidence": {"6710713": [{"sentences": [7], "label": "CONTRADICT"}, {"sentences": [8], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [6710713]}
+{"id": 1109, "claim": "suboptim nutrit lead caus prematur death", "evidence": {"13770184": [{"sentences": [13], "label": "SUPPORT"}], "8582337": [{"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [13770184, 8582337]}
+{"id": 1111, "claim": "sudden death occur patient complex ventricular arrhythmia .", "evidence": {}, "cited_doc_ids": [1686881]}
+{"id": 1112, "claim": "sudden death occur patient orthostat hypertens without cardiac conduct abnorm .", "evidence": {}, "cited_doc_ids": [1686881]}
+{"id": 1114, "claim": "surfactin produc cell exopolym produc cell cooper generat `` van gogh '' bundl slide abil special media .", "evidence": {"12824568": [{"sentences": [6], "label": "SUPPORT"}, {"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [12824568]}
+{"id": 1115, "claim": "surgic treatment superior non-surg treat adult displac fractur proxim humerus .", "evidence": {"44048701": [{"sentences": [11], "label": "SUPPORT"}, {"sentences": [12], "label": "SUPPORT"}, {"sentences": [13], "label": "SUPPORT"}, {"sentences": [15], "label": "SUPPORT"}]}, "cited_doc_ids": [44048701]}
+{"id": 1118, "claim": "sweet tast receptor tongu deactiv 1 10 mm glucos .", "evidence": {}, "cited_doc_ids": [23351136]}
+{"id": 1119, "claim": "sympathet nerv activ elev throughout normal pregnanc .", "evidence": {"5323845": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}], "18997216": [{"sentences": [0], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}], "13907928": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [5323845, 18997216, 13907928]}
+{"id": 1120, "claim": "sympathet nerv activ reduc throughout normal pregnanc .", "evidence": {"5323845": [{"sentences": [4], "label": "CONTRADICT"}, {"sentences": [10], "label": "CONTRADICT"}], "18997216": [{"sentences": [0], "label": "CONTRADICT"}, {"sentences": [3], "label": "CONTRADICT"}], "13907928": [{"sentences": [3], "label": "CONTRADICT"}, {"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [5323845, 18997216, 13907928]}
+{"id": 1125, "claim": "system immunosuppress ( is ) therapi enhanc chanc cancer mortal patient inflammatori eye diseas ( ie )", "evidence": {"21009874": [{"sentences": [12], "label": "SUPPORT"}, {"sentences": [15], "label": "SUPPORT"}]}, "cited_doc_ids": [21009874]}
+{"id": 1126, "claim": "system immunosuppress ( is ) therapi increas chanc cancer mortal patient inflammatori eye diseas ( ie )", "evidence": {"21009874": [{"sentences": [12], "label": "CONTRADICT"}, {"sentences": [15], "label": "CONTRADICT"}]}, "cited_doc_ids": [21009874]}
+{"id": 1127, "claim": "system lupus erythematosus risk factor cardiovascular diseas .", "evidence": {"27466734": [{"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [27466734]}
+{"id": 1128, "claim": "cell receptor /cd3 microdomain requir induc immunolog synaps .", "evidence": {"33499189": [{"sentences": [0], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [33499189, 9283422]}
+{"id": 1133, "claim": "tmem27 marker beta cell .", "evidence": {"24142891": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [24142891]}
+{"id": 1134, "claim": "tnfaip3 glioblastoma tumor enhanc .", "evidence": {"33370": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}]}, "cited_doc_ids": [33370]}
+{"id": 1135, "claim": "tnfaip3 glioblastoma tumor suppressor .", "evidence": {"33370": [{"sentences": [4], "label": "CONTRADICT"}, {"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [33370]}
+{"id": 1136, "claim": "tnfaip3 tumor enhanc glioblastoma .", "evidence": {"33370": [{"sentences": [6], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}]}, "cited_doc_ids": [33370]}
+{"id": 1138, "claim": "trap+ osteoclast regul matur osteoblast mainten .", "evidence": {"6796297": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [6796297]}
+{"id": 1139, "claim": "take 400mg α-tocopheryl acet prevent prostat cancer .", "evidence": {"12009265": [{"sentences": [9], "label": "SUPPORT"}, {"sentences": [14], "label": "SUPPORT"}]}, "cited_doc_ids": [12009265]}
+{"id": 1141, "claim": "take 400mg α-tocopheryl acet combin vitamin c reduc risk prostat cancer .", "evidence": {"12009265": [{"sentences": [9, 10], "label": "CONTRADICT"}, {"sentences": [14], "label": "CONTRADICT"}]}, "cited_doc_ids": [12009265]}
+{"id": 1142, "claim": "take anti-depres associ decreas aβ level brain experiment anim .", "evidence": {"5260382": [{"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [5260382]}
+{"id": 1145, "claim": "taxat sugar-sweeten beverag reduc incid rate type ii diabet india .", "evidence": {"10071552": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}, {"sentences": [8], "label": "SUPPORT"}]}, "cited_doc_ids": [10071552]}
+{"id": 1148, "claim": "ten percent ( 10 % ) kidney cancer uk attribut excess weight .", "evidence": {"4828631": [{"sentences": [10], "label": "SUPPORT"}]}, "cited_doc_ids": [4828631]}
+{"id": 1153, "claim": "c-type lectin receptor ( clec-2 ) rearrang actin cytoskeleton dendrit cell promot effici motil along stromal surfac .", "evidence": {"7370282": [{"sentences": [5], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [7370282]}
+{"id": 1156, "claim": "desmond program caus substanti weight loss particip .", "evidence": {"12584053": [{"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [12584053]}
+{"id": 1157, "claim": "desmond program demonstr signific impact biochem outcom .", "evidence": {"12584053": [{"sentences": [9], "label": "SUPPORT"}, {"sentences": [10], "label": "SUPPORT"}, {"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [12584053]}
+{"id": 1158, "claim": "desmond program demonstr signific impact lifestyl outcom .", "evidence": {"12584053": [{"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [12584053]}
+{"id": 1159, "claim": "desmond program demonstr signific impact weight loss .", "evidence": {"12584053": [{"sentences": [13], "label": "SUPPORT"}]}, "cited_doc_ids": [12584053]}
+{"id": 1161, "claim": "dexi promot region bound multipl transcript factor murin haematopoiet progenitor cell line .", "evidence": {}, "cited_doc_ids": [13048272]}
+{"id": 1162, "claim": "ddrb protein deinococcus radioduran function pentam .", "evidence": {"15305881": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [15305881]}
+{"id": 1164, "claim": "g34r/v mutat creat hypomethyl phenotyp h3k36 histon .", "evidence": {}, "cited_doc_ids": [4455466]}
+{"id": 1165, "claim": "g34r/v mutat creat hypomethyl phenotyp h3k36 histon .", "evidence": {}, "cited_doc_ids": [4455466]}
+{"id": 1166, "claim": "h2a-h2b evict defect compens histon chaperon ( s ) .", "evidence": {}, "cited_doc_ids": [9889151]}
+{"id": 1168, "claim": "hsv-2 infect typic asymptomat .", "evidence": {}, "cited_doc_ids": [8563659]}
+{"id": 1169, "claim": "m2-phenotyp brown adipos tissu macrophag increas brown adipos tissu thermogen activ .", "evidence": {"4319174": [{"sentences": [5], "label": "SUPPORT"}, {"sentences": [6], "label": "SUPPORT"}]}, "cited_doc_ids": [4319174]}
+{"id": 1170, "claim": "nf-κb essenti modul gene induc intestin inflamm promot receptor-interact protein ( rip ) kinas 1 kinas activity-medi epitheli cell death .", "evidence": {"18956141": [{"sentences": [3], "label": "CONTRADICT"}, {"sentences": [4], "label": "CONTRADICT"}]}, "cited_doc_ids": [18956141]}
+{"id": 1171, "claim": "nf-κb essenti modul gene prevent intestin inflamm inhibit receptor-interact protein ( rip ) kinas 1 kinas activity-medi epitheli cell death .", "evidence": {"18956141": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [18956141]}
+{"id": 1173, "claim": "pdpn gene deactiv c-type lectin receptor ( clec-2 ) .", "evidence": {"7370282": [{"sentences": [1], "label": "CONTRADICT"}, {"sentences": [6], "label": "CONTRADICT"}]}, "cited_doc_ids": [7370282]}
+{"id": 1174, "claim": "ppr mda5 twenti n-termin card domain .", "evidence": {}, "cited_doc_ids": [31272411]}
+{"id": 1176, "claim": "prdm1 gene key determin primordi germ cell .", "evidence": {"13910150": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [13910150]}
+{"id": 1177, "claim": "prdm1 gene , combin prdm14 gene , play import role primordi germ cell specif .", "evidence": {"13910150": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [13910150]}
+{"id": 1178, "claim": "prr mda5 c-termin domain .", "evidence": {}, "cited_doc_ids": [31272411]}
+{"id": 1181, "claim": "rank-rank-ligand ( rankl ) pathway involv develop aire-express medullari thymic epitheli cell ( mtec ) .", "evidence": {"301838": [{"sentences": [1], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}], "2734421": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}], "39128592": [{"sentences": [2], "label": "SUPPORT"}], "3952288": [{"sentences": [3], "label": "SUPPORT"}, {"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [301838, 2734421, 39128592, 3952288]}
+{"id": 1182, "claim": "snf1 complex regul carbon energi metabol baker 's yeast ( saccharomyc cerevisia ) .", "evidence": {"14541844": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [14541844]}
+{"id": 1183, "claim": "traf1/c5 rs10818488 allel polymorph regul neighbor c5 gene .", "evidence": {}, "cited_doc_ids": [1967017]}
+{"id": 1184, "claim": "us health care system save $ 5 billion 7 % patient wait kidney transplant particip optim nation kidney pair donat program .", "evidence": {"16737210": [{"sentences": [10], "label": "CONTRADICT"}]}, "cited_doc_ids": [16737210]}
+{"id": 1186, "claim": "world health organ 's ( who ) data collect process bias downward unequ select larger outbreak .", "evidence": {}, "cited_doc_ids": [7485455]}
+{"id": 1188, "claim": "abil activ e2f prevent cell death limit termin differenti cell .", "evidence": {}, "cited_doc_ids": [4394817]}
+{"id": 1190, "claim": "amount public avail dna data doubl everi 10 month .", "evidence": {}, "cited_doc_ids": [30655442]}
+{"id": 1193, "claim": "appear brown-lik beig cell primarili occur viscer fat , subcutan fat .", "evidence": {}, "cited_doc_ids": [20532591]}
+{"id": 1195, "claim": "artifactu c-termin helix swap start domain observ ups1-mdm35 heterodim starkin superfamili .", "evidence": {}, "cited_doc_ids": [26283293]}
+{"id": 1205, "claim": "combin physic examin c-reactiv protein valu improv accuraci radiograph verifi pneumonia predict .", "evidence": {"5558754": [{"sentences": [10], "label": "CONTRADICT"}, {"sentences": [17], "label": "CONTRADICT"}]}, "cited_doc_ids": [5558754]}
+{"id": 1206, "claim": "composit myosin-ii isoform switch isoform b isoform hematopoiet differenti .", "evidence": {}, "cited_doc_ids": [18909530]}
+{"id": 1208, "claim": "cytokin receptor regul chemotaxi format lymph node involv product myeloperoxidas left atrium .", "evidence": {}, "cited_doc_ids": [10284593]}
+{"id": 1209, "claim": "deamin cytidin uridin minus strand viral dna inactiv viral genom induc g-to-a mutat .", "evidence": {"4347374": [{"sentences": [3, 5], "label": "SUPPORT"}]}, "cited_doc_ids": [4347374]}
+{"id": 1210, "claim": "densiti cytokin receptor bear cell affect distanc cytokin act .", "evidence": {"4928282": [{"sentences": [9], "label": "SUPPORT"}]}, "cited_doc_ids": [4928282]}
+{"id": 1211, "claim": "densiti cytokin receptor bear cell effect distanc cytokin act .", "evidence": {"4928282": [{"sentences": [9], "label": "CONTRADICT"}]}, "cited_doc_ids": [4928282]}
+{"id": 1212, "claim": "deregul prolong activ monocyt deleteri effect chronic infecti condit .", "evidence": {}, "cited_doc_ids": [6493422, 44724517]}
+{"id": 1214, "claim": "deregul prolong activ monocyt improv inflammatori diseas outcom .", "evidence": {}, "cited_doc_ids": [6493422, 14407673]}
+{"id": 1215, "claim": "effect lipopolysaccharid kidney barrier function depend inflamm level .", "evidence": {}, "cited_doc_ids": [16355392]}
+{"id": 1218, "claim": "first mbt repeat four malign brain tumor ( 4mbt ) domain drosophila 's sfmbt ortholog mammalian l3mbtl2 requir interact spacer region drosophila 's pleiohomeot ( pho ) human ortholog yy1 .", "evidence": {}, "cited_doc_ids": [15635366]}
+{"id": 1219, "claim": "gene daf-16 , encod forkhead box ( foxo ) , requir phenotyp associ reduc insulin/insulin-lik growth factor ( igf ) signal .", "evidence": {}, "cited_doc_ids": [9393969, 14864285]}
+{"id": 1220, "claim": "generat reactiv oxygen speci activ oncogen contribut increas genom instabl leukaemia cell .", "evidence": {"13023410": [{"sentences": [0, 1], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}]}, "cited_doc_ids": [13023410]}
+{"id": 1223, "claim": "innat immun respons struggl remov small number parasit .", "evidence": {"5289038": [{"sentences": [3], "label": "CONTRADICT"}]}, "cited_doc_ids": [5289038]}
+{"id": 1224, "claim": "latent infect myeloid cell human cytomegalovirus induc number chang gene express .", "evidence": {"21932050": [{"sentences": [3], "label": "SUPPORT"}], "34016987": [{"sentences": [4], "label": "SUPPORT"}, {"sentences": [5], "label": "SUPPORT"}, {"sentences": [9], "label": "SUPPORT"}]}, "cited_doc_ids": [21932050, 34016987]}
+{"id": 1227, "claim": "mean suicid rate women higher miscarriag live birth .", "evidence": {"25641414": [{"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [25641414]}
+{"id": 1228, "claim": "mean suicid rate women lower miscarriag live birth .", "evidence": {"25641414": [{"sentences": [7], "label": "CONTRADICT"}]}, "cited_doc_ids": [25641414]}
+{"id": 1229, "claim": "microtubule-depend deliveri secret matrix metalloproteas ( mmps ) partial respons disassembl adhes site .", "evidence": {"1676568": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [1676568]}
+{"id": 1230, "claim": "minor g allel foxo3 downregul pro-inflammatori cytokin .", "evidence": {"13905670": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [13905670]}
+{"id": 1231, "claim": "minor g allel foxo3 relat less sever symptom crohn 's diseas .", "evidence": {"13905670": [{"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [13905670]}
+{"id": 1234, "claim": "minor g allel foxo3 up-regul il-10 .", "evidence": {"13905670": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [13905670]}
+{"id": 1235, "claim": "morpholog chang larg white adipocyt small brown adipocyt sign decreas energi expenditur potenti white adipos tissu .", "evidence": {}, "cited_doc_ids": [17973161]}
+{"id": 1236, "claim": "morpholog chang larg white adipocyt small brown adipocyt sign increas energi expenditur potenti white adipos tissu .", "evidence": {}, "cited_doc_ids": [17973161]}
+{"id": 1237, "claim": "preval advers event semaglutid cardiovascular .", "evidence": {"3654468": [{"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [3654468]}
+{"id": 1238, "claim": "preval advers event semaglutid gastrointestin .", "evidence": {"3654468": [{"sentences": [12], "label": "SUPPORT"}]}, "cited_doc_ids": [3654468]}
+{"id": 1239, "claim": "myocardi cell lineag origin develop cardiac progenitor exclus endoderm origin .", "evidence": {"4427392": [{"sentences": [1], "label": "CONTRADICT"}]}, "cited_doc_ids": [21387297, 4427392]}
+{"id": 1244, "claim": "number unfertil oocyt mate hermaphrodit increas age .", "evidence": {}, "cited_doc_ids": [18949516]}
+{"id": 1246, "claim": "one-child polici creat hospit environ femal infant .", "evidence": {"7662395": [{"sentences": [10], "label": "CONTRADICT"}]}, "cited_doc_ids": [7662395]}
+{"id": 1247, "claim": "origin crf01_1b2k protein occur 1923 1956 .", "evidence": {}, "cited_doc_ids": [5114282]}
+{"id": 1248, "claim": "peak incid fractur occur pubert growth spurt earli adolesc .", "evidence": {"7209559": [{"sentences": [0], "label": "SUPPORT"}]}, "cited_doc_ids": [7209559]}
+{"id": 1249, "claim": "peak incid fractur occur toddler .", "evidence": {"7209559": [{"sentences": [0], "label": "CONTRADICT"}]}, "cited_doc_ids": [7209559]}
+{"id": 1253, "claim": "predomin local linc00173 mononuclear macrophag nuclei .", "evidence": {}, "cited_doc_ids": [3321943]}
+{"id": 1254, "claim": "prolif capac neural progenitor differ across speci .", "evidence": {"16939583": [{"sentences": [2], "label": "SUPPORT"}, {"sentences": [3], "label": "SUPPORT"}]}, "cited_doc_ids": [16939583]}
+{"id": 1255, "claim": "prolif capac progenitor regul cell-autonom .", "evidence": {"16939583": [{"sentences": [4], "label": "SUPPORT"}]}, "cited_doc_ids": [16939583]}
+{"id": 1257, "claim": "proport peopl visual difficulti two time higher low-incom countri high-incom countri .", "evidence": {}, "cited_doc_ids": [581832]}
+{"id": 1258, "claim": "recruit wdr5 target loci depend kat8 .", "evidence": {"12040627": [{"sentences": [7], "label": "SUPPORT"}]}, "cited_doc_ids": [12040627]}
+{"id": 1260, "claim": "relationship breast cancer patient 's capac metabol tamoxifen treatment outcom independ patient 's genet make-up .", "evidence": {"24341590": [{"sentences": [11], "label": "CONTRADICT"}, {"sentences": [12], "label": "CONTRADICT"}, {"sentences": [13], "label": "CONTRADICT"}]}, "cited_doc_ids": [24341590]}
+{"id": 1261, "claim": "remov reactiv oxygen speci activ oncogen contribut increas genom instabl leukaemia cell .", "evidence": {"13023410": [{"sentences": [0, 1], "label": "CONTRADICT"}, {"sentences": [5], "label": "CONTRADICT"}]}, "cited_doc_ids": [13023410]}
+{"id": 1263, "claim": "repeat-vari diresidu ( rvd ) loop transcription-activ like ( tal ) effector specifi nucleotides-amino acid contact target promot element .", "evidence": {"3981729": [{"sentences": [0, 1], "label": "SUPPORT"}]}, "cited_doc_ids": [3981729]}
+{"id": 1265, "claim": "risk breast cancer among parous women decreas placent weight pregnanc .", "evidence": {"37480103": [{"sentences": [10], "label": "CONTRADICT"}, {"sentences": [12], "label": "CONTRADICT"}]}, "cited_doc_ids": [37480103]}
