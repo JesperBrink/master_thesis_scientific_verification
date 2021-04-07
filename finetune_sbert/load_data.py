@@ -6,24 +6,17 @@ from sentence_transformers import InputExample
 from sentence_transformers import evaluation
 
 
-def load_training_data(preprocess_stopwords):
+def load_training_data(scifact_corpus_path, scifact_train_path):
     fever_claims_path = "../datasets/fever/fever_train.jsonl"
     #fever_claims_path = "../datasets/fever/fever_dev.jsonl"
-    
-    if preprocess_stopwords:
-        scifact_claims_path = "../datasets/scifact/claims_sub_train_no_stopwords.jsonl"
-        scifact_corpus_path = "../datasets/scifact/corpus_no_stopwords.jsonl"
-    else:
-        scifact_claims_path = "../datasets/scifact/claims_sub_train.jsonl"
-        scifact_corpus_path = "../datasets/scifact/corpus.jsonl"  
 
     scifact_training_data = []
 
-    scifact_relevant_data = create_scifact_relevant(scifact_claims_path, scifact_corpus_path)
+    scifact_relevant_data = create_scifact_relevant(scifact_train_path, scifact_corpus_path)
     scifact_relevant_data_train_format = convert_to_train_format(scifact_relevant_data)
     scifact_training_data.extend(scifact_relevant_data_train_format)
 
-    scifact_not_relevant_data = create_scifact_not_relevant(scifact_claims_path, scifact_corpus_path, 5)
+    scifact_not_relevant_data = create_scifact_not_relevant(scifact_train_path, scifact_corpus_path, 5)
     scifact_not_relevant_data_train_format = convert_to_train_format(scifact_not_relevant_data)
     scifact_training_data.extend(scifact_not_relevant_data_train_format)
 
@@ -33,25 +26,18 @@ def load_training_data(preprocess_stopwords):
     return scifact_training_data, fever_data_train_format
     
 
-def load_evaluator(preprocess_stopwords):
-    if preprocess_stopwords:
-        scifact_val_claims_path = "../datasets/scifact/claims_validation_no_stopwords.jsonl"
-        scifact_corpus_path = "../datasets/scifact/corpus_no_stopwords.jsonl"
-    else:
-        scifact_val_claims_path = "../datasets/scifact/claims_validation.jsonl"
-        scifact_corpus_path = "../datasets/scifact/corpus.jsonl" 
-
+def load_evaluator(scifact_corpus_path, scifact_validation_path):
     claims = []
     sentences = []
     labels = []
 
-    scifact_relevant_data = create_scifact_relevant(scifact_val_claims_path, scifact_corpus_path)
+    scifact_relevant_data = create_scifact_relevant(scifact_validation_path, scifact_corpus_path)
     claims_relevant, sentences_relevant, labels_relevant = convert_to_evaluator_format(scifact_relevant_data)
     claims.extend(claims_relevant)
     sentences.extend(sentences_relevant)
     labels.extend(labels_relevant)
 
-    scifact_not_relevant_data = create_scifact_not_relevant(scifact_val_claims_path, scifact_corpus_path, 5)
+    scifact_not_relevant_data = create_scifact_not_relevant(scifact_validation_path, scifact_corpus_path, 5)
     claims_not_relevant, sentences_not_relevant, labels_not_relevant = convert_to_evaluator_format(scifact_not_relevant_data)
     claims.extend(claims_not_relevant)
     sentences.extend(sentences_not_relevant)

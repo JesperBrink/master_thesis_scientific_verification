@@ -19,16 +19,16 @@ def initialize_model(pretrained_model, with_dense_layer=False):
     return SentenceTransformer(modules=[word_embedding_model, pooling_model, dense_model])
 
 
-def finetune_sbert(pretrained_model, fever_epochs, scifact_epochs, with_dense_layer, preprocess_stopwords):
-    scifact_training_data, fever_training_data = load_training_data(preprocess_stopwords)
+def finetune_sbert(pretrained_model, corpus_path, train_path, validation_path, fever_epochs, scifact_epochs, with_dense_layer):
+    scifact_training_data, fever_training_data = load_training_data(corpus_path, train_path)
     scifact_train_dataloader = DataLoader(scifact_training_data, shuffle=True, batch_size=32)
     fever_train_dataloader = DataLoader(fever_training_data, shuffle=True, batch_size=32)
-    evaluator = load_evaluator(preprocess_stopwords)
+    evaluator = load_evaluator(corpus_path, validation_path)
 
     if fever_epochs > 0:
         fever_model = initialize_model(pretrained_model, with_dense_layer)
         train_loss = losses.CosineSimilarityLoss(fever_model)
-        fever_output_name = get_output_name(pretrained_model, "fever", fever_epochs, with_dense_layer, preprocess_stopwords)
+        fever_output_name = get_output_name(pretrained_model, "fever", fever_epochs, with_dense_layer)
 
         if  os.path.exists(fever_output_name):
             print("Adding 'NEW' to model name, instead of overwriting existing")
@@ -45,10 +45,10 @@ def finetune_sbert(pretrained_model, fever_epochs, scifact_epochs, with_dense_la
     if scifact_epochs > 0:
         if fever_epochs > 0:
             scifact_model = SentenceTransformer(fever_output_name)
-            scifact_output_name = get_output_name(pretrained_model, "fever-{}-scifact".format(fever_epochs), scifact_epochs, with_dense_layer, preprocess_stopwords)
+            scifact_output_name = get_output_name(pretrained_model, "fever-{}-scifact".format(fever_epochs), scifact_epochs, with_dense_layer)
         else:
             scifact_model = initialize_model(pretrained_model, with_dense_layer)
-            scifact_output_name = get_output_name(pretrained_model, "scifact", scifact_epochs, with_dense_layer, preprocess_stopwords)
+            scifact_output_name = get_output_name(pretrained_model, "scifact", scifact_epochs, with_dense_layer)
 
         scifact_train_loss = losses.CosineSimilarityLoss(scifact_model)
 
@@ -65,13 +65,11 @@ def finetune_sbert(pretrained_model, fever_epochs, scifact_epochs, with_dense_la
         )
 
 
-def get_output_name(pretrained_model, dataset_type, epochs, with_dense_layer, preprocess_stopwords):
+def get_output_name(pretrained_model, dataset_type, epochs, with_dense_layer):
     output = "{}-finetuned-on-{}-{}".format(pretrained_model, dataset_type, epochs)
 
     if with_dense_layer:
         output += "-dense"
-    if preprocess_stopwords:
-        output += "-no-stopwords"
     
     return output
 
@@ -83,7 +81,25 @@ if __name__ == "__main__":
         metavar="path",
         type=str,
         help="the name of (or path to, if local) the pretrained sbert model",
-    )   
+    )
+    parser.add_argument(
+        "corpus",
+        metavar="path",
+        type=str,
+        help="path to corpus.jsonl",
+    )
+    parser.add_argument(
+        "train",
+        metavar="path",
+        type=str,
+        help="path to train.jsonl",
+    )
+    parser.add_argument(
+        "validation",
+        metavar="path",
+        type=str,
+        help="path to validation.jsonl",
+    )
     parser.add_argument(
         "-f",
         "--fever_epochs",
@@ -102,13 +118,7 @@ if __name__ == "__main__":
         help="set if you want the model to have a dense layer",
         action="store_true",
     ) 
-    parser.add_argument(
-        "-p",
-        "--preprocess_stopwords",
-        help="set if you want to finetune on data where stopwords have been removed",
-        action="store_true",
-    )
 
     args = parser.parse_args()
-    finetune_sbert(args.pretrained_model, args.fever_epochs, args.scifact_epochs, args.dense, args.preprocess_stopwords)
+    finetune_sbert(args.pretrained_model, args.corpus, args.train, args.validation, args.fever_epochs, args.scifact_epochs, args.dense)
     
