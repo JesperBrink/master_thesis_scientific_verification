@@ -49,7 +49,7 @@ def lstm_abstract_retriever(untis):
     model = tf.keras.Model(
         inputs=[inputs, inputs_mask],
         outputs=outputs,
-        name="bert-lstm-abstract-retriever",
+        name="bert-lstm-sentence-selection",
     )
 
     model.summary()
@@ -117,3 +117,5 @@ if __name__ == "__main__":
     if args.train:
         train(m, batch_size=args.batch_size, epochs=args.epochs)
         save(m)
+        m = load()
+        m.summary()
