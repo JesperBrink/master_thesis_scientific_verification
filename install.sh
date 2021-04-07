@@ -5,4 +5,4 @@ conda create -n scifact-env python=3.9 -y
 conda activate scifact-env
 conda install -y tensorflow-gpu=2.4.1 pandas jsonlines tqdm 
 
-pip install torch==1.7.1 sentence-transformers sklearn
+pip install torch==1.7.1 sentence-transformers sklearn pyserini
