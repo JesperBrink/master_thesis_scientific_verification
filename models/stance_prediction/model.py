@@ -73,11 +73,12 @@ def train(model, dataset_type, batch_size, epochs, class_weight={0: 1, 1: 1}):
     return model
 
 
-def initialize_model(batch_size, units):
+def initialize_model(batch_size, units, learning_rate):
     loss = tf.keras.losses.BinaryCrossentropy()
     m = TwoLayerStancePredictor(units)
     m.build((batch_size, 1536))
-    m.compile(optimizer="adam", loss=loss, metrics=["accuracy"])
+    optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
+    m.compile(optimizer=optimizer, loss=loss, metrics=["accuracy"])
     m.summary()
     return m
 
