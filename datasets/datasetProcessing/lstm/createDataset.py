@@ -9,7 +9,7 @@ import random
 import numpy as np
 import tensorflow as tf
 from tqdm import tqdm
-from transformers import DistilBertTokenizer
+from transformers import BertTokenizer
 
 
 class DatasetType(enum.Enum):
@@ -47,8 +47,8 @@ class ScifactLSTMDataset:
         writer = tf.io.TFRecordWriter(str(self.dest))
 
         print("initializing tokenizer")
-        self.tokenizer = DistilBertTokenizer.from_pretrained(
-            "distilbert-base-uncased",
+        self.tokenizer = BertTokenizer.from_pretrained(
+            "bert-base-uncased",
             do_lower_case=True,
             add_special_tokens=True,
         )
@@ -161,14 +161,15 @@ class ScifactLSTMDataset:
         return abstract_id_to_abstract
 
     def _tokenize(self, sentence):
-        return self.tokenizer(
+        tokenization = list(self.tokenizer(
             sentence,
             return_attention_mask=True,
             return_tensors="tf",
             padding="max_length",
             max_length=self.sequence_lenght,
             truncation=True,
-        ).values()
+        ).values())
+        return tokenization[0], tokenization[2]
 
     @staticmethod
     def _int64_feature(value):
