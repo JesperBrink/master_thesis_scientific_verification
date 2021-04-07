@@ -54,7 +54,7 @@ def lstm_abstract_retriever(untis):
 
 
 def train(model, epochs=10, batch_size=16, shuffle=True):
-    # train = ScifactLSTMDataset(DatasetType.train).load().batch(batch_size)
+    train = ScifactLSTMDataset(DatasetType.train).load().batch(batch_size)
     val = ScifactLSTMDataset(DatasetType.validation).load().batch(batch_size)
 
     logs = "logs/" + datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -64,10 +64,10 @@ def train(model, epochs=10, batch_size=16, shuffle=True):
     )
 
     model.fit(
-        val,
+        train,
         epochs=epochs,
         shuffle=shuffle,
-        # validation_data=val,
+        validation_data=val,
         callbacks=[tboard_callback],
     )
 
