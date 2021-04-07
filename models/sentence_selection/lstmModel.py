@@ -4,7 +4,7 @@ import argparse
 from datetime import datetime
 
 import tensorflow as tf
-from transformers import TFDistilBertModel, DistilBertConfig
+from transformers import TFBertModel, BertConfig
 
 from models.utils import get_highest_count, setup_tensorboard
 from datasets.datasetProcessing.lstm.createDataset import (
@@ -21,26 +21,30 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
 
 def lstm_abstract_retriever(untis):
-    config = DistilBertConfig(dropout=0.2, attention_dropout=0.2)
+    config = BertConfig(dropout=0.2, attention_dropout=0.2)
     config.output_hidden_states = False
-    bert_embedding = TFDistilBertModel.from_pretrained(
-        "distilbert-base-uncased", config=config, name="distil-bert"
-    ).distilbert
+    bert_embedding = TFBertModel.from_pretrained(
+        "bert-base-uncased", config=config, name="bert"
+    ).bert
 
     inputs = tf.keras.Input(shape=(3, 128), dtype="int32", name="sequence")
+    # print(inputs.shape)
     inputs_mask = tf.keras.Input(shape=(3, 128), dtype="int32", name="attention_masks")
+    # print(inputs_mask.shape)
     reshaped_inputs = tf.reshape(inputs, [-1, 128], name="seq_reshape")
+    # print(reshaped_inputs.shape)
     reshaped_mask = tf.reshape(inputs_mask, [-1, 128], name="seq_mask_reshape")
-
-    embedding = bert_embedding(reshaped_inputs, attention_mask=reshaped_mask)[0]
-    cls_tokens = embedding[:, 0, :]
-    reshaped_cls = tf.reshape(cls_tokens, [-1, 3, 768], name="cls_reshape")
-
+    # print(reshaped_mask.shape)
+    pooling_embedding = bert_embedding(reshaped_inputs, attention_mask=reshaped_mask)[1]
+    # print(pooling_embedding.shape)
+    reshaped_cls = tf.reshape(pooling_embedding, [-1, 3, 768], name="cls_reshape")
+    # print(reshaped_cls.shape)
     lstm = tf.keras.layers.LSTM(
         untis, return_sequences=False, recurrent_initializer="glorot_uniform"
     )(reshaped_cls)
-
+    # print(lstm.shape)
     outputs = tf.keras.layers.Dense(1, activation="sigmoid")(lstm)
+    # print(outputs.shape)
 
     model = tf.keras.Model(
         inputs=[inputs, inputs_mask],
@@ -68,7 +72,7 @@ def train(model, epochs=10, batch_size=16, shuffle=True):
         epochs=epochs,
         shuffle=shuffle,
         validation_data=val,
-        callbacks=[tboard_callback],
+        # callbacks=[tboard_callback],
     )
 
 
