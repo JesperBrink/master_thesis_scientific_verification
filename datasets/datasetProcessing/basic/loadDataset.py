@@ -7,10 +7,10 @@ import numpy as np
 
 
 trainint_set_path = (
-    Path(os.path.realpath(__file__)).resolve().parents[1] / "subTrainingDataset"
+    Path(os.path.realpath(__file__)).resolve().parents[1] / "tfrecords" / "DenseTrainingDataset"
 )
 validation_set_path = (
-    Path(os.path.realpath(__file__)).resolve().parents[1] / "validationDataset"
+    Path(os.path.realpath(__file__)).resolve().parents[1] / "tfrecords" / "DenseValidationDataset"
 )
 
 
