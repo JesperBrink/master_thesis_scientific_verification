@@ -19,11 +19,11 @@ def initialize_model(pretrained_model, with_dense_layer=False):
     return SentenceTransformer(modules=[word_embedding_model, pooling_model, dense_model])
 
 
-def finetune_sbert(pretrained_model, corpus_path, train_path, validation_path, fever_epochs, scifact_epochs, with_dense_layer):
-    scifact_training_data, fever_training_data = load_training_data(corpus_path, train_path)
+def finetune_sbert(pretrained_model, data_folder_path, fever_epochs, scifact_epochs, with_dense_layer):
+    scifact_training_data, fever_training_data = load_training_data(data_folder_path)
     scifact_train_dataloader = DataLoader(scifact_training_data, shuffle=True, batch_size=32)
     fever_train_dataloader = DataLoader(fever_training_data, shuffle=True, batch_size=32)
-    evaluator = load_evaluator(corpus_path, validation_path)
+    evaluator = load_evaluator(data_folder_path)
 
     if fever_epochs > 0:
         fever_model = initialize_model(pretrained_model, with_dense_layer)
@@ -83,22 +83,10 @@ if __name__ == "__main__":
         help="the name of (or path to, if local) the pretrained sbert model",
     )
     parser.add_argument(
-        "corpus",
+        "data_folder_path",
         metavar="path",
         type=str,
-        help="path to corpus.jsonl",
-    )
-    parser.add_argument(
-        "train",
-        metavar="path",
-        type=str,
-        help="path to train.jsonl",
-    )
-    parser.add_argument(
-        "validation",
-        metavar="path",
-        type=str,
-        help="path to validation.jsonl",
+        help="path to folder with result from running create_data.py",
     )
     parser.add_argument(
         "-f",
@@ -120,5 +108,5 @@ if __name__ == "__main__":
     ) 
 
     args = parser.parse_args()
-    finetune_sbert(args.pretrained_model, args.corpus, args.train, args.validation, args.fever_epochs, args.scifact_epochs, args.dense)
+    finetune_sbert(args.pretrained_model, args.data_folder_path, args.fever_epochs, args.scifact_epochs, args.dense)
     
