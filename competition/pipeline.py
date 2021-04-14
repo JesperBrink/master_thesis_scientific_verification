@@ -31,7 +31,7 @@ def create_id_to_abstract_map(corpus_path):
     abstract_id_to_abstract = dict()
     corpus = jsonlines.open(corpus_path)
     for data in corpus:
-        abstract_id_to_abstract[str(data["doc_id"])] = data["abstract"]
+        abstract_id_to_abstract[data["doc_id"]] = data["abstract"]
 
     return abstract_id_to_abstract
 
@@ -43,7 +43,7 @@ def pipeline(claims_path, corpus_path, abstract_retriever, sentence_selector, st
                 claim = claim_object["claim"]
                 retrieved_abstracts = abstract_retriever(claim, abstracts)
                 selected_sentences = sentence_selector(claim, retrieved_abstracts)
-                prediction = stance_predictor(claim, selected_sentences, retrieved_abstracts)
+                prediction = stance_predictor(claim_object, selected_sentences, retrieved_abstracts)
                 output_writer.write(prediction) 
 
 if __name__ == "__main__":
@@ -84,6 +84,16 @@ if __name__ == "__main__":
         "-st", "--sentence_threshold", type=float, default=0.5,
         help="the threshold for sentence selection"
     )
+    parser.add_argument(
+        "-cl",
+        "--claim_embedding",
+        type=str
+    )
+    parser.add_argument(
+        "-co",
+        "--corpus_embedding",
+        type=str
+    )
 
     args = parser.parse_args()
 
@@ -100,6 +110,6 @@ if __name__ == "__main__":
         sentence_selector = DevSentenceSelector()
 
     if args.stance_predictor == "twolayer":
-        stance_predictor = TwoLayerDenseSrancePredictor()
+        stance_predictor = TwoLayerDenseSrancePredictor(args.corpus_embedding, args.claim_embedding)
     
     pipeline(args.claim_path, args.corpus_path, abstract_retriever, sentence_selector, stance_predictor)
