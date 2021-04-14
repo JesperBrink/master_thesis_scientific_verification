@@ -128,8 +128,6 @@ def train(model, epochs=10, batch_size=16, shuffle=True):
         shuffle=shuffle,
         validation_data=val,
     )
-    
-    return m
 
 
 def load():
@@ -176,8 +174,8 @@ if __name__ == "__main__":
     if args.train:
         m = lstm_abstract_retriever(args.lstm_units)
         loss = tf.keras.losses.BinaryCrossentropy()
-        m.compile(optimizer="adam", loss=loss)
-        m = train(m, batch_size=args.batch_size, epochs=args.epochs)
+        m.compile(optimizer="adam", loss=loss, metrics=["accuracy"])
+        train(m, batch_size=args.batch_size, epochs=args.epochs)
         save(m)
         m = load()
         m.summary()
