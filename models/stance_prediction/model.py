@@ -12,7 +12,7 @@ from models.utils import get_highest_count, setup_tensorboard
 import argparse
 import os
 from sentence_transformers import SentenceTransformer
-
+import jsonlines
 os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
 _model_dir = (
@@ -21,27 +21,28 @@ _model_dir = (
 )
 
 
+
 class TwoLayerDenseSrancePredictor:
-    def __init__(self, threshold=0.5):
-        self.sbert = SentenceTransformer("stsb-distilbert-base")
+    def __init__(self, corpus_path, claim_path, threshold=0.5):
         self.threshold = threshold
         self.model = load()
         self.model.summary()
+        self.doc_id_to_abst_embedding_map = self.create_id_to_abstract_map(corpus_path)
+        self.id_to_claim_embedding_map = self.create_id_to_claim_map(claim_path)
 
-    def __call__(self, claim, selected_sentences, selected_abstracts):
-        claim_embedding = tf.reshape(tf.constant(self.sbert.encode(claim)), [1, -1])
+    def __call__(self, claim_object, selected_sentences, selected_abstracts):
+        claim_id = claim_object["id"]
+        claim_embedding = tf.reshape(tf.constant(self.id_to_claim_embedding_map[claim_id]), [1,-1])
         res = {}
         for doc_id, rationale_indices in selected_sentences.items():
-            rationales = tf.gather(selected_abstracts[doc_id], rationale_indices).numpy().tolist()
-            embeddings = tf.constant(list(map(lambda a: self.sbert.encode(str(a)), rationales)))
-            claim_column = tf.repeat(claim_embedding, [embeddings.shape[0]], axis=0)
-            datapoints = tf.concat([claim_column, embeddings], 1)
+            rationale_embeddings = tf.gather(self.doc_id_to_abst_embedding_map[doc_id], rationale_indices)
+            claim_column = tf.repeat(claim_embedding, [rationale_embeddings.shape[0]], axis=0)
+            datapoints = tf.concat([claim_column, rationale_embeddings], 1)
             classification = tf.where(
                 tf.greater(tf.reduce_mean(self.model(datapoints)), self.threshold),
                 "SUPPORT",
                 "CONTRADICT",
             ).numpy()
-            (classification)
 
             res[doc_id] = {
                 "sentences": rationale_indices,
@@ -49,6 +50,22 @@ class TwoLayerDenseSrancePredictor:
             }
         print(res)
         return res
+
+    def create_id_to_abstract_map(self, corpus_path):
+        abstract_id_to_abstract = dict()
+        corpus = jsonlines.open(corpus_path)
+        for data in corpus:
+            abstract_id_to_abstract[data["doc_id"]] = data["abstract"]
+
+        return abstract_id_to_abstract
+
+    def create_id_to_claim_map(self, claim_path):
+        claim_id_to_embeding = dict()
+        claims = jsonlines.open(claim_path)
+        for data in claims:
+            claim_id_to_embeding[data["id"]] = data["claim"]
+
+        return claim_id_to_embeding
 
 
 def two_layer_stance_predictor(units, dropout=0.5):
@@ -134,6 +151,16 @@ def main():
         action="store_true",
         help="will run a small test of the evaluator. Can be used to test load and senetence selection",
     )
+    parser.add_argument(
+        "-cl",
+        "--claim_embedding",
+        type=str
+    )
+    parser.add_argument(
+        "-co",
+        "--corpus_embedding",
+        type=str
+    )
     args = parser.parse_args()
     if args.train:
         m = two_layer_stance_predictor(args.dense_units)
@@ -144,15 +171,15 @@ def main():
         m = load()
         m.summary()
     if args.work:
-        predictor = TwoLayerDenseSrancePredictor()
-        selected_sentences = {1: [2,1]}
-        abstract= {1:[
+        predictor = TwoLayerDenseSrancePredictor(args.corpus_embedding, args.claim_embedding)
+        selected_sentences = {4983: [2,1]}
+        abstract= {4983:[
                 "redwine is also good",
                 "beer is love beer is life",
                 "mikkel mikkel and jesper"
             ]
         }
-        predictor("gd is not good", selected_sentences, abstract)
+        predictor({"id": 1, "claim": "this is not used"}, selected_sentences, abstract)
 
 
 if __name__ == "__main__":
