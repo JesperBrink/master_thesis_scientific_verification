@@ -44,6 +44,7 @@ def pipeline(claims_path, corpus_path, abstract_retriever, sentence_selector, st
                 retrieved_abstracts = abstract_retriever(claim, abstracts)
                 selected_sentences = sentence_selector(claim, retrieved_abstracts)
                 prediction = stance_predictor(claim_object, selected_sentences, retrieved_abstracts)
+                
                 output_writer.write(prediction) 
 
 if __name__ == "__main__":

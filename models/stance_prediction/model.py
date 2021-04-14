@@ -48,7 +48,7 @@ class TwoLayerDenseSrancePredictor:
                 "sentences": rationale_indices,
                 "label": classification.decode('ascii')
             }
-        return res
+        return {"id": claim_id, "evidence": res}
 
     def create_id_to_abstract_map(self, corpus_path):
         abstract_id_to_abstract = dict()
