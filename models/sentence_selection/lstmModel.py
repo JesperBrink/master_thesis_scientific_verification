@@ -85,34 +85,21 @@ def lstm_abstract_retriever(units):
     bert_embedding = TFBertModel.from_pretrained(
         "bert-base-uncased", config=config, name="bert"
     ).bert
-
-
+    
     inputs = tf.keras.Input(shape=(3, 128), dtype="int32", name="sequence")
     inputs_mask = tf.keras.Input(shape=(3, 128), dtype="int32", name="attention_masks")
-
-    # bert_lambda = tf.keras.layers.Lambda(
-    #     lambda lambda_inp, lambda_inp_mask:tf.map_fn(
-    #         lambda inp, inp_mask: bert_embedding(inp, attention_mask=inp_mask), (lambda_inp, lambda_inp_mask)
-    #     )[1]
-    # )([inputs, inputs_mask])
-
-    # print(bert_lambda.shape)
-    # exit()
     print(inputs_mask.shape)
-
     claim_embedding = bert_embedding(inputs[:,0], attention_mask=inputs_mask[:,0])[1]
     context_embedding = bert_embedding(inputs[:,1], attention_mask=inputs_mask[:,1])[1]
     sent_embedding = bert_embedding(inputs[:,2], attention_mask=inputs_mask[:,2])[1]
     print(sent_embedding.shape)
-
-    stacked = tf.keras.layers.Lambda(lambda a : tf.stack(a, axis=1), name="combiner")([claim_embedding, context_embedding, sent_embedding])
-    # stacked = tf.keras.layers.Concatenate(axis=1)
-    print(stacked.shape)
-    # lstm_inp = tf.constant(claim_embedding, context_embedding, sent_embedding)
-    # print(lstm_inp.shape)
+    concat = tf.keras.layers.Concatenate()([claim_embedding, context_embedding, sent_embedding])
+    print(concat.shape)
+    reshape = tf.keras.layers.Reshape((3, 768))(concat)
+    print(reshape.shape)
     lstm = tf.keras.layers.LSTM(
         units, return_sequences=False, recurrent_initializer="glorot_uniform"
-    )(stacked)
+    )(reshape)
     print(lstm.shape)
     outputs = tf.keras.layers.Dense(1, activation="sigmoid")(lstm)
     print(outputs.shape)
