@@ -79,31 +79,43 @@ class BertLSTMSentenceSelector:
         return tokenization[0], tokenization[2]
 
 
-def lstm_abstract_retriever(untis):
+def lstm_abstract_retriever(units):
     config = BertConfig(dropout=0.2, attention_dropout=0.2)
     config.output_hidden_states = False
     bert_embedding = TFBertModel.from_pretrained(
         "bert-base-uncased", config=config, name="bert"
     ).bert
 
+
     inputs = tf.keras.Input(shape=(3, 128), dtype="int32", name="sequence")
-    # print(inputs.shape)
     inputs_mask = tf.keras.Input(shape=(3, 128), dtype="int32", name="attention_masks")
-    # print(inputs_mask.shape)
-    reshaped_inputs = tf.reshape(inputs, [-1, 128], name="seq_reshape")
-    # print(reshaped_inputs.shape)
-    reshaped_mask = tf.reshape(inputs_mask, [-1, 128], name="seq_mask_reshape")
-    # print(reshaped_mask.shape)
-    pooling_embedding = bert_embedding(reshaped_inputs, attention_mask=reshaped_mask)[1]
-    # print(pooling_embedding.shape)
-    reshaped_cls = tf.reshape(pooling_embedding, [-1, 3, 768], name="cls_reshape")
-    # print(reshaped_cls.shape)
+
+    # bert_lambda = tf.keras.layers.Lambda(
+    #     lambda lambda_inp, lambda_inp_mask:tf.map_fn(
+    #         lambda inp, inp_mask: bert_embedding(inp, attention_mask=inp_mask), (lambda_inp, lambda_inp_mask)
+    #     )[1]
+    # )([inputs, inputs_mask])
+
+    # print(bert_lambda.shape)
+    # exit()
+    print(inputs_mask.shape)
+
+    claim_embedding = bert_embedding(inputs[:,0], attention_mask=inputs_mask[:,0])[1]
+    context_embedding = bert_embedding(inputs[:,1], attention_mask=inputs_mask[:,1])[1]
+    sent_embedding = bert_embedding(inputs[:,2], attention_mask=inputs_mask[:,2])[1]
+    print(sent_embedding.shape)
+
+    stacked = tf.keras.layers.Lambda(lambda a : tf.stack(a, axis=1), name="combiner")([claim_embedding, context_embedding, sent_embedding])
+    # stacked = tf.keras.layers.Concatenate(axis=1)
+    print(stacked.shape)
+    # lstm_inp = tf.constant(claim_embedding, context_embedding, sent_embedding)
+    # print(lstm_inp.shape)
     lstm = tf.keras.layers.LSTM(
-        untis, return_sequences=False, recurrent_initializer="glorot_uniform"
-    )(reshaped_cls)
-    # print(lstm.shape)
+        units, return_sequences=False, recurrent_initializer="glorot_uniform"
+    )(stacked)
+    print(lstm.shape)
     outputs = tf.keras.layers.Dense(1, activation="sigmoid")(lstm)
-    # print(outputs.shape)
+    print(outputs.shape)
 
     model = tf.keras.Model(
         inputs=[inputs, inputs_mask],
