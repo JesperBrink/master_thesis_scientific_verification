@@ -55,7 +55,6 @@ class ScifactLSTMDataset:
         print("initializing id to abstact map")
         id_to_abstract_map = self._create_id_to_abstract_map()
         print("creating dataset and writeing to {}".format(self.dest))
-        self.zeroes = tf.zeros((1, self.sequence_lenght), dtype=tf.dtypes.int32)
 
         for claim_row in tqdm(jsonlines.open(self.claim_path)):
             claim, claim_mask = self._tokenize(claim_row["claim"])
@@ -104,7 +103,7 @@ class ScifactLSTMDataset:
 
     def _create_sequence(self, claim, claim_mask, sent_index, abstract):
         context, context_mask = (
-            (self.zeroes, self.zeroes)
+            self._tokenize("")
             if sent_index == 0
             else self._tokenize(abstract[sent_index - 1])
         )
