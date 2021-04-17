@@ -30,7 +30,7 @@ class TwoLayerDenseSentenceSelector:
         result = {}
 
         claim_embedding = tf.constant(self.id_to_claim_embedding_map[claim["id"]])
-        for doc_id, abstract in abstracts.items():
+        for doc_id, _ in abstracts.items():
             abstract_embedding = tf.constant(self.doc_id_to_abst_embedding_map[doc_id])
             stacked_claim = tf.repeat(
                 [claim_embedding], abstract_embedding.shape[0], axis=0
