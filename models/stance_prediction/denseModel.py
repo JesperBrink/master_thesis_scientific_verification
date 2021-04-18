@@ -178,7 +178,7 @@ def main():
                 "mikkel mikkel and jesper"
             ]
         }
-        predictor({"id": 1, "claim": "this is not used"}, selected_sentences, abstract)
+        print(predictor({"id": 1, "claim": "this is not used"}, selected_sentences, abstract))
 
 
 if __name__ == "__main__":
