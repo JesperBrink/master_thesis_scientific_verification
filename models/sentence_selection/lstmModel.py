@@ -34,7 +34,7 @@ class BertLSTMSentenceSelector:
     def __call__(self, claim_object, abstracts):
         claim = claim_object["claim"]
 
-        zeroes = tf.zeros((1, 128), dtype=tf.dtypes.int32)
+        zeroes = self._tokenize("")
         claim_token, claim_attention_mask = self._tokenize(claim)
 
         result = {}
