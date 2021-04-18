@@ -8,6 +8,7 @@ from models.sentence_selection.cosineSimilarityModel import (
 )
 from models.stance_prediction.denseModel import TwoLayerDenseStancePredictor
 from models.abstract_retriever.tf_idf import TFIDFAbstractRetrieval
+from models.abstract_retriever.bm25 import BM25AbstractRetrieval
 import time
 import tensorflow as tf
 import enum
@@ -62,8 +63,8 @@ if __name__ == "__main__":
         "abstract_retriever",
         metavar="abstract_retriever",
         type=str,
-        choices=["dev", "noop", "tfidf"],
-        help="Which model to use for abstract retrieval. dev = quick testing, noop = No pruning, tfid = TF-IDF",
+        choices=["dev", "noop", "tfidf", "bm25"],
+        help="Which model to use for abstract retrieval. dev = quick testing, noop = No pruning, tfid = TF-IDF, bm25 = Pyserini BM25",
     )
     parser.add_argument(
         "sentence_selector",
@@ -76,7 +77,7 @@ if __name__ == "__main__":
         "stance_predictor",
         metavar="stance_predictor",
         type=str,
-        choices=["dense"],
+        choices=["dense", "none"],
         help="Which stance prediction model to use. dense = Two layer dense",
     )
     parser.add_argument(
@@ -106,6 +107,8 @@ if __name__ == "__main__":
         abstract_retriever = DevAbstractRetriever()
     elif args.abstract_retriever == "tfidf":
         abstract_retriever = TFIDFAbstractRetrieval(args.corpus_path)
+    elif args.abstract_retriever == "bm25":
+        abstract_retriever = BM25AbstractRetrieval(args.corpus_path)
 
     if args.sentence_selector == "lstm":
         sentence_selector = BertLSTMSentenceSelector(args.sentence_threshold)
