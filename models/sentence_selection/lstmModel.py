@@ -39,17 +39,14 @@ class BertLSTMSentenceSelector:
 
         result = {}
         for doc_id, sents in abstracts.items():
-            abstract_text, abstract_text_masks = [zeroes], [zeroes]
+            abstract_text = [zeroes[0]]
+            abstract_text_masks = [zeroes[1]]
             for sent in sents:
                 text, mask = self._tokenize(sent)
                 abstract_text.append(text)
                 abstract_text_masks.append(mask)
-            sequence = tf.reshape(
-                tf.repeat([abstract_text, abstract_text_masks], repeats=2, axis=1)[
-                    :, 1:-1
-                ],
-                (2, -1, 2, 128),
-            )
+            repeat = tf.repeat([abstract_text, abstract_text_masks], repeats=2, axis=1)
+            sequence = tf.reshape(repeat[:, 1:-1],(2, -1, 2, 128))
             tiled_claim = tf.reshape(
                 tf.tile([claim_token, claim_attention_mask], [1, len(sents), 1]),
                 (2, -1, 1, 128),
