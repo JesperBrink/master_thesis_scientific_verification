@@ -19,12 +19,12 @@ _model_dir = (
 
 
 class TwoLayerDenseSentenceSelector:
-    def __init__(self, corpus_path, claim_path, threshold=0.5):
+    def __init__(self, corpus_embedding_path, claim_embedding_path, threshold=0.5):
         self.threshold = threshold
         self.model = load()
         self.model.summary()
-        self.doc_id_to_abst_embedding_map = self.create_id_to_abstract_map(corpus_path)
-        self.id_to_claim_embedding_map = self.create_id_to_claim_map(claim_path)
+        self.doc_id_to_abst_embedding_map = self.create_id_to_abstract_map(corpus_embedding_path)
+        self.id_to_claim_embedding_map = self.create_id_to_claim_map(claim_embedding_path)
 
     def __call__(self, claim, abstracts):
         result = {}

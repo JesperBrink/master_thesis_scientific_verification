@@ -6,6 +6,7 @@ from tqdm import tqdm
 # from models.filter_corpus.cosine_similarity import CosineSimilarityFilterModel
 # from models.filter_corpus.bm25 import BM25FilterModel
 from models.sentence_selection.lstmModel import BertLSTMSentenceSelector
+from models.sentence_selection.denseModel import TwoLayerDenseSentenceSelector
 from models.stance_prediction.model import TwoLayerDenseSrancePredictor
 from models.abstract_retriever.tf_idf import TFIDFAbstractRetrieval
 import models.stance_prediction.model as stance_prediction_module
@@ -40,11 +41,9 @@ def pipeline(claims_path, corpus_path, abstract_retriever, sentence_selector, st
     with jsonlines.open("predictions.jsonl", "w") as output_writer:
         with jsonlines.open(claims_path) as claims:
             for claim_object in tqdm(claims):
-                claim = claim_object["claim"]
-                retrieved_abstracts = abstract_retriever(claim, abstracts)
-                selected_sentences = sentence_selector(claim, retrieved_abstracts)
+                retrieved_abstracts = abstract_retriever(claim_object, abstracts)
+                selected_sentences = sentence_selector(claim_object, retrieved_abstracts)
                 prediction = stance_predictor(claim_object, selected_sentences, retrieved_abstracts)
-                
                 output_writer.write(prediction) 
 
 if __name__ == "__main__":
@@ -55,22 +54,22 @@ if __name__ == "__main__":
         "abstract_retriever",
         metavar="abstract_retriever",
         type=str,
-        choices=["dev", "noop", "tfidf"],
+        choices=["dev", "noop", "tfidf", "bm25"],
         help="Which model to use for abstract retrieval. none = No pruning, cosine = SBERT + cosine similarity, bm25 = BM25",
     )
     parser.add_argument(
         "sentence_selector",
         metavar="sentence_selector",
         type=str,
-        choices=["dev", "lstm"],
-        help="Which sentence selection model to use. twolayer = Two layer dense, cosine = SBERT cosine similarity",
+        choices=["dev", "lstm", "dense"],
+        help="Which sentence selection model to use. dense = Two layer dense, cosine = SBERT cosine similarity",
     )
     parser.add_argument(
         "stance_predictor",
         metavar="stance_predictor",
         type=str,
-        choices=["twolayer"],
-        help="Which stance prediction model to use. twolayer = Two layer dense",
+        choices=["dense"],
+        help="Which stance prediction model to use. dense = Two layer dense",
     )
     parser.add_argument(
         "claim_path", metavar="path", type=str, help="the path to the sentence claims"
@@ -109,8 +108,10 @@ if __name__ == "__main__":
         sentence_selector = BertLSTMSentenceSelector(args.sentence_threshold)
     elif args.sentence_selector == "dev":
         sentence_selector = DevSentenceSelector()
+    elif args.sentence_selector == "dense":
+        sentence_selector = TwoLayerDenseSentenceSelector(args.corpus_embedding, args.claim_embedding)
 
-    if args.stance_predictor == "twolayer":
+    if args.stance_predictor == "dense":
         stance_predictor = TwoLayerDenseSrancePredictor(args.corpus_embedding, args.claim_embedding)
     
     pipeline(args.claim_path, args.corpus_path, abstract_retriever, sentence_selector, stance_predictor)
