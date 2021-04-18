@@ -18,7 +18,8 @@ class TFIDFAbstractRetrieval:
             [doc["title"] + " ".join(doc["abstract"]) for doc in self.corpus]
         )
     
-    def __call__(self, claim, abstracts):
+    def __call__(self, claim_object, abstracts):
+        claim = claim_object["claim"]
         # create vector for claim
         claim_vector = self.vectorizer.transform([claim]).todense()
         # compute cosine similarity to alle abstracts
@@ -38,9 +39,6 @@ if __name__ == '__main__':
         description=""
     )
     parser.add_argument(
-        "claim_path", metavar="path", type=str, help="the path to the sentence claims"
-    )
-    parser.add_argument(
         "corpus_path",
         metavar="path",
         type=str,
@@ -52,7 +50,8 @@ if __name__ == '__main__':
     )
 
     args = parser.parse_args()
-    t = TFIDFAbstractRetrieval(10, args.corpus_path, 1, 2)
-    print(t("hello my friend",{'1': "nope",'12489688': ["hello 1"], '13515165': ["hello 2"], '14682243': ["hello 3"], '198309074': ["hello 4"], '9988425': ["hello 5"], '9955779': ["hello 6"], '9956893': ["hello 7"], '9967265': ["hello 8"], '9973014': ["hello 9"], '9976969': ["hello 10"]}))
+
+    t = TFIDFAbstractRetrieval(args.corpus_path, 10, 1, 2)
+    print(t({"claim":"hello my friend"},{'1': ["nope"],'12489688': ["hello 1"], '13515165': ["hello 2"], '14682243': ["hello 3"], '198309074': ["hello 4"], '9988425': ["hello 5"], '9955779': ["hello 6"], '9956893': ["hello 7"], '9967265': ["hello 8"], '9973014': ["hello 9"], '9976969': ["hello 10"]}))
 
     
