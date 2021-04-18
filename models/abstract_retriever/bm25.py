@@ -1,4 +1,4 @@
-from pyserini.index import IndexReader
+from pyserini.search import SimpleSearcher
 from jnius import autoclass
 import jsonlines
 from tqdm import tqdm
@@ -11,21 +11,16 @@ class BM25AbstractRetrieval:
         self.k = k
         corpus_index_path = "bm25_abstract_index" # Folder to write Pyserini index to
         self.map_corpus_to_pyserini_index(corpus_path, corpus_index_path)
-        self.index_reader = IndexReader(corpus_index_path)
+        self.index_searcher = SimpleSearcher(corpus_index_path)
+        self.index_searcher.set_bm25(0.9, 0.4) # Default params - does this even need to be set?
         print("###  BM25 INIT DONE ###")
 
 
     def __call__(self, claim_object, abstracts):
         claim = claim_object["claim"]
-        doc_scores = []
+        hits = self.index_searcher.search(claim, k=self.k)
 
-        for doc_id in abstracts.keys():
-            score = self.index_reader.compute_query_document_score(str(doc_id), claim)
-            doc_scores.append((score, doc_id))
-
-        docs_sorted_by_scores = sorted(doc_scores, key=lambda tup: tup[0], reverse=True)
-
-        return {int(doc_id): abstracts[doc_id] for _, doc_id in docs_sorted_by_scores[:self.k]}
+        return {int(hit.docid): abstracts[int(hit.docid)] for hit in hits}
 
 
     def map_corpus_to_pyserini_index(self, corpus_path, corpus_index_path):
