@@ -14,7 +14,7 @@ from datasets.datasetProcessing.lstm.createDataset import (
 
 _model_dir = (
     Path(os.path.realpath(__file__)).resolve().parents[1]
-    / "trained_models/sentence_selection"
+    / "trained_models/sentence_selection/lstm"
 )
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
@@ -31,7 +31,9 @@ class BertLSTMSentenceSelector:
             add_special_tokens=True,
         )
 
-    def __call__(self, claim, abstracts):
+    def __call__(self, claim_object, abstracts):
+        claim = claim_object["claim"]
+
         zeroes = tf.zeros((1, 128), dtype=tf.dtypes.int32)
         claim_token, claim_attention_mask = self._tokenize(claim)
 
@@ -85,6 +87,7 @@ def lstm_abstract_retriever(units):
     bert_embedding = TFBertModel.from_pretrained(
         "bert-base-uncased", config=config, name="bert"
     ).bert
+    bert_embedding.trainable = False
     
     inputs = tf.keras.Input(shape=(3, 128), dtype="int32", name="sequence")
     inputs_mask = tf.keras.Input(shape=(3, 128), dtype="int32", name="attention_masks")
@@ -177,7 +180,7 @@ if __name__ == "__main__":
         train(m, batch_size=args.batch_size, epochs=args.epochs)
         save(m)
         m = load()
-        m.summary()
+        # m.summary()
     if args.work:
         selector = BertLSTMSentenceSelector(0.00)
         abstracts = {
@@ -193,4 +196,4 @@ if __name__ == "__main__":
                 "This self-priming ability is a consequence of the secondary structure of the 3'-unique region.", 
                 'The observation that a gene actively amplified throughout rodent evolution makes a RNA capable of efficient self-primed reverse transcription strongly suggests that self-priming is at least one feature establishing the BC1 RNA gene as a master gene for amplification of ID elements.']
         }
-        print(selector("gd is not", abstracts))
+        print(selector({"id":14,"claim":"gd is not"}, abstracts))
