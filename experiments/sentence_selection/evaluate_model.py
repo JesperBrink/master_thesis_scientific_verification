@@ -3,6 +3,7 @@ from tqdm import tqdm
 import jsonlines
 import argparse
 
+
 def create_id_to_abstract_map(corpus_path):
     abstract_id_to_abstract = dict()
     corpus = jsonlines.open(corpus_path)
@@ -10,9 +11,11 @@ def create_id_to_abstract_map(corpus_path):
         abstract_id_to_abstract[data["doc_id"]] = data["abstract"]
     return abstract_id_to_abstract
 
+
 def get_gold_abstracts(claim_object, corpus):
     evidence = claim_object["evidence"]
     return {doc_id: corpus[int(doc_id)] for doc_id, _ in evidence.items()}
+
 
 def evaluate(model, claim_path, corpus_path):
     corpus = create_id_to_abstract_map(corpus_path)
@@ -28,13 +31,12 @@ def evaluate(model, claim_path, corpus_path):
                 all_rationales = []
                 for rationale in rationales:
                     all_rationales.extend(rationale["sentences"])
-                selected_sentences[doc_id]
+                    
                 correct = len([1 for x in selected_sentences if x in all_rationales])
                 correct_counter += correct
-                wrong_counter += (len(selected_sentences) - correct)
+                wrong_counter += len(selected_sentences) - correct
         print("accuracy", correct_counter / wrong_counter)
 
-    pass
 
 def main():
     parser = argparse.ArgumentParser(
@@ -62,8 +64,7 @@ def main():
         sentence_selector = BertLSTMSentenceSelector(0.25)
 
     evaluate(sentence_selector, args.claim_path, args.corpus_path)
-    pass
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
-    

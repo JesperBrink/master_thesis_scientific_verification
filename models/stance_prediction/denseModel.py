@@ -22,7 +22,7 @@ _model_dir = (
 
 
 
-class TwoLayerDenseSrancePredictor:
+class TwoLayerDenseStancePredictor:
     def __init__(self, corpus_path, claim_path, threshold=0.5):
         self.threshold = threshold
         self.model = load()
@@ -177,7 +177,7 @@ def main():
         m = load()
         m.summary()
     if args.work:
-        predictor = TwoLayerDenseSrancePredictor(args.corpus_embedding, args.claim_embedding)
+        predictor = TwoLayerDenseStancePredictor(args.corpus_embedding, args.claim_embedding)
         selected_sentences = {4983: [2,1]}
         abstract= {4983:[
                 "redwine is also good",

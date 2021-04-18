@@ -6,7 +6,7 @@ from models.sentence_selection.denseModel import TwoLayerDenseSentenceSelector
 from models.sentence_selection.cosineSimilarityModel import (
     CosineSimilaritySentenceSelector,
 )
-from models.stance_prediction.denseModel import TwoLayerDenseSrancePredictor
+from models.stance_prediction.denseModel import TwoLayerDenseStancePredictor
 from models.abstract_retriever.tf_idf import TFIDFAbstractRetrieval
 import time
 import tensorflow as tf
@@ -62,15 +62,15 @@ if __name__ == "__main__":
         "abstract_retriever",
         metavar="abstract_retriever",
         type=str,
-        choices=["dev", "noop", "tfidf", "bm25"],
-        help="Which model to use for abstract retrieval. none = No pruning, cosine = SBERT + cosine similarity, bm25 = BM25",
+        choices=["dev", "noop", "tfidf"],
+        help="Which model to use for abstract retrieval. dev = quick testing, noop = No pruning, tfid = TF-IDF",
     )
     parser.add_argument(
         "sentence_selector",
         metavar="sentence_selector",
         type=str,
         choices=["dev", "lstm", "dense", "cosine"],
-        help="Which sentence selection model to use. dense = Two layer dense, cosine = SBERT cosine similarity",
+        help="Which sentence selection model to use. dev = for quick testing, lstm = bert-lstm model, dense = Two layer dense, cosine = SBERT cosine similarity",
     )
     parser.add_argument(
         "stance_predictor",
@@ -125,7 +125,7 @@ if __name__ == "__main__":
         )
 
     if args.stance_predictor == "dense":
-        stance_predictor = TwoLayerDenseSrancePredictor(
+        stance_predictor = TwoLayerDenseStancePredictor(
             args.corpus_embedding, args.claim_embedding
         )
 

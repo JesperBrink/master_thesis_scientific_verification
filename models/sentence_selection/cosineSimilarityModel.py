@@ -24,7 +24,6 @@ class CosineSimilaritySentenceSelector:
             norm_sentences = tf.math.l2_normalize(sentence_embeddings, 1)
             norm_claim = tf.math.l2_normalize(claim_embedding, 0)
             similarities = tf.linalg.matvec(norm_sentences, norm_claim)
-            print(similarities)
 
             top_k, indices = tf.math.top_k(similarities, k=3)
             res = tf.reshape(
@@ -36,7 +35,6 @@ class CosineSimilaritySentenceSelector:
             result[doc_id] = rationales
 
         return result
-        # return tf.reshape(similarities, (sentence_embeddings.shape[0], 1))
 
     def create_id_to_abstract_map(self, corpus_path):
         abstract_id_to_abstract = dict()
