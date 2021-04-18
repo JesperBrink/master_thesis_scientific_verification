@@ -1,184 +1,138 @@
 import jsonlines
 import numpy as np
 from tqdm import tqdm
-import models.sentence_selection.model as sentence_selection_module
-from models.sentence_selection.cosine_similarity_model import CosineSimilaritySentenceSelector
-from models.filter_corpus.cosine_similarity import CosineSimilarityFilterModel
-from models.filter_corpus.bm25 import BM25FilterModel
-import models.stance_prediction.model as stance_prediction_module
+from models.sentence_selection.lstmModel import BertLSTMSentenceSelector
+from models.sentence_selection.denseModel import TwoLayerDenseSentenceSelector
+from models.sentence_selection.cosineSimilarityModel import (
+    CosineSimilaritySentenceSelector,
+)
+from models.stance_prediction.denseModel import TwoLayerDenseStancePredictor
+from models.abstract_retriever.tf_idf import TFIDFAbstractRetrieval
 import time
 import tensorflow as tf
 import enum
 import argparse
 
 
-def sentence_selection(claim, model, sentence_embeddings, corp_id, threshold):
-    """Returns a dict that maps abstract ids to relevant sentences ids in that abstract
-    i.e. {abstract_42: [{id: sent_3, embedding: <embedding>}, {id: sent_7, embedding: <embedding>}], abstract_127: [...]}
-    We have at most 9 sentences per abstract
-    """
-    claim = tf.ones((sentence_embeddings.shape[0], 1)) * claim["claim"]
-    claim_sent_embedding = tf.concat([claim, tf.cast(sentence_embeddings, tf.float32)], 1)
-
-    predicted = model(claim_sent_embedding)
-    res_mask = tf.squeeze(tf.math.greater(predicted, tf.constant(threshold)))
-    res = tf.where(res_mask)    
-    
-    relevant_sentences_dict = dict()
-    for pred_id in res:
-        pred_id_val = pred_id[0]
-        abstract_id, sentence_id = corp_id[pred_id_val]
-        sentence_list = relevant_sentences_dict.get(abstract_id, [])
-        score = predicted[pred_id_val][0]
-        sentence_list.append((score, sentence_id, pred_id_val))
-        relevant_sentences_dict[abstract_id] = sentence_list
-
-    # Only use best 3 sentences
-    for abstract_id, sentence_list in relevant_sentences_dict.items():
-        sorted_by_score = sorted(sentence_list, key=lambda tup: tup[0], reverse=True)
-        top_3_sentences_by_score = sorted_by_score[:3]
-        correct_format = [{"id": sentence_id, "embedding": claim_sent_embedding[pred_id_val]} for _, sentence_id, pred_id_val in top_3_sentences_by_score]
-        relevant_sentences_dict[abstract_id] = correct_format
-    
-    return relevant_sentences_dict
+class NoopAbstractRetriever:
+    def __call__(self, claim, abstracts):
+        return abstracts
 
 
-def same_prediction_as_avg(avg, pred, threshold):
-    if avg < threshold and pred < threshold:
-        return True
-    elif avg >= threshold and pred >= threshold:
-        return True
-    return False
+class DevAbstractRetriever:
+    def __call__(self, claim, abstracts):
+        return {x: y for x, y in list(abstracts.items())[:10]}
 
 
-def stance_prediction(claim, evidence, model, output_writer=None):
-    """
-    input: Claims + Rationales (from sentence selection)
-    output: Whether abstracts/sentences support or refute claims
-    """
-    claim_id = claim["id"]
-
-    if not evidence:
-        return {"id": claim_id, "evidence": {}}
-
-    resulting_evidence_dict = dict()
-    for abstract in evidence.keys():
-        stance_predictions = []
-        pred_sum = 0
-
-        for sentence_dict in evidence[abstract]:
-            embedding = tf.expand_dims(sentence_dict["embedding"], 0)
-            pred = model(embedding)
-            stance_predictions.append((sentence_dict["id"], pred))
-            pred_sum += pred
-
-        avg = pred_sum / len(stance_predictions)
-
-        if output_writer is not None:
-            output_writer.write("AVG predicted label value: {}".format(avg))
-
-        threshold = tf.constant(0.5)
-        rationale_sentences = [
-            sent_id
-            for sent_id, pred in stance_predictions
-            if same_prediction_as_avg(avg, pred, threshold)
-        ]
-        label = "SUPPORT" if avg >= threshold else "CONTRADICT"
-        resulting_evidence_dict[str(abstract)] = {
-            "sentences": rationale_sentences,
-            "label": label,
-        }
-
-    return {"id": claim_id, "evidence": resulting_evidence_dict}
+class DevSentenceSelector:
+    def __call__(self, claim, abstracts):
+        for doc_id, _ in abstracts.items():
+            return {doc_id: [0, 1]}
 
 
-def setup_sentence_embeddings(corpus_path):
-    with jsonlines.open(corpus_path) as corpus_reader:
-        corpus = np.array(list(corpus_reader.iter()))
-    corp_id = []
-    sentence_embeddings = []
-    
-    for line in corpus:
-        for i in range(len(line['abstract'])):
-            corp_id.append((line['doc_id'], i))
-        sentence_embeddings.append(np.array(line['abstract']))
+def create_id_to_abstract_map(corpus_path):
+    abstract_id_to_abstract = dict()
+    corpus = jsonlines.open(corpus_path)
+    for data in corpus:
+        abstract_id_to_abstract[data["doc_id"]] = data["abstract"]
 
-    sentence_embeddings = np.concatenate(sentence_embeddings, axis=0)
-    return sentence_embeddings, corp_id
+    return abstract_id_to_abstract
 
 
-def run_pipeline(corpus_path, claims_path, sentence_selection_model, stance_prediction_model, filter_model):
-    threshold = 0.5
-    
-    sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
-    with jsonlines.open("predictions.jsonl", "w") as output:
+def pipeline(
+    claims_path, corpus_path, abstract_retriever, sentence_selector, stance_predictor
+):
+    abstracts = create_id_to_abstract_map(corpus_path)
+    with jsonlines.open("predictions.jsonl", "w") as output_writer:
         with jsonlines.open(claims_path) as claims:
-            for claim in tqdm(claims):
-                if filter_model is not None:
-                    sentence_embeddings = filter_model.get_top_k_by_similarity(claim, sentence_embeddings, 50)
-
-                relevant_sentences_dict = sentence_selection(claim, sentence_selection_model, sentence_embeddings, corp_id, threshold)
-                prediction = stance_prediction(claim, relevant_sentences_dict, stance_prediction_model) 
-                output.write(prediction)
-
-
-class FilterModel(enum.Enum):
-    NONE = "none"
-    SBERT_COSINE_SIMILARITY = "cosine"
-
-class SentenceSelctionModel(enum.Enum):
-    TWO_LAYER_DENSE = "twolayer"
-    SBERT_COSINE_SIMILARITY = "cosine"
-
-class StancePredictionModel(enum.Enum):
-    TWO_LAYER_DENSE = "twolayer"
+            for claim_object in tqdm(claims):
+                retrieved_abstracts = abstract_retriever(claim_object, abstracts)
+                selected_sentences = sentence_selector(
+                    claim_object, retrieved_abstracts
+                )
+                prediction = stance_predictor(
+                    claim_object, selected_sentences, retrieved_abstracts
+                )
+                output_writer.write(prediction)
 
 
 if __name__ == "__main__":
-    corpus_path = "sbert-embedded-corpus.jsonl"
-    claims_path = "sbert-embedded-dev-claims.jsonl"
-
-    parser = argparse.ArgumentParser(
-        description="Script to run evaluation pipeline"
+    parser = argparse.ArgumentParser(description="Script to run evaluation pipeline")
+    parser.add_argument(
+        "abstract_retriever",
+        metavar="abstract_retriever",
+        type=str,
+        choices=["dev", "noop", "tfidf"],
+        help="Which model to use for abstract retrieval. dev = quick testing, noop = No pruning, tfid = TF-IDF",
     )
     parser.add_argument(
-        "filter_model",
-        metavar="filter",
-        type=FilterModel,
-        help="Which pruning model to use. none = No pruning, cosine = SBERT + cosine similarity, bm25 = BM25",
+        "sentence_selector",
+        metavar="sentence_selector",
+        type=str,
+        choices=["dev", "lstm", "dense", "cosine"],
+        help="Which sentence selection model to use. dev = for quick testing, lstm = bert-lstm model, dense = Two layer dense, cosine = SBERT cosine similarity",
     )
     parser.add_argument(
-        "sentence_selection_model",
-        metavar="sentence_selection_model",
-        type=SentenceSelctionModel,
-        help="Which sentence selection model to use. twolayer = Two layer dense, cosine = SBERT cosine similarity",
+        "stance_predictor",
+        metavar="stance_predictor",
+        type=str,
+        choices=["dense"],
+        help="Which stance prediction model to use. dense = Two layer dense",
     )
     parser.add_argument(
-        "stance_prediction_model",
-        metavar="stance_prediction_model",
-        type=StancePredictionModel,
-        help="Which stance prediction model to use. twolayer = Two layer dense",
+        "claim_path", metavar="path", type=str, help="the path to the sentence claims"
     )
+    parser.add_argument(
+        "corpus_path",
+        metavar="path",
+        type=str,
+        help="the path to the sentence corpus",
+    )
+    parser.add_argument(
+        "-st",
+        "--sentence_threshold",
+        type=float,
+        default=0.5,
+        help="the threshold for sentence selection",
+    )
+    parser.add_argument("-cl", "--claim_embedding", type=str)
+    parser.add_argument("-co", "--corpus_embedding", type=str)
 
     args = parser.parse_args()
 
-    if args.filter_model == FilterModel.NONE:
-        filter_model = None
-    elif args.filter_model == FilterModel.SBERT_COSINE_SIMILARITY:
-        filter_model = CosineSimilarityFilterModel()
-    else:
-        raise NotImplementedError()
+    if args.abstract_retriever == "noop":
+        abstract_retriever = NoopAbstractRetriever()
+    elif args.abstract_retriever == "dev":
+        abstract_retriever = DevAbstractRetriever()
+    elif args.abstract_retriever == "tfidf":
+        abstract_retriever = TFIDFAbstractRetrieval(args.corpus_path)
 
-    if args.sentence_selection_model == SentenceSelctionModel.TWO_LAYER_DENSE:
-        sentence_selection_model = sentence_selection_module.load()
-    elif args.sentence_selection_model == SentenceSelctionModel.SBERT_COSINE_SIMILARITY:
-        sentence_selection_model = CosineSimilaritySentenceSelector()
-    else:
-        raise NotImplementedError()
+    if args.sentence_selector == "lstm":
+        sentence_selector = BertLSTMSentenceSelector(args.sentence_threshold)
+    elif args.sentence_selector == "dev":
+        sentence_selector = DevSentenceSelector()
+    elif args.sentence_selector == "dense":
+        sentence_selector = TwoLayerDenseSentenceSelector(
+            args.corpus_embedding,
+            args.claim_embedding,
+            threshold=args.sentence_threshold,
+        )
+    elif args.sentence_selector == "cosine":
+        sentence_selector = CosineSimilaritySentenceSelector(
+            args.corpus_embedding,
+            args.claim_embedding,
+            threshold=args.sentence_threshold,
+        )
 
-    if args.stance_prediction_model == StancePredictionModel.TWO_LAYER_DENSE:
-        stance_prediction_model = stance_prediction_module.load()
-    else:
-        raise NotImplementedError()
+    if args.stance_predictor == "dense":
+        stance_predictor = TwoLayerDenseStancePredictor(
+            args.corpus_embedding, args.claim_embedding
+        )
 
-    run_pipeline(corpus_path, claims_path, sentence_selection_model, stance_prediction_model, filter_model)
+    pipeline(
+        args.claim_path,
+        args.corpus_path,
+        abstract_retriever,
+        sentence_selector,
+        stance_predictor,
+    )

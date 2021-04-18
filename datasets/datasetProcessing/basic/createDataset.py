@@ -13,17 +13,16 @@ from sentence_transformers import SentenceTransformer
 
 # paths to the folder where the
 trainingset_path = (
-    Path(os.path.realpath(__file__)).resolve().parents[1] / "subTrainingDataset"
+    Path(os.path.realpath(__file__)).resolve().parents[1] / "tfrecords" / "DenseTrainingDataset"
 )
 validation_path = (
-    Path(os.path.realpath(__file__)).resolve().parents[1] / "validationDataset"
+    Path(os.path.realpath(__file__)).resolve().parents[1] / "tfrecords" / "DenseValidationDataset"
 )
 
 # s-bert model name
 MODEL = None
 
 yes = ["yes", "y", "ye"]
-
 
 def create_id_to_abstract_map(corpus_path):
     abstract_id_to_abstract = dict()
