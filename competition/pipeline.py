@@ -1,13 +1,7 @@
 import jsonlines
 import numpy as np
 from tqdm import tqdm
-import models.sentence_selection.model as sentence_selection_module
-from models.sentence_selection.cosine_similarity_model import CosineSimilaritySentenceSelector
-from models.filter_corpus.cosine_similarity import CosineSimilarityFilterModel
-from models.filter_corpus.bm25 import BM25FilterModel
-import models.stance_prediction.model as stance_prediction_module
 import time
-import tensorflow as tf
 import enum
 import argparse
 
@@ -135,6 +129,14 @@ class StancePredictionModel(enum.Enum):
 
 
 if __name__ == "__main__":
+    # Fix such that Specter import doesn't hang, as it somehow can't handle both tf and pytorch at the same time...
+    import tensorflow as tf
+    import models.sentence_selection.model as sentence_selection_module
+    from models.sentence_selection.cosine_similarity_model import CosineSimilaritySentenceSelector
+    from models.filter_corpus.cosine_similarity import CosineSimilarityFilterModel
+    from models.filter_corpus.bm25 import BM25FilterModel
+    import models.stance_prediction.model as stance_prediction_module
+
     corpus_path = "sbert-embedded-corpus.jsonl"
     claims_path = "sbert-embedded-dev-claims.jsonl"
 

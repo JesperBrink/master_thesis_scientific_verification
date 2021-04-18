@@ -1,14 +1,13 @@
 from competition.pipeline import setup_sentence_embeddings
-from models.filter_corpus.cosine_similarity import CosineSimilarityFilterModel
 from models.filter_corpus.bm25 import BM25FilterModel
 from utils.evaluationutils import compute_f1, compute_precision, compute_recall
 import jsonlines
 from tqdm import tqdm
 import argparse
 import enum
-import time
 
 def eval_sentence_selection(claims_path, corpus_path, level, model):
+    print("eval")
     sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
     measures = {}
     
@@ -17,7 +16,7 @@ def eval_sentence_selection(claims_path, corpus_path, level, model):
             if not claim["evidence"]:
                 continue
 
-            k_range = [3,5, 10, 20, 30, 40, 50]
+            k_range = [3, 5, 10, 20, 30, 40, 50, 75, 100, 200, 300, 400, 500]
             top = model.get_top_k_by_similarity_with_ids(claim, sentence_embeddings, corp_id, k_range[-1], level)
             for k in k_range:
                 if k not in measures:
@@ -44,6 +43,7 @@ def eval_sentence_selection(claims_path, corpus_path, level, model):
 
 def get_correct_at_top_k(claim, top, k, level):
     top_k = top[:k]
+    #print(k, len(top_k))
     
     gold_docs = []
     for abstract_id, rationales in claim["evidence"].items():
@@ -70,6 +70,7 @@ def get_correct_at_top_k(claim, top, k, level):
 class FilterModel(enum.Enum):
     SBERT_COSINE_SIMILARITY = "cosine"
     BM25 = "bm25"
+    SPECTER = "specter"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Calculate accuracies of sentence selection")
@@ -94,9 +95,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.filter_model == FilterModel.SBERT_COSINE_SIMILARITY:
+        from models.filter_corpus.cosine_similarity import CosineSimilarityFilterModel
         filter_model = CosineSimilarityFilterModel()
     elif args.filter_model == FilterModel.BM25:
-        filter_model = BM25FilterModel("../../datasets/scifact/corpus.jsonl", "bm25_corpus.jsonl", "bm25_index.jsonl", args.level)
+        filter_model = BM25FilterModel(args.corpus, "bm25_corpus.jsonl", "bm25_index.jsonl", args.level)
+    elif args.filter_model == FilterModel.SPECTER:
+        from models.filter_corpus.specter import SpecterFilterModel
+        filter_model = SpecterFilterModel(args.corpus)
     else:
         raise NotImplementedError()
 
