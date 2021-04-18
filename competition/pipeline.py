@@ -1,32 +1,34 @@
 import jsonlines
 import numpy as np
 from tqdm import tqdm
-# import models.sentence_selection.model as sentence_selection_module
-# from models.sentence_selection.cosine_similarity_model import CosineSimilaritySentenceSelector
-# from models.filter_corpus.cosine_similarity import CosineSimilarityFilterModel
-# from models.filter_corpus.bm25 import BM25FilterModel
 from models.sentence_selection.lstmModel import BertLSTMSentenceSelector
 from models.sentence_selection.denseModel import TwoLayerDenseSentenceSelector
-from models.stance_prediction.model import TwoLayerDenseSrancePredictor
+from models.sentence_selection.cosineSimilarityModel import (
+    CosineSimilaritySentenceSelector,
+)
+from models.stance_prediction.denseModel import TwoLayerDenseSrancePredictor
 from models.abstract_retriever.tf_idf import TFIDFAbstractRetrieval
-import models.stance_prediction.model as stance_prediction_module
 import time
 import tensorflow as tf
 import enum
 import argparse
 
-class NoopAbstractRetriever():
+
+class NoopAbstractRetriever:
     def __call__(self, claim, abstracts):
         return abstracts
 
-class DevAbstractRetriever():
-    def __call__(self, claim, abstracts):
-        return {x:y for x, y in list(abstracts.items())[:10]}
 
-class DevSentenceSelector():
+class DevAbstractRetriever:
+    def __call__(self, claim, abstracts):
+        return {x: y for x, y in list(abstracts.items())[:10]}
+
+
+class DevSentenceSelector:
     def __call__(self, claim, abstracts):
         for doc_id, _ in abstracts.items():
-            return {doc_id: [0,1]}
+            return {doc_id: [0, 1]}
+
 
 def create_id_to_abstract_map(corpus_path):
     abstract_id_to_abstract = dict()
@@ -36,20 +38,26 @@ def create_id_to_abstract_map(corpus_path):
 
     return abstract_id_to_abstract
 
-def pipeline(claims_path, corpus_path, abstract_retriever, sentence_selector, stance_predictor):
+
+def pipeline(
+    claims_path, corpus_path, abstract_retriever, sentence_selector, stance_predictor
+):
     abstracts = create_id_to_abstract_map(corpus_path)
     with jsonlines.open("predictions.jsonl", "w") as output_writer:
         with jsonlines.open(claims_path) as claims:
             for claim_object in tqdm(claims):
                 retrieved_abstracts = abstract_retriever(claim_object, abstracts)
-                selected_sentences = sentence_selector(claim_object, retrieved_abstracts)
-                prediction = stance_predictor(claim_object, selected_sentences, retrieved_abstracts)
-                output_writer.write(prediction) 
+                selected_sentences = sentence_selector(
+                    claim_object, retrieved_abstracts
+                )
+                prediction = stance_predictor(
+                    claim_object, selected_sentences, retrieved_abstracts
+                )
+                output_writer.write(prediction)
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Script to run evaluation pipeline"
-    )
+    parser = argparse.ArgumentParser(description="Script to run evaluation pipeline")
     parser.add_argument(
         "abstract_retriever",
         metavar="abstract_retriever",
@@ -61,7 +69,7 @@ if __name__ == "__main__":
         "sentence_selector",
         metavar="sentence_selector",
         type=str,
-        choices=["dev", "lstm", "dense"],
+        choices=["dev", "lstm", "dense", "cosine"],
         help="Which sentence selection model to use. dense = Two layer dense, cosine = SBERT cosine similarity",
     )
     parser.add_argument(
@@ -81,19 +89,14 @@ if __name__ == "__main__":
         help="the path to the sentence corpus",
     )
     parser.add_argument(
-        "-st", "--sentence_threshold", type=float, default=0.5,
-        help="the threshold for sentence selection"
+        "-st",
+        "--sentence_threshold",
+        type=float,
+        default=0.5,
+        help="the threshold for sentence selection",
     )
-    parser.add_argument(
-        "-cl",
-        "--claim_embedding",
-        type=str
-    )
-    parser.add_argument(
-        "-co",
-        "--corpus_embedding",
-        type=str
-    )
+    parser.add_argument("-cl", "--claim_embedding", type=str)
+    parser.add_argument("-co", "--corpus_embedding", type=str)
 
     args = parser.parse_args()
 
@@ -109,9 +112,27 @@ if __name__ == "__main__":
     elif args.sentence_selector == "dev":
         sentence_selector = DevSentenceSelector()
     elif args.sentence_selector == "dense":
-        sentence_selector = TwoLayerDenseSentenceSelector(args.corpus_embedding, args.claim_embedding)
+        sentence_selector = TwoLayerDenseSentenceSelector(
+            args.corpus_embedding,
+            args.claim_embedding,
+            threshold=args.sentence_threshold,
+        )
+    elif args.sentence_selector == "cosine":
+        sentence_selector = CosineSimilaritySentenceSelector(
+            args.corpus_embedding,
+            args.claim_embedding,
+            threshold=args.sentence_threshold,
+        )
 
     if args.stance_predictor == "dense":
-        stance_predictor = TwoLayerDenseSrancePredictor(args.corpus_embedding, args.claim_embedding)
-    
-    pipeline(args.claim_path, args.corpus_path, abstract_retriever, sentence_selector, stance_predictor)
+        stance_predictor = TwoLayerDenseSrancePredictor(
+            args.corpus_embedding, args.claim_embedding
+        )
+
+    pipeline(
+        args.claim_path,
+        args.corpus_path,
+        abstract_retriever,
+        sentence_selector,
+        stance_predictor,
+    )
