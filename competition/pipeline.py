@@ -6,7 +6,7 @@ from models.sentence_selection.denseModel import TwoLayerDenseSentenceSelector
 from models.sentence_selection.cosineSimilarityModel import (
     CosineSimilaritySentenceSelector,
 )
-#from models.stance_prediction.denseModel import TwoLayerDenseStancePredictor
+from models.stance_prediction.denseModel import TwoLayerDenseStancePredictor
 from models.abstract_retriever.tf_idf import TFIDFAbstractRetrieval
 from models.abstract_retriever.bm25 import BM25AbstractRetrieval
 import time
