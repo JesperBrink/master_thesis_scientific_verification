@@ -46,7 +46,7 @@ class BM25AbstractRetrieval:
         writer.close()
         mapped_corpus_file.close()
 
-        # Create Pyserini index (for the IndexReader) from mapped corpus
+        # Create Pyserini index (for the searcher) from mapped corpus
         args = [
             "-collection",
             "JsonCollection",
