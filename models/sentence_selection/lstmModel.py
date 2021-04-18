@@ -78,7 +78,15 @@ class BertLSTMSentenceSelector:
         return tokenization[0], tokenization[2]
 
 
+def check_for_folder():
+    if not _model_dir.exists():
+        print("Creating save folder")
+        os.makedirs(_model_dir)
+
+
 def lstm_abstract_retriever(units):
+    check_for_folder()
+    
     config = BertConfig(dropout=0.2, attention_dropout=0.2)
     config.output_hidden_states = False
     bert_embedding = TFBertModel.from_pretrained(

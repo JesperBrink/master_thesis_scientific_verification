@@ -17,7 +17,7 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
 _model_dir = (
     Path(os.path.realpath(__file__)).resolve().parents[1]
-    / "trained_models/stance_predictor"
+    / "trained_models/stance_predictor/dense"
 )
 
 
@@ -66,8 +66,15 @@ class TwoLayerDenseSrancePredictor:
 
         return claim_id_to_embeding
 
+def check_for_folder():
+    if not _model_dir.exists():
+        print("Creating save folder")
+        os.makedirs(_model_dir)
+
 
 def two_layer_stance_predictor(units, dropout=0.5):
+    check_for_folder()
+
     inputs = tf.keras.Input(shape=(1536,), dtype="float64", name="input")
     dropout_first = tf.keras.layers.Dropout(dropout, name="dropout_1")(inputs)
     dense_first = tf.keras.layers.Dense(units, activation="relu", name="dense_1")(

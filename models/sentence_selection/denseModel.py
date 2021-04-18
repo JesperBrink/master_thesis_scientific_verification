@@ -65,7 +65,14 @@ class TwoLayerDenseSentenceSelector:
         return claim_id_to_embeding
 
 
+def check_for_folder():
+    if not _model_dir.exists():
+        print("Creating save folder")
+        os.makedirs(_model_dir)
+
 def two_layer_sentence_selector(units, dropout=0.5):
+    check_for_folder()
+    
     inputs = tf.keras.Input(shape=(1536,), dtype="float64", name="input")
     dropout_first = tf.keras.layers.Dropout(dropout, name="dropout_1")(inputs)
     dense_first = tf.keras.layers.Dense(units, activation="relu", name="dense_1")(
