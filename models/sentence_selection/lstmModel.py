@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 import argparse
 from datetime import datetime
-
+import jsonlines
 import tensorflow as tf
 from transformers import TFBertModel, BertConfig, BertTokenizer
 from tqdm import tqdm
@@ -21,7 +21,7 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
 
 class BertLSTMSentenceSelector:
-    def __init__(self, corpus_paht, threshold=0.5):
+    def __init__(self, corpus_path, threshold=0.5):
         self.threshold = threshold
         self.model = load()
         self.model.summary()
@@ -79,9 +79,9 @@ class BertLSTMSentenceSelector:
 
     def _create_id_to_title_map(self, path):
         abstract_id_to_title = dict()
-        corpus = jsonlines.open(paht)
+        corpus = jsonlines.open(path)
         for data in corpus:
-            abstract_id_to_title[str(data["doc_id"])] = data["title"]
+            abstract_id_to_title[data["doc_id"]] = data["title"]
         return abstract_id_to_title
 
 def check_for_folder():
