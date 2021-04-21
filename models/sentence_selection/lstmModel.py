@@ -21,7 +21,7 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
 
 class BertLSTMSentenceSelector:
-    def __init__(self, threshold=0.5):
+    def __init__(self, corpus_paht, threshold=0.5):
         self.threshold = threshold
         self.model = load()
         self.model.summary()
@@ -30,17 +30,17 @@ class BertLSTMSentenceSelector:
             do_lower_case=True,
             add_special_tokens=True,
         )
+        self.id_to_title = self._create_id_to_title_map(corpus_path)
 
     def __call__(self, claim_object, abstracts):
         claim = claim_object["claim"]
-
-        zeroes = self._tokenize("")
         claim_token, claim_attention_mask = self._tokenize(claim)
 
         result = {}
         for doc_id, sents in abstracts.items():
-            abstract_text = [zeroes[0]]
-            abstract_text_masks = [zeroes[1]]
+            title_encoding, title_mask = self._tokenize(self.id_to_title[doc_id])
+            abstract_text = [title_encoding]
+            abstract_text_masks = [title_mask]
             for sent in sents:
                 text, mask = self._tokenize(sent)
                 abstract_text.append(text)
@@ -77,6 +77,12 @@ class BertLSTMSentenceSelector:
         )
         return tokenization[0], tokenization[2]
 
+    def _create_id_to_title_map(self, path):
+        abstract_id_to_title = dict()
+        corpus = jsonlines.open(paht)
+        for data in corpus:
+            abstract_id_to_title[str(data["doc_id"])] = data["title"]
+        return abstract_id_to_title
 
 def check_for_folder():
     if not _model_dir.exists():
@@ -176,6 +182,7 @@ if __name__ == "__main__":
         action="store_true",
         help="will run a small test of the evaluator. Can be used to test load and senetence selection",
     )
+    parser.add_argument("-co", "--corpus_embedding", type=str)
     args = parser.parse_args()
 
     if args.train:
@@ -187,9 +194,9 @@ if __name__ == "__main__":
         m = load()
         # m.summary()
     if args.work:
-        selector = BertLSTMSentenceSelector(0.00)
+        selector = BertLSTMSentenceSelector(args.corpus_embedding, 0.00)
         abstracts = {
-            1:[
+            4983:[
                 'ID elements are short interspersed elements (SINEs) found in high copy number in many rodent genomes.',
                 'BC1 RNA, an ID-related transcript, is derived from the single copy BC1 RNA gene.', 
                 'The BC1 RNA gene has been shown to be a master gene for ID element amplification in rodent genomes.', 
