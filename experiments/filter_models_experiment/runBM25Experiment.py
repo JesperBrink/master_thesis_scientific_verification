@@ -81,16 +81,16 @@ if __name__ == "__main__":
 
     res_file = "res.txt"
 
-    # if os.path.exists("res.txt"):
-    #    os.remove("res.txt")
+    if os.path.exists("res.txt"):
+       os.remove("res.txt")
     
-    # for k1 in tqdm(np.arange(0,3.1, 0.1)):
-    #    for b in np.arange(0,1.1,0.1):
-    #        k1 = round(k1,2)
-    #        b = round(b,2)
+    for k1 in tqdm(np.arange(0,3.1, 0.1)):
+       for b in np.arange(0,1.1,0.1):
+           k1 = round(k1,2)
+           b = round(b,2)
 
-    #        filter_model = BM25FilterModel(args.corpus, "bm25_corpus.jsonl", "bm25_index.jsonl", "abstract", k1, b)
-    #        eval_sentence_selection(args.claims, args.corpus, filter_model, k1, b, res_file)
+           filter_model = BM25FilterModel(args.corpus, "bm25_corpus.jsonl", "bm25_index.jsonl", "abstract", k1, b)
+           eval_sentence_selection(args.claims, args.corpus, filter_model, k1, b, res_file)
     
     # find best hyperparams
     with open(res_file, 'r') as f:
