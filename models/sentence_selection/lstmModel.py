@@ -39,20 +39,22 @@ class BertLSTMSentenceSelector:
         result = {}
         for doc_id, sents in abstracts.items():
             title_encoding, title_mask = self._tokenize(self.id_to_title[doc_id])
-            abstract_text = [title_encoding]
-            abstract_text_masks = [title_mask]
-            for sent in sents:
-                text, mask = self._tokenize(sent)
-                abstract_text.append(text)
-                abstract_text_masks.append(mask)
-            repeat = tf.repeat([abstract_text, abstract_text_masks], repeats=2, axis=1)
-            sequence = tf.reshape(repeat[:, 1:-1],(2, -1, 2, 128))
-            tiled_claim = tf.reshape(
-                tf.tile([claim_token, claim_attention_mask], [1, len(sents), 1]),
-                (2, -1, 1, 128),
-            )
-            inputs, inputs_mask = tf.concat([tiled_claim, sequence], 2)
-            model_result = tf.reshape(self.model([inputs, inputs_mask]), (-1))
+            abstract_encoding, abstract_mask = self._tokenize(sents)
+            abstract_text = tf.concat([title_encoding, abstract_encoding], 0)
+            abstract_text_mask = tf.concat([title_mask, abstract_mask], 0)
+
+            # Create input for model 
+            claim_input = tf.tile(claim_token, [len(abstract_text) - 1,1])
+            context_input = abstract_text[:-1]
+            sent_input = abstract_text[1:]
+
+            # create attention masks 
+            claim_mask = tf.tile(claim_attention_mask, [len(abstract_text_mask) - 1,1])
+            context_mask = abstract_text_mask[:-1]
+            sent_mask = abstract_text_mask[1:]
+
+            
+            model_result = tf.reshape(self.model([claim_input,context_input, sent_input, claim_mask, context_mask, sent_mask]), (-1))
             top_k, indices = tf.math.top_k(model_result, k=3)
             res = tf.reshape(
                 tf.gather(indices, tf.where(top_k > self.threshold), axis=0), (-1)
@@ -90,7 +92,7 @@ def check_for_folder():
         os.makedirs(_model_dir)
 
 
-def lstm_abstract_retriever(units):
+def lstm_abstract_retriever(units, bert_trainable=False):
     check_for_folder()
     
     config = BertConfig(dropout=0.2, attention_dropout=0.2)
@@ -98,16 +100,20 @@ def lstm_abstract_retriever(units):
     bert_embedding = TFBertModel.from_pretrained(
         "bert-base-uncased", config=config, name="bert"
     ).bert
-    bert_embedding.trainable = False
+    bert_embedding.trainable = bert_trainable
     
-    inputs = tf.keras.Input(shape=(3, 128), dtype="int32", name="sequence")
-    inputs_mask = tf.keras.Input(shape=(3, 128), dtype="int32", name="attention_masks")
-    print(inputs_mask.shape)
-    claim_embedding = bert_embedding(inputs[:,0], attention_mask=inputs_mask[:,0])[1]
-    context_embedding = bert_embedding(inputs[:,1], attention_mask=inputs_mask[:,1])[1]
-    sent_embedding = bert_embedding(inputs[:,2], attention_mask=inputs_mask[:,2])[1]
+    claim = tf.keras.Input(shape=(128,), dtype="int32", name="claim")
+    context = tf.keras.Input(shape=(128,), dtype="int32", name="context")
+    sentence = tf.keras.Input(shape=(128,), dtype="int32", name="sentence")
+    claim_mask = tf.keras.Input(shape=(128,), dtype="int32", name="claim_mask")
+    context_mask = tf.keras.Input(shape=(128,), dtype="int32", name="context_mask")
+    sentence_mask = tf.keras.Input(shape=(128,), dtype="int32", name="sentence_mask")
+    print(claim.shape)
+    claim_embedding = bert_embedding(claim, attention_mask=claim_mask)[1]
+    context_embedding = bert_embedding(context, attention_mask=context_mask)[1]
+    sent_embedding = bert_embedding(sentence, attention_mask=sentence_mask)[1]
     print(sent_embedding.shape)
-    concat = tf.keras.layers.Concatenate()([claim_embedding, context_embedding, sent_embedding])
+    concat = tf.keras.layers.Concatenate(axis=1)([claim_embedding, context_embedding, sent_embedding])
     print(concat.shape)
     reshape = tf.keras.layers.Reshape((3, 768))(concat)
     print(reshape.shape)
@@ -119,7 +125,7 @@ def lstm_abstract_retriever(units):
     print(outputs.shape)
 
     model = tf.keras.Model(
-        inputs=[inputs, inputs_mask],
+        inputs=[claim, context, sentence, claim_mask, context_mask, sentence_mask],
         outputs=outputs,
         name="bert-lstm-sentence-selection",
     )

@@ -116,12 +116,24 @@ class ScifactLSTMDataset:
 
     def _serialize_example(self, sequence, sequence_mask, label):
         features = {
-            "sequence": self._int64_feature(
-                tf.reshape(sequence, [-1])
-            ),  # flattened tensor for wordpieces
-            "sequence_mask": self._int64_feature(
-                tf.reshape(sequence_mask, [-1])
-            ),  # flattened tensor of mask matching sequence
+            "claim": self._int64_feature(
+                sequence[0]
+            ),
+            "context": self._int64_feature(
+                sequence[1]
+            ),
+            "sentence": self._int64_feature(
+                sequence[2]
+            ),
+            "claim_mask": self._int64_feature(
+                sequence_mask[0]
+            ),
+            "context_mask": self._int64_feature(
+                sequence_mask[1]
+            ),
+            "sentence_mask": self._int64_feature(
+                sequence_mask[2]
+            ),
             "label": self._int64_feature(
                 [label]
             ),  # sequence of 0 and 1 denoting rationale sentences
@@ -132,15 +144,23 @@ class ScifactLSTMDataset:
 
     def _deserialize_example(self, serialized_example):
         features = {
-            "sequence": tf.io.FixedLenFeature([3, self.sequence_lenght], tf.int64),
-            "sequence_mask": tf.io.FixedLenFeature([3, self.sequence_lenght], tf.int64),
+            "claim": tf.io.FixedLenFeature([self.sequence_lenght], tf.int64),
+            "context": tf.io.FixedLenFeature([self.sequence_lenght], tf.int64),
+            "sentence": tf.io.FixedLenFeature([self.sequence_lenght], tf.int64),
+            "claim_mask": tf.io.FixedLenFeature([self.sequence_lenght], tf.int64),
+            "context_mask": tf.io.FixedLenFeature([self.sequence_lenght], tf.int64),
+            "sentence_mask": tf.io.FixedLenFeature([self.sequence_lenght], tf.int64),
             "label": tf.io.FixedLenFeature([1], tf.int64),
         }
 
         example = tf.io.parse_single_example(serialized_example, features)
-        X = (example["sequence"], example["sequence_mask"])
-        Y = example["label"]
-        return X, Y
+        claim = example["claim"]
+        context = example["context"]
+        sentence = example["sentence"]
+        claim_mask = example["claim_mask"]
+        context_mask = example["context_mask"]
+        sentence_mask = example["sentence_mask"]
+        return claim, context, sentence, claim_mask, context_mask, sentence_mask
 
     def _approve_overwriting(self):
         if os.path.exists(self.dest):
@@ -207,4 +227,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     t = ScifactLSTMDataset(
         args.set_type, args.claim_path, args.corpus_path, args.max_length
-    )()
+    )
+    t()
+    for claim, context, sentence, claim_m, context_m, sentence_m in t.load().take(1):
+        print(claim, context, sentence)
+        print("################")
+        print(claim_m, context_m, sentence_m)
+
