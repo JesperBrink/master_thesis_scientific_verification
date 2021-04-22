@@ -43,26 +43,37 @@ class BertLSTMSentenceSelector:
             abstract_text = tf.concat([title_encoding, abstract_encoding], 0)
             abstract_text_mask = tf.concat([title_mask, abstract_mask], 0)
 
-            # Create input for model 
-            claim_input = tf.tile(claim_token, [len(abstract_text) - 1,1])
+            # Create input for model
+            claim_input = tf.tile(claim_token, [len(abstract_text) - 1, 1])
             context_input = abstract_text[:-1]
             sent_input = abstract_text[1:]
 
-            # create attention masks 
-            claim_mask = tf.tile(claim_attention_mask, [len(abstract_text_mask) - 1,1])
+            # create attention masks
+            claim_mask = tf.tile(claim_attention_mask, [len(abstract_text_mask) - 1, 1])
             context_mask = abstract_text_mask[:-1]
             sent_mask = abstract_text_mask[1:]
 
-            
-            model_result = tf.reshape(self.model([claim_input,context_input, sent_input, claim_mask, context_mask, sent_mask]), (-1))
+            model_result = tf.reshape(
+                self.model(
+                    [
+                        claim_input,
+                        context_input,
+                        sent_input,
+                        claim_mask,
+                        context_mask,
+                        sent_mask,
+                    ]
+                ),
+                (-1),
+            )
             top_k, indices = tf.math.top_k(model_result, k=3)
             res = tf.reshape(
                 tf.gather(indices, tf.where(top_k > self.threshold), axis=0), (-1)
             )
             rationales = res.numpy().tolist()
             if len(rationales) < 1:
-                continue 
-            result[doc_id] = rationales 
+                continue
+            result[doc_id] = rationales
 
         return result
 
@@ -86,6 +97,7 @@ class BertLSTMSentenceSelector:
             abstract_id_to_title[data["doc_id"]] = data["title"]
         return abstract_id_to_title
 
+
 def check_for_folder():
     if not _model_dir.exists():
         print("Creating save folder")
@@ -94,14 +106,14 @@ def check_for_folder():
 
 def lstm_abstract_retriever(units, bert_trainable=False):
     check_for_folder()
-    
+
     config = BertConfig(dropout=0.2, attention_dropout=0.2)
     config.output_hidden_states = False
     bert_embedding = TFBertModel.from_pretrained(
         "bert-base-uncased", config=config, name="bert"
     ).bert
     bert_embedding.trainable = bert_trainable
-    
+
     claim = tf.keras.Input(shape=(128,), dtype="int32", name="claim")
     context = tf.keras.Input(shape=(128,), dtype="int32", name="context")
     sentence = tf.keras.Input(shape=(128,), dtype="int32", name="sentence")
@@ -113,7 +125,9 @@ def lstm_abstract_retriever(units, bert_trainable=False):
     context_embedding = bert_embedding(context, attention_mask=context_mask)[1]
     sent_embedding = bert_embedding(sentence, attention_mask=sentence_mask)[1]
     print(sent_embedding.shape)
-    concat = tf.keras.layers.Concatenate(axis=1)([claim_embedding, context_embedding, sent_embedding])
+    concat = tf.keras.layers.Concatenate(axis=1)(
+        [claim_embedding, context_embedding, sent_embedding]
+    )
     print(concat.shape)
     reshape = tf.keras.layers.Reshape((3, 768))(concat)
     print(reshape.shape)
@@ -202,16 +216,17 @@ if __name__ == "__main__":
     if args.work:
         selector = BertLSTMSentenceSelector(args.corpus_embedding, 0.00)
         abstracts = {
-            4983:[
-                'ID elements are short interspersed elements (SINEs) found in high copy number in many rodent genomes.',
-                'BC1 RNA, an ID-related transcript, is derived from the single copy BC1 RNA gene.', 
-                'The BC1 RNA gene has been shown to be a master gene for ID element amplification in rodent genomes.', 
-                'ID elements are dispersed through a process termed retroposition.', 
-                'The retroposition process involves a number of potential regulatory steps.', 
-                'These regulatory steps may include transcription in the appropriate tissue, transcript stability, priming of the RNA transcript for reverse transcription and integration.', 
-                'This study focuses on priming of the RNA transcript for reverse transcription.', 
-                'BC1 RNA gene transcripts are shown to be able to prime their own reverse transcription in an efficient intramolecular and site-specific fashion.', 
-                "This self-priming ability is a consequence of the secondary structure of the 3'-unique region.", 
-                'The observation that a gene actively amplified throughout rodent evolution makes a RNA capable of efficient self-primed reverse transcription strongly suggests that self-priming is at least one feature establishing the BC1 RNA gene as a master gene for amplification of ID elements.']
+            4983: [
+                "ID elements are short interspersed elements (SINEs) found in high copy number in many rodent genomes.",
+                "BC1 RNA, an ID-related transcript, is derived from the single copy BC1 RNA gene.",
+                "The BC1 RNA gene has been shown to be a master gene for ID element amplification in rodent genomes.",
+                "ID elements are dispersed through a process termed retroposition.",
+                "The retroposition process involves a number of potential regulatory steps.",
+                "These regulatory steps may include transcription in the appropriate tissue, transcript stability, priming of the RNA transcript for reverse transcription and integration.",
+                "This study focuses on priming of the RNA transcript for reverse transcription.",
+                "BC1 RNA gene transcripts are shown to be able to prime their own reverse transcription in an efficient intramolecular and site-specific fashion.",
+                "This self-priming ability is a consequence of the secondary structure of the 3'-unique region.",
+                "The observation that a gene actively amplified throughout rodent evolution makes a RNA capable of efficient self-primed reverse transcription strongly suggests that self-priming is at least one feature establishing the BC1 RNA gene as a master gene for amplification of ID elements.",
+            ]
         }
-        print(selector({"id":14,"claim":"gd is not"}, abstracts))
+        print(selector({"id": 14, "claim": "gd is not"}, abstracts))

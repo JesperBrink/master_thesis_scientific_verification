@@ -59,7 +59,7 @@ class ScifactLSTMDataset:
         for claim_row in tqdm(jsonlines.open(self.claim_path)):
             claim, claim_mask = self._tokenize(claim_row["claim"])
 
-            fallback = {id:{} for id in claim_row['cited_doc_ids']}
+            fallback = {id: {} for id in claim_row["cited_doc_ids"]}
             evidence_set = claim_row["evidence"] if claim_row["evidence"] else fallback
 
             for abstract_id, rationales in evidence_set.items():
@@ -70,7 +70,7 @@ class ScifactLSTMDataset:
                 rat_indices = [
                     sent_index
                     for rationale in rationales
-                    for sent_index in rationale.get("sentences",[])
+                    for sent_index in rationale.get("sentences", [])
                 ]  # a list of all the indices of the rationales
 
                 for index in rat_indices:
@@ -79,9 +79,12 @@ class ScifactLSTMDataset:
                     )
                     self._write(writer, sequence, sequence_mask, 1)
 
-                negative_indice = [ind for ind in range(len(abstract)) if ind not in rat_indices]
+                negative_indice = [
+                    ind for ind in range(len(abstract)) if ind not in rat_indices
+                ]
                 chosen_negative_indices = random.sample(
-                    negative_indice, min(len(rat_indices) + 1, len(negative_indice)),
+                    negative_indice,
+                    min(len(rat_indices) + 1, len(negative_indice)),
                 )  # a list of indices of negative samples
 
                 for index in chosen_negative_indices:
@@ -116,24 +119,12 @@ class ScifactLSTMDataset:
 
     def _serialize_example(self, sequence, sequence_mask, label):
         features = {
-            "claim": self._int64_feature(
-                sequence[0]
-            ),
-            "context": self._int64_feature(
-                sequence[1]
-            ),
-            "sentence": self._int64_feature(
-                sequence[2]
-            ),
-            "claim_mask": self._int64_feature(
-                sequence_mask[0]
-            ),
-            "context_mask": self._int64_feature(
-                sequence_mask[1]
-            ),
-            "sentence_mask": self._int64_feature(
-                sequence_mask[2]
-            ),
+            "claim": self._int64_feature(sequence[0]),
+            "context": self._int64_feature(sequence[1]),
+            "sentence": self._int64_feature(sequence[2]),
+            "claim_mask": self._int64_feature(sequence_mask[0]),
+            "context_mask": self._int64_feature(sequence_mask[1]),
+            "sentence_mask": self._int64_feature(sequence_mask[2]),
             "label": self._int64_feature(
                 [label]
             ),  # sequence of 0 and 1 denoting rationale sentences
@@ -182,14 +173,16 @@ class ScifactLSTMDataset:
         return abstract_id_to_abstract
 
     def _tokenize(self, sentence):
-        tokenization = list(self.tokenizer(
-            sentence,
-            return_attention_mask=True,
-            return_tensors="tf",
-            padding="max_length",
-            max_length=self.sequence_lenght,
-            truncation=True,
-        ).values())
+        tokenization = list(
+            self.tokenizer(
+                sentence,
+                return_attention_mask=True,
+                return_tensors="tf",
+                padding="max_length",
+                max_length=self.sequence_lenght,
+                truncation=True,
+            ).values()
+        )
         return tokenization[0], tokenization[2]
 
     @staticmethod
@@ -233,4 +226,3 @@ if __name__ == "__main__":
         print(claim, context, sentence)
         print("################")
         print(claim_m, context_m, sentence_m)
-
