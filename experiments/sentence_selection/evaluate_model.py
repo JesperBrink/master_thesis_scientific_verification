@@ -61,7 +61,7 @@ def main():
     args = parser.parse_args()
     sentence_selector = None
     if args.sentence_selector == "lstm":
-        sentence_selector = BertLSTMSentenceSelector(0.25)
+        sentence_selector = BertLSTMSentenceSelector(args.corpus_path, 0.25)
 
     evaluate(sentence_selector, args.claim_path, args.corpus_path)
 

@@ -63,7 +63,9 @@ class ScifactLSTMDataset:
             evidence_set = claim_row["evidence"] if claim_row["evidence"] else fallback
 
             for abstract_id, rationales in evidence_set.items():
-                abstract = id_to_abstract_map[str(abstract_id)]
+                abstract_obj = id_to_abstract_map[str(abstract_id)]
+                abstract = abstract_obj["abstract"]
+                title = abstract_obj["title"]
 
                 rat_indices = [
                     sent_index
@@ -73,7 +75,7 @@ class ScifactLSTMDataset:
 
                 for index in rat_indices:
                     sequence, sequence_mask = self._create_sequence(
-                        claim, claim_mask, index, abstract
+                        claim, claim_mask, index, abstract, title
                     )
                     self._write(writer, sequence, sequence_mask, 1)
 
@@ -84,7 +86,7 @@ class ScifactLSTMDataset:
 
                 for index in chosen_negative_indices:
                     sequence, sequence_mask = self._create_sequence(
-                        claim, claim_mask, index, abstract
+                        claim, claim_mask, index, abstract, title
                     )
                     self._write(writer, sequence, sequence_mask, 0)
 
@@ -101,9 +103,9 @@ class ScifactLSTMDataset:
         example = self._serialize_example(sequence, sequence_mask, label)
         writer.write(example)
 
-    def _create_sequence(self, claim, claim_mask, sent_index, abstract):
+    def _create_sequence(self, claim, claim_mask, sent_index, abstract, title):
         context, context_mask = (
-            self._tokenize("")
+            self._tokenize(title)
             if sent_index == 0
             else self._tokenize(abstract[sent_index - 1])
         )
@@ -155,7 +157,7 @@ class ScifactLSTMDataset:
         abstract_id_to_abstract = dict()
         corpus = jsonlines.open(self.corpus_path)
         for data in corpus:
-            abstract_id_to_abstract[str(data["doc_id"])] = data["abstract"]
+            abstract_id_to_abstract[str(data["doc_id"])] = data
 
         return abstract_id_to_abstract
 
