@@ -151,7 +151,8 @@ class ScifactLSTMDataset:
         claim_mask = example["claim_mask"]
         context_mask = example["context_mask"]
         sentence_mask = example["sentence_mask"]
-        return claim, context, sentence, claim_mask, context_mask, sentence_mask
+        label = example["label"]
+        return (claim, context, sentence, claim_mask, context_mask, sentence_mask), label
 
     def _approve_overwriting(self):
         if os.path.exists(self.dest):
