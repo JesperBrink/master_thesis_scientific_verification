@@ -281,4 +281,3 @@ if __name__ == "__main__":
 
     create_training_data(args.corpus, args.train, args.fever_claims, args.pretrained_model, args.output)
     create_evaluator_data(args.corpus, args.validation, args.pretrained_model, args.output)
-    

@@ -107,4 +107,3 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     finetune_sbert(args.pretrained_model, args.data_folder_path, args.fever_epochs, args.scifact_epochs, args.dense)
-    
