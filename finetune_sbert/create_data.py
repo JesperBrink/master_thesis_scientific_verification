@@ -31,8 +31,6 @@ def create_training_data(scifact_corpus_path, scifact_train_path, fever_claims_p
     with open(os.path.join(output_path, "fever_training_data.p"), "wb") as fp:
         pickle.dump(fever_data_train_format, fp)
 
-    #return scifact_training_data, fever_data_train_format
-    
 
 def create_evaluator_data(scifact_corpus_path, scifact_validation_path, embedding_model, output_path):
     claims = []
@@ -59,8 +57,6 @@ def create_evaluator_data(scifact_corpus_path, scifact_validation_path, embeddin
 
     with open(os.path.join(output_path, "labels.p"), "wb") as fp:
         pickle.dump(labels, fp)
-
-    #return evaluation.EmbeddingSimilarityEvaluator(claims, sentences, labels)
 
 
 def convert_to_train_format(data):
@@ -104,7 +100,6 @@ def create_scifact_relevant(claims_path, corpus_path):
             sentences.extend(usefull_sentences)
 
         for sentence in sentences:
-            #relevant_data.append(InputExample(texts=[claim["claim"], sentence], label=1.0))
             relevant_data.append((claim["claim"], sentence, 1.0))
 
     return relevant_data
@@ -155,7 +150,6 @@ def create_scifact_not_relevant(claim_path, corpus_path, k, embedding_model):
                 for sentence in chosen:
                     not_relevant_data.append((claim["claim"], sentence, 0.0))
                     chosen_sentences.append(sentence)
-                    #not_relevant_data.append(InputExample(texts=[claim["claim"], sentence], label=0.0))
         # else use the abstract found in the cited_doc_ids value
         else:
             cited_doc_ids = claim["cited_doc_ids"]
@@ -200,7 +194,6 @@ def create_fever(claim_path):
     fever_data = []
 
     for claim in tqdm(jsonlines.open(claim_path)):
-        #claim_embedding = MODEL.encode(claim["claim"]).tolist()
         # create a not relevant datapoint if not enough info
         if claim["label"] == "NOT ENOUGH INFO":
             allowed = [x for x in claim["sentences"] if x != ""]

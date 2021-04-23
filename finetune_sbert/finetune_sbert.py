@@ -89,14 +89,12 @@ if __name__ == "__main__":
         help="path to folder with result from running create_data.py",
     )
     parser.add_argument(
-        "-f",
-        "--fever_epochs",
+        "fever_epochs",
         help="numbber of epochs on fever (before finetuning on scifact)",
         type=int,
     )
     parser.add_argument(
-        "-s",
-        "--scifact_epochs",
+        "scifact_epochs",
         help="number of epochs on scifact",
         type=int,
     )
