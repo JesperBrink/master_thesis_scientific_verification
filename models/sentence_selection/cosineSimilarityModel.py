@@ -4,8 +4,9 @@ import tensorflow as tf
 
 
 class CosineSimilaritySentenceSelector:
-    def __init__(self, corpus_embedding_path, claim_embedding_path, threshold=0.5):
+    def __init__(self, corpus_embedding_path, claim_embedding_path, threshold=0.5, k=5):
         self.threshold = threshold
+        self.k = k
         self.doc_id_to_abst_embedding_map = self.create_id_to_abstract_map(
             corpus_embedding_path
         )
@@ -18,21 +19,29 @@ class CosineSimilaritySentenceSelector:
 
         claim_id = claim_object["id"]
         claim_embedding = tf.constant(self.id_to_claim_embedding_map[claim_id])
+        best_rationales = list()
         for doc_id, _ in abstracts.items():
 
             sentence_embeddings = tf.constant(self.doc_id_to_abst_embedding_map[doc_id])
             norm_sentences = tf.math.l2_normalize(sentence_embeddings, 1)
             norm_claim = tf.math.l2_normalize(claim_embedding, 0)
             similarities = tf.linalg.matvec(norm_sentences, norm_claim)
+            
+            abstract_index_score_tuples = [(doc_id, idx, score) for idx, score in enumerate(similarities) if score > self.threshold]
+            best_rationales.extend(abstract_index_score_tuples)
 
-            top_k, indices = tf.math.top_k(similarities, k=3)
-            res = tf.reshape(
-                tf.gather(indices, tf.where(top_k > self.threshold), axis=0), (-1)
-            )
-            rationales = res.numpy().tolist()
-            if len(rationales) < 1:
-                continue
-            result[doc_id] = rationales
+        rationales_sorted_by_score = sorted(best_rationales, key=lambda tup: tup[2], reverse=True)
+
+        selected_rationales = 0
+        index = 0
+        while selected_rationales < self.k and index < len(rationales_sorted_by_score):
+            doc_id, rationale, _ = rationales_sorted_by_score[index]
+            abstract_rationales = result.setdefault(doc_id, [])
+            if len(abstract_rationales) < 3:
+                abstract_rationales.append(rationale)
+                result[doc_id] = abstract_rationales
+                selected_rationales += 1
+            index += 1
 
         return result
 
