@@ -58,19 +58,6 @@ def pipeline(
                 output_writer.write(prediction)
 
 
-class FilterModel(enum.Enum):
-    NONE = "none"
-    SBERT_COSINE_SIMILARITY = "cosine"
-
-class SentenceSelctionModel(enum.Enum):
-    TWO_LAYER_DENSE = "twolayer"
-    SBERT_COSINE_SIMILARITY = "cosine"
-    PYTORCH_PRETRAINED_TWO_LAYER_DENSE = "pytorch_twolayer" 
-
-class StancePredictionModel(enum.Enum):
-    TWO_LAYER_DENSE = "twolayer"
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Script to run evaluation pipeline")
     parser.add_argument(
