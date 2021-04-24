@@ -96,6 +96,13 @@ if __name__ == "__main__":
         default=0.5,
         help="the threshold for sentence selection",
     )
+    parser.add_argument(
+        "-k",
+        "--overall_top_k",
+        type=int,
+        default=5,
+        help="how many rationales the rationale selection should return at most",
+    )
     parser.add_argument("-cl", "--claim_embedding", type=str)
     parser.add_argument("-co", "--corpus_embedding", type=str)
 
@@ -125,6 +132,7 @@ if __name__ == "__main__":
             args.corpus_embedding,
             args.claim_embedding,
             threshold=args.sentence_threshold,
+            k=args.overall_top_k,
         )
 
     if args.stance_predictor == "dense":
