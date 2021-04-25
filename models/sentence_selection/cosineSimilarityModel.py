@@ -21,14 +21,12 @@ class CosineSimilaritySentenceSelector:
 
         if self.number_of_abstracts_in_corpus == len(retrieved_abstracts):
             sentence_embeddings = self.sentence_embeddings
-            rationale_id_to_abstract_and_sentence_id_pair = self.rationale_id_to_abstract_and_sentence_id_pair)
+            rationale_id_to_abstract_and_sentence_id_pair = self.rationale_id_to_abstract_and_sentence_id_pair
         else:
             sentence_embeddings, rationale_id_to_abstract_and_sentence_id_pair = self.get_sentence_embeddings_for_retreived_abstracts(retrieved_abstracts)
 
         predicted = self.get_cosine_similarity(claim_embedding, sentence_embeddings)
-        results_above_threshold_mask = tf.squeeze(
-            tf.math.greater(predicted, tf.constant(self.threshold))
-        )
+        results_above_threshold_mask = tf.squeeze(tf.math.greater(predicted, tf.constant(self.threshold)))
         indices_for_above_threshold = tf.where(results_above_threshold_mask)
         rationale_index_and_score_pairs = [
             (idx[0], predicted[idx[0]]) for idx in indices_for_above_threshold
@@ -39,15 +37,9 @@ class CosineSimilaritySentenceSelector:
 
         selected_rationales = 0
         index = 0
-        while selected_rationales < self.k and index < len(
-            rationale_index_and_score_pairs_sorted_by_score
-        ):
-            rationale_idx, score = rationale_index_and_score_pairs_sorted_by_score[
-                index
-            ]
-            abstract_id, sentence_id = rationale_id_to_abstract_and_sentence_id_pair[
-                rationale_idx
-            ]
+        while selected_rationales < self.k and index < len(rationale_index_and_score_pairs_sorted_by_score):
+            rationale_idx, score = rationale_index_and_score_pairs_sorted_by_score[index]
+            abstract_id, sentence_id = rationale_id_to_abstract_and_sentence_id_pair[rationale_idx]
             abstract_rationales = result.setdefault(abstract_id, [])
             # if len(abstract_rationales) < 3:
             #    abstract_rationales.append(sentence_id)
