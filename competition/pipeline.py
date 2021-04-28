@@ -13,6 +13,7 @@ import time
 import tensorflow as tf
 import enum
 import argparse
+import torch
 
 
 class NoopAbstractRetriever:
