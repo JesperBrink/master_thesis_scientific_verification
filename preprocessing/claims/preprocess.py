@@ -34,6 +34,7 @@ if __name__ == "__main__":
         "-s",
         "--stopwords",
         help="set if you want to filter away stop-words",
+        action="store_true",
     )
     parser.add_argument(
         "-e",
