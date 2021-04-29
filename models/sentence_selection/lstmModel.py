@@ -112,7 +112,6 @@ def lstm_abstract_retriever(units, bert_trainable=False):
     bert_embedding = TFBertModel.from_pretrained(
         "bert-base-uncased", config=config, name="bert"
     ).bert
-    bert_embedding.trainable = bert_trainable
 
     claim = tf.keras.Input(shape=(128,), dtype="int32", name="claim")
     context = tf.keras.Input(shape=(128,), dtype="int32", name="context")
@@ -121,9 +120,9 @@ def lstm_abstract_retriever(units, bert_trainable=False):
     context_mask = tf.keras.Input(shape=(128,), dtype="int32", name="context_mask")
     sentence_mask = tf.keras.Input(shape=(128,), dtype="int32", name="sentence_mask")
     print(claim.shape)
-    claim_embedding = bert_embedding(claim, attention_mask=claim_mask)[1]
-    context_embedding = bert_embedding(context, attention_mask=context_mask)[1]
-    sent_embedding = bert_embedding(sentence, attention_mask=sentence_mask)[1]
+    claim_embedding = bert_embedding(claim, attention_mask=claim_mask)[0][:,0,:]
+    context_embedding = bert_embedding(context, attention_mask=context_mask)[0][:,0,:]
+    sent_embedding = bert_embedding(sentence, attention_mask=sentence_mask)[0][:,0,:]
     print(sent_embedding.shape)
     concat = tf.keras.layers.Concatenate(axis=1)(
         [claim_embedding, context_embedding, sent_embedding]
