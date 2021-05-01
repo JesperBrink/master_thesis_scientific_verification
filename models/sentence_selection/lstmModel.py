@@ -153,12 +153,12 @@ def train(model, epochs=10, batch_size=16, shuffle=True):
     val = ScifactLSTMDataset(DatasetType.validation).load().batch(batch_size)
 
     logs = "logs/" + datetime.now().strftime("%Y%m%d-%H%M%S")
-
+    tb_callback = tf.keras.callbacks.TensorBoard(logs, update_freq=1)
     model.fit(
         train,
         epochs=epochs,
         shuffle=shuffle,
-        validation_data=val,
+        validation_data=val, callbacks=[tb_callback], steps_per_epoch=20, validation_steps=20
     )
 
 
