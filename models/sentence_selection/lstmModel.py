@@ -209,7 +209,8 @@ def main():
     if args.train:
         m = lstm_abstract_retriever(args.lstm_units)
         loss = tf.keras.losses.BinaryCrossentropy()
-        m.compile(optimizer="adam", loss=loss, metrics=["accuracy"])
+        opt = tf.keras.optimizers.Adam(learning_rate=0.00001)
+        m.compile(optimizer=opt, loss=loss, metrics=["accuracy"])
         train(m, batch_size=args.batch_size, epochs=args.epochs)
         save(m)
         m = load()
