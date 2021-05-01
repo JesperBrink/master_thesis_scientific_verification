@@ -177,7 +177,7 @@ def save(model):
     print("model saved to {}".format(path))
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument(
         "-t", "--train", action="store_true", help="will train the model if set"
@@ -229,3 +229,6 @@ if __name__ == "__main__":
             ]
         }
         print(selector({"id": 14, "claim": "gd is not"}, abstracts))
+
+if __name__ == "__main__":
+    main()
