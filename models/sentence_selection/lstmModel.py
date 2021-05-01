@@ -114,7 +114,7 @@ def lstm_abstract_retriever(units, bert_trainable=False):
     bert_embedding = TFBertModel.from_pretrained(
         model_name, config=config, name="bert"
     ).bert
-
+    bert_embedding.trainable = True
     claim = tf.keras.Input(shape=(128,), dtype="int32", name="claim")
     context = tf.keras.Input(shape=(128,), dtype="int32", name="context")
     sentence = tf.keras.Input(shape=(128,), dtype="int32", name="sentence")
@@ -160,7 +160,8 @@ def train(model, epochs=10, batch_size=16, shuffle=True):
         train,
         epochs=epochs,
         shuffle=shuffle,
-        validation_data=val, callbacks=[tb_callback], steps_per_epoch=20, validation_steps=20
+        validation_data=val, callbacks=[tb_callback]  #,
+        # class_weight={1: 66, 0: 33}
     )
 
 
