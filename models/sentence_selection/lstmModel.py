@@ -106,13 +106,15 @@ def check_for_folder():
 
 def lstm_abstract_retriever(units, bert_trainable=False):
     check_for_folder()
-
-    config = BertConfig(dropout=0.2, attention_dropout=0.2)
+    model_name = "bert-base-uncased"
+    config = BertConfig.from_pretrained(model_name)
+    config.dropout = 0.2
+    config.attention_dropout = 0.2
     config.output_hidden_states = False
     bert_embedding = TFBertModel.from_pretrained(
-        "bert-base-uncased", config=config, name="bert"
+        model_name, config=config, name="bert"
     ).bert
-
+    bert_embedding.trainable = True
     claim = tf.keras.Input(shape=(128,), dtype="int32", name="claim")
     context = tf.keras.Input(shape=(128,), dtype="int32", name="context")
     sentence = tf.keras.Input(shape=(128,), dtype="int32", name="sentence")
@@ -120,9 +122,9 @@ def lstm_abstract_retriever(units, bert_trainable=False):
     context_mask = tf.keras.Input(shape=(128,), dtype="int32", name="context_mask")
     sentence_mask = tf.keras.Input(shape=(128,), dtype="int32", name="sentence_mask")
     print(claim.shape)
-    claim_embedding = bert_embedding(claim, attention_mask=claim_mask)[0][:,0,:]
-    context_embedding = bert_embedding(context, attention_mask=context_mask)[0][:,0,:]
-    sent_embedding = bert_embedding(sentence, attention_mask=sentence_mask)[0][:,0,:]
+    claim_embedding = bert_embedding(input_ids=claim, attention_mask=claim_mask)[0][:,0,:]
+    context_embedding = bert_embedding(input_ids=context, attention_mask=context_mask)[0][:,0,:]
+    sent_embedding = bert_embedding(input_ids=sentence, attention_mask=sentence_mask)[0][:,0,:]
     print(sent_embedding.shape)
     concat = tf.keras.layers.Concatenate(axis=1)(
         [claim_embedding, context_embedding, sent_embedding]
@@ -153,12 +155,13 @@ def train(model, epochs=10, batch_size=16, shuffle=True):
     val = ScifactLSTMDataset(DatasetType.validation).load().batch(batch_size)
 
     logs = "logs/" + datetime.now().strftime("%Y%m%d-%H%M%S")
-
+    tb_callback = tf.keras.callbacks.TensorBoard(logs, update_freq=1)
     model.fit(
         train,
         epochs=epochs,
         shuffle=shuffle,
-        validation_data=val,
+        validation_data=val, callbacks=[tb_callback]  #,
+        # class_weight={1: 66, 0: 33}
     )
 
 
@@ -177,7 +180,7 @@ def save(model):
     print("model saved to {}".format(path))
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument(
         "-t", "--train", action="store_true", help="will train the model if set"
@@ -207,7 +210,8 @@ if __name__ == "__main__":
     if args.train:
         m = lstm_abstract_retriever(args.lstm_units)
         loss = tf.keras.losses.BinaryCrossentropy()
-        m.compile(optimizer="adam", loss=loss, metrics=["accuracy"])
+        opt = tf.keras.optimizers.Adam(learning_rate=0.00001)
+        m.compile(optimizer=opt, loss=loss, metrics=["accuracy"])
         train(m, batch_size=args.batch_size, epochs=args.epochs)
         save(m)
         m = load()
@@ -229,3 +233,6 @@ if __name__ == "__main__":
             ]
         }
         print(selector({"id": 14, "claim": "gd is not"}, abstracts))
+
+if __name__ == "__main__":
+    main()
