@@ -41,14 +41,9 @@ class CosineSimilaritySentenceSelector:
             rationale_idx, score = rationale_index_and_score_pairs_sorted_by_score[index]
             abstract_id, sentence_id = rationale_id_to_abstract_and_sentence_id_pair[rationale_idx]
             abstract_rationales = result.setdefault(abstract_id, [])
-            # if len(abstract_rationales) < 3:
-            #    abstract_rationales.append(sentence_id)
-            #    result[abstract_id] = abstract_rationales
-            #    selected_rationales += 1
             abstract_rationales.append(sentence_id)
             result[abstract_id] = abstract_rationales
             selected_rationales += 1
-
             index += 1
 
         return result
