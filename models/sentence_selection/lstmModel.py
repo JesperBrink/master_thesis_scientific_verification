@@ -62,7 +62,8 @@ class BertLSTMSentenceSelector:
                         claim_mask,
                         context_mask,
                         sent_mask,
-                    ]
+                    ],
+                    
                 ),
                 (-1),
             )

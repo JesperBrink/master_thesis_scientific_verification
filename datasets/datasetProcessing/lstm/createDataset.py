@@ -219,11 +219,6 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    t = ScifactLSTMDataset(
+    ScifactLSTMDataset(
         args.set_type, args.claim_path, args.corpus_path, args.max_length
-    )
-    t()
-    for claim, context, sentence, claim_m, context_m, sentence_m in t.load().take(1):
-        print(claim, context, sentence)
-        print("################")
-        print(claim_m, context_m, sentence_m)
+    )()
