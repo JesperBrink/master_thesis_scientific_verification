@@ -104,40 +104,68 @@ def check_for_folder():
         os.makedirs(_model_dir)
 
 
-def lstm_abstract_retriever(units, bert_trainable=False):
+def lstm_abstract_retriever(
+    units,
+    attention_dropout,
+    bert_dropout,
+    lstm_dropout,
+    classification_dropout,
+    bert_trainable=False,
+):
     check_for_folder()
     model_name = "bert-base-uncased"
     config = BertConfig.from_pretrained(model_name)
-    config.dropout = 0.2
-    config.attention_dropout = 0.2
+    config.dropout = bert_dropout
+    config.attention_dropout = attention_dropout
     config.output_hidden_states = False
     bert_embedding = TFBertModel.from_pretrained(
         model_name, config=config, name="bert"
     ).bert
-    bert_embedding.trainable = True
+    bert_embedding.trainable = False
+
+    def make_trainable():
+        bert_embedding.trainable = True
+
+    # INPUT
     claim = tf.keras.Input(shape=(128,), dtype="int32", name="claim")
     context = tf.keras.Input(shape=(128,), dtype="int32", name="context")
     sentence = tf.keras.Input(shape=(128,), dtype="int32", name="sentence")
     claim_mask = tf.keras.Input(shape=(128,), dtype="int32", name="claim_mask")
     context_mask = tf.keras.Input(shape=(128,), dtype="int32", name="context_mask")
     sentence_mask = tf.keras.Input(shape=(128,), dtype="int32", name="sentence_mask")
-    print(claim.shape)
-    claim_embedding = bert_embedding(input_ids=claim, attention_mask=claim_mask)[0][:,0,:]
-    context_embedding = bert_embedding(input_ids=context, attention_mask=context_mask)[0][:,0,:]
-    sent_embedding = bert_embedding(input_ids=sentence, attention_mask=sentence_mask)[0][:,0,:]
-    print(sent_embedding.shape)
+
+    # ENCODING
+    claim_embedding = bert_embedding(input_ids=claim, attention_mask=claim_mask)[0][
+        :, 0, :
+    ]
+    context_embedding = bert_embedding(input_ids=context, attention_mask=context_mask)[
+        0
+    ][:, 0, :]
+    sent_embedding = bert_embedding(input_ids=sentence, attention_mask=sentence_mask)[
+        0
+    ][:, 0, :]
+
+    # SEQUALISE
     concat = tf.keras.layers.Concatenate(axis=1)(
         [claim_embedding, context_embedding, sent_embedding]
     )
-    print(concat.shape)
     reshape = tf.keras.layers.Reshape((3, 768))(concat)
-    print(reshape.shape)
+
+    # LSTM
+    lstm_dropout_layer = tf.keras.layers.Dropout(lstm_dropout, name="lstm_dropout")(
+        reshape
+    )
     lstm = tf.keras.layers.LSTM(
         units, return_sequences=False, recurrent_initializer="glorot_uniform"
-    )(reshape)
-    print(lstm.shape)
-    outputs = tf.keras.layers.Dense(1, activation="sigmoid")(lstm)
-    print(outputs.shape)
+    )(lstm_dropout_layer)
+
+    # CLASSIFICATION
+    classification_dropout_layer = tf.keras.layers.Dropout(
+        classification_dropout, name="classification_dropout"
+    )(lstm)
+    outputs = tf.keras.layers.Dense(1, activation="sigmoid")(
+        classification_dropout_layer
+    )
 
     model = tf.keras.Model(
         inputs=[claim, context, sentence, claim_mask, context_mask, sentence_mask],
@@ -147,10 +175,22 @@ def lstm_abstract_retriever(units, bert_trainable=False):
 
     model.summary()
 
-    return model
+    return model, make_trainable
 
 
-def train(model, epochs=10, batch_size=16, shuffle=True):
+def train(
+    model,
+    loss,
+    flip_function,
+    frozen_epochs=10,
+    epochs=10,
+    batch_size=16,
+    shuffle=True,
+    bert_lr=0.00001,
+):
+    print("Start training")
+    opt = tf.keras.optimizers.Adam()
+    model.compile(optimizer=opt, loss=loss, metrics=["accuracy"])
     train = ScifactLSTMDataset(DatasetType.train).load().batch(batch_size)
     val = ScifactLSTMDataset(DatasetType.validation).load().batch(batch_size)
 
@@ -158,10 +198,24 @@ def train(model, epochs=10, batch_size=16, shuffle=True):
     tb_callback = tf.keras.callbacks.TensorBoard(logs, update_freq=1)
     model.fit(
         train,
+        epochs=frozen_epochs,
+        shuffle=shuffle,
+        validation_data=val,
+        callbacks=[tb_callback],  # ,
+    )
+    save(model, "frozen_")
+    print("initial training of lstm is done\nNow finetuning bert model to task")
+
+    flip_function()
+
+    opt = tf.keras.optimizers.Adam(learning_rate=bert_lr)
+    model.compile(optimizer=opt, loss=loss, metrics=["accuracy"])
+    model.fit(
+        train,
         epochs=epochs,
         shuffle=shuffle,
-        validation_data=val, callbacks=[tb_callback]  #,
-        # class_weight={1: 66, 0: 33}
+        validation_data=val,
+        callbacks=[tb_callback],  # ,
     )
 
 
@@ -173,9 +227,9 @@ def load():
     return model
 
 
-def save(model):
+def save(model, prefix=""):
     count = get_highest_count(_model_dir) + 1
-    path = str(_model_dir / "bert_lstm_abstract_retriver_{}".format(count))
+    path = str(_model_dir / "{}bert_lstm_abstract_retriver_{}".format(prefix, count))
     model.save(path)
     print("model saved to {}".format(path))
 
@@ -192,9 +246,7 @@ def main():
         help="The number of units in the lstm layer",
         default=512,
     )
-    parser.add_argument(
-        "-e", "--epochs", type=int, help="the number of epochs", default=10
-    )
+
     parser.add_argument(
         "-b", "--batch_size", type=int, help="the batch_size", default=16
     )
@@ -204,18 +256,39 @@ def main():
         action="store_true",
         help="will run a small test of the evaluator. Can be used to test load and senetence selection",
     )
+    parser.add_argument(
+        "-e", "--epochs", type=int, default=10, help="the number of epochs"
+    )
+    parser.add_argument("-fe", "--frozen_epochs", type=int, default=10)
     parser.add_argument("-co", "--corpus_embedding", type=str)
+    parser.add_argument("-ad", "--attention_dropout", type=float, default=0.1)
+    parser.add_argument("-bd", "--bert_dropout", type=float, default=0.1)
+    parser.add_argument("-ld", "--lstm_dropout", type=float, default=0.1)
+    parser.add_argument("-cd", "--classification_dropout", type=float, default=0.1)
+    parser.add_argument("-bl", "--bert_learningrate", type=float, default=0.00001)
+
+
     args = parser.parse_args()
 
     if args.train:
-        m = lstm_abstract_retriever(args.lstm_units)
+        m, flip_function = lstm_abstract_retriever(
+            args.lstm_units,
+            args.attention_dropout,
+            args.bert_dropout,
+            args.lstm_dropout,
+            args.classification_dropout,
+        )
         loss = tf.keras.losses.BinaryCrossentropy()
-        opt = tf.keras.optimizers.Adam(learning_rate=0.00001)
-        m.compile(optimizer=opt, loss=loss, metrics=["accuracy"])
-        train(m, batch_size=args.batch_size, epochs=args.epochs)
+        train(
+            m,
+            loss,
+            flip_function,
+            batch_size=args.batch_size,
+            epochs=args.epochs,
+            frozen_epochs=args.frozen_epochs,
+            bert_lr=args.bert_learningrate,
+        )
         save(m)
-        m = load()
-        # m.summary()
     if args.work:
         selector = BertLSTMSentenceSelector(args.corpus_embedding, 0.00)
         abstracts = {
@@ -233,6 +306,7 @@ def main():
             ]
         }
         print(selector({"id": 14, "claim": "gd is not"}, abstracts))
+
 
 if __name__ == "__main__":
     main()
