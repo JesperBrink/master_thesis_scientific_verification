@@ -21,20 +21,17 @@ class Paraphraser():
         paraphrased_claim = self._paraphrase(claim)
         paraphrased_sentences = [self._paraphrase(sentence) for sentence in sentences]
 
-        if paraphrased_claim is None:
-            return []
-        
         for sentence in sentences:
-            if sentence is None:
-                break
             claim_and_sentence_pairs.append((claim, sentence))
-            claim_and_sentence_pairs.append((paraphrased_claim, sentence))
+            if paraphrased_claim is not None:
+                claim_and_sentence_pairs.append((paraphrased_claim, sentence))
 
         for paraphrased_sentence in paraphrased_sentences:
             if paraphrased_sentence is None:
                 break
             claim_and_sentence_pairs.append((claim, paraphrased_sentence))
-            claim_and_sentence_pairs.append((paraphrased_claim, paraphrased_sentence))
+            if paraphrased_claim is not None:
+                claim_and_sentence_pairs.append((paraphrased_claim, paraphrased_sentence))
 
         return claim_and_sentence_pairs
 
