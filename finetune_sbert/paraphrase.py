@@ -20,21 +20,20 @@ class Paraphraser():
 
         paraphrased_claim = self._paraphrase(claim)
         paraphrased_sentences = [self._paraphrase(sentence) for sentence in sentences]
-        
-        # (claim, sentence)
-        for sentence in sentences:
-            claim_and_sentence_pairs.append((claim, sentence))
 
-        # (paraphrased claim, sentence)
+        if paraphrased_claim is None:
+            return []
+        
         for sentence in sentences:
+            if sentence is None:
+                break
+            claim_and_sentence_pairs.append((claim, sentence))
             claim_and_sentence_pairs.append((paraphrased_claim, sentence))
 
-        # (claim, paraphrased sentence)
         for paraphrased_sentence in paraphrased_sentences:
+            if paraphrased_sentence is None:
+                break
             claim_and_sentence_pairs.append((claim, paraphrased_sentence))
-
-        # (paraphrased claim, paraphrased sentence)
-        for paraphrased_sentence in paraphrased_sentences:
             claim_and_sentence_pairs.append((paraphrased_claim, paraphrased_sentence))
 
         return claim_and_sentence_pairs
@@ -46,9 +45,13 @@ class Paraphraser():
         input_ids, attention_masks = encoding["input_ids"].to(self.device), encoding[
             "attention_mask"].to(self.device)
 
-        paraphrased_sentence = None 
+        paraphrased_sentence = None
+        counter = 0
         while paraphrased_sentence is None or paraphrased_sentence.lower() == sentence.lower():
-            paraphrased_sentence = self._generate_paraphrased_sentence(sentence, input_ids, attention_masks)
+            paraphrased_sentence = self._generate_paraphrased_sentence(sentence, input_ids, attention_masks)            
+            counter += 1
+            if counter == 5:
+                return None
 
         return paraphrased_sentence
 
