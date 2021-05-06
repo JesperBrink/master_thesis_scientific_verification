@@ -119,7 +119,9 @@ if __name__ == "__main__":
         abstract_retriever = BM25AbstractRetrieval(args.corpus_path)
 
     if args.sentence_selector == "lstm":
-        sentence_selector = BertLSTMSentenceSelector(args.corpus_path, args.sentence_threshold)
+        sentence_selector = BertLSTMSentenceSelector(
+            args.corpus_path, args.sentence_threshold
+        )
     elif args.sentence_selector == "dev":
         sentence_selector = DevSentenceSelector()
     elif args.sentence_selector == "dense":
