@@ -9,16 +9,21 @@ import argparse
 
 from sentence_transformers import SentenceTransformer
 from sentence_transformers import InputExample
+from paraphrase import Paraphraser
 
-
-def create_training_data(scifact_corpus_path, scifact_train_path, fever_claims_path, embedding_model, output_path):
+def create_training_data(scifact_corpus_path, scifact_train_path, fever_claims_path, embedding_model, output_path, use_paraphrasing):
     scifact_training_data = []
 
-    scifact_relevant_data = create_scifact_relevant(scifact_train_path, scifact_corpus_path)
+    if use_paraphrasing:
+        paraphraser = Paraphraser()
+    else:
+        paraphraser = None
+
+    scifact_relevant_data = create_scifact_relevant(scifact_train_path, scifact_corpus_path, paraphraser)
     scifact_relevant_data_train_format = convert_to_train_format(scifact_relevant_data)
     scifact_training_data.extend(scifact_relevant_data_train_format)
 
-    scifact_not_relevant_data = create_scifact_not_relevant(scifact_train_path, scifact_corpus_path, 5, embedding_model)
+    scifact_not_relevant_data = create_scifact_not_relevant(scifact_train_path, scifact_corpus_path, 5, embedding_model, paraphraser)
     scifact_not_relevant_data_train_format = convert_to_train_format(scifact_not_relevant_data)
     scifact_training_data.extend(scifact_not_relevant_data_train_format)
 
@@ -32,18 +37,23 @@ def create_training_data(scifact_corpus_path, scifact_train_path, fever_claims_p
         pickle.dump(fever_data_train_format, fp)
 
 
-def create_evaluator_data(scifact_corpus_path, scifact_validation_path, embedding_model, output_path):
+def create_evaluator_data(scifact_corpus_path, scifact_validation_path, embedding_model, output_path, use_paraphrasing):
     claims = []
     sentences = []
     labels = []
 
-    scifact_relevant_data = create_scifact_relevant(scifact_validation_path, scifact_corpus_path)
+    if use_paraphrasing:
+        paraphraser = Paraphraser()
+    else:
+        paraphraser = None
+
+    scifact_relevant_data = create_scifact_relevant(scifact_validation_path, scifact_corpus_path, paraphraser)
     claims_relevant, sentences_relevant, labels_relevant = convert_to_evaluator_format(scifact_relevant_data)
     claims.extend(claims_relevant)
     sentences.extend(sentences_relevant)
     labels.extend(labels_relevant)
 
-    scifact_not_relevant_data = create_scifact_not_relevant(scifact_validation_path, scifact_corpus_path, 5, embedding_model)
+    scifact_not_relevant_data = create_scifact_not_relevant(scifact_validation_path, scifact_corpus_path, 5, embedding_model, paraphraser)
     claims_not_relevant, sentences_not_relevant, labels_not_relevant = convert_to_evaluator_format(scifact_not_relevant_data)
     claims.extend(claims_not_relevant)
     sentences.extend(sentences_not_relevant)
@@ -80,7 +90,25 @@ def create_id_to_abstract_map(corpus_path):
     return abstract_id_to_abstract
 
 
-def create_scifact_relevant(claims_path, corpus_path):
+def add_sentences(data, sentences, claim, relevancy, paraphraser):
+    if paraphraser is None:
+        add_standard_sentences(data, sentences, claim, relevancy)
+    else:
+        paraphrased_claim_sentence_pairs = paraphraser.paraphrase_claim_and_sentences(claim, sentences)  
+        add_paraphrased_sentences(data, paraphrased_claim_sentence_pairs, relevancy)
+
+
+def add_standard_sentences(data, sentences, claim, relevancy):
+    for sentence in sentences:
+        data.append((claim, sentence, relevancy))
+
+
+def add_paraphrased_sentences(data, paraphrased_claim_sentence_pairs, relevancy):
+    for claim, sentence in paraphrased_claim_sentence_pairs:
+        data.append((claim, sentence, relevancy))
+
+
+def create_scifact_relevant(claims_path, corpus_path, paraphraser):
     relevant_data = []
 
     id_to_abstact_map = create_id_to_abstract_map(corpus_path)
@@ -99,13 +127,12 @@ def create_scifact_relevant(claims_path, corpus_path):
             usefull_sentences = [abstract[index] for index in usefull]
             sentences.extend(usefull_sentences)
 
-        for sentence in sentences:
-            relevant_data.append((claim["claim"], sentence, 1.0))
+        add_sentences(relevant_data, sentences, claim["claim"], 1.0, paraphraser)
 
     return relevant_data
 
 
-def create_scifact_not_relevant(claim_path, corpus_path, k, embedding_model):
+def create_scifact_not_relevant(claim_path, corpus_path, k, embedding_model, paraphraser):
     not_relevant_data = []
     id_to_abstract_map = create_id_to_abstract_map(corpus_path)
 
@@ -129,9 +156,8 @@ def create_scifact_not_relevant(claim_path, corpus_path, k, embedding_model):
         for abstract in sample(negative_abstracts, k):
             chosen_sentences = sample(abstract, 1)
             negative_sentences.extend(chosen_sentences)
-        for sentence in negative_sentences:
-            not_relevant_data.append((claim["claim"], sentence, 0.0))
-            chosen_sentences.append(sentence)
+        add_sentences(not_relevant_data, negative_sentences, claim["claim"], 0.0, paraphraser)
+        chosen_sentences.extend(negative_sentences)
 
         # make not_relevant for the abstrac with gold rationales
         evidence_obj = claim["evidence"]
@@ -147,17 +173,15 @@ def create_scifact_not_relevant(claim_path, corpus_path, k, embedding_model):
                     for index in set(range(0, len(abstract))) - not_allowed
                 ]
                 chosen = sample(allowed, min(2, len(allowed)))
-                for sentence in chosen:
-                    not_relevant_data.append((claim["claim"], sentence, 0.0))
-                    chosen_sentences.append(sentence)
+                add_sentences(not_relevant_data, chosen, claim["claim"], 0.0, paraphraser)
+                chosen_sentences.extend(chosen)
         # else use the abstract found in the cited_doc_ids value
         else:
             cited_doc_ids = claim["cited_doc_ids"]
             for abstract in [id_to_abstract_map[str(ident)] for ident in cited_doc_ids]:
                 chosen = sample(abstract, min(2, len(abstract)))
-                for sentence in chosen:
-                    not_relevant_data.append((claim["claim"], sentence, 0.0))
-                    chosen_sentences.append(sentence)
+                add_sentences(not_relevant_data, chosen, claim["claim"], 0.0, paraphraser)
+                chosen_sentences.extend(chosen)
 
         # make not_relevant datapoint from the top 3 closest sentences to the claim (based on cosine similarity)
         top_3_closest_sentences_and_scores = []
@@ -169,7 +193,7 @@ def create_scifact_not_relevant(claim_path, corpus_path, k, embedding_model):
 
         for sentence, _ in top_3_closest_sentences_and_scores:
             if sentence not in chosen_sentences:
-                not_relevant_data.append((claim["claim"], sentence, 0.0))
+                add_sentences(not_relevant_data, [sentence], claim["claim"], 0.0, paraphraser)
 
     return not_relevant_data
 
@@ -270,6 +294,12 @@ if __name__ == "__main__":
         type=str,
         help="path to the output path",
     )
+    parser.add_argument(
+        "-p",
+        "--paraphrase",
+        action="store_true",
+        help="set if you want to also generate paraphrased data",
+    )
 
     args = parser.parse_args()
 
@@ -279,5 +309,5 @@ if __name__ == "__main__":
     
     os.mkdir(args.output)
 
-    create_training_data(args.corpus, args.train, args.fever_claims, args.pretrained_model, args.output)
-    create_evaluator_data(args.corpus, args.validation, args.pretrained_model, args.output)
+    create_training_data(args.corpus, args.train, args.fever_claims, args.pretrained_model, args.output, args.paraphrase)
+    create_evaluator_data(args.corpus, args.validation, args.pretrained_model, args.output, args.paraphrase)
