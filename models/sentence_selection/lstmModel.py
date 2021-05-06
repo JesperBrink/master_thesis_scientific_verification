@@ -136,15 +136,9 @@ def lstm_abstract_retriever(
     sentence_mask = tf.keras.Input(shape=(128,), dtype="int32", name="sentence_mask")
 
     # ENCODING
-    claim_embedding = bert_embedding(input_ids=claim, attention_mask=claim_mask)[0][
-        :, 0, :
-    ]
-    context_embedding = bert_embedding(input_ids=context, attention_mask=context_mask)[
-        0
-    ][:, 0, :]
-    sent_embedding = bert_embedding(input_ids=sentence, attention_mask=sentence_mask)[
-        0
-    ][:, 0, :]
+    claim_embedding = bert_embedding(input_ids=claim, attention_mask=claim_mask)[1] 
+    context_embedding = bert_embedding(input_ids=context, attention_mask=context_mask)[1]
+    sent_embedding = bert_embedding(input_ids=sentence, attention_mask=sentence_mask)[1]
 
     # SEQUALISE
     concat = tf.keras.layers.Concatenate(axis=1)(
