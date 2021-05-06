@@ -156,8 +156,6 @@ def create_scifact_not_relevant(claim_path, corpus_path, k, embedding_model, par
         for abstract in sample(negative_abstracts, k):
             chosen_sentences = sample(abstract, 1)
             negative_sentences.extend(chosen_sentences)
-        #for sentence in negative_sentences:
-        #    not_relevant_data.append((claim["claim"], sentence, 0.0))
         add_sentences(not_relevant_data, negative_sentences, claim["claim"], 0.0, paraphraser)
         chosen_sentences.extend(negative_sentences)
 
@@ -175,9 +173,6 @@ def create_scifact_not_relevant(claim_path, corpus_path, k, embedding_model, par
                     for index in set(range(0, len(abstract))) - not_allowed
                 ]
                 chosen = sample(allowed, min(2, len(allowed)))
-                #for sentence in chosen:
-                #    not_relevant_data.append((claim["claim"], sentence, 0.0))
-                #    chosen_sentences.append(sentence)
                 add_sentences(not_relevant_data, chosen, claim["claim"], 0.0, paraphraser)
                 chosen_sentences.extend(chosen)
         # else use the abstract found in the cited_doc_ids value
@@ -185,9 +180,6 @@ def create_scifact_not_relevant(claim_path, corpus_path, k, embedding_model, par
             cited_doc_ids = claim["cited_doc_ids"]
             for abstract in [id_to_abstract_map[str(ident)] for ident in cited_doc_ids]:
                 chosen = sample(abstract, min(2, len(abstract)))
-                #for sentence in chosen:
-                #    not_relevant_data.append((claim["claim"], sentence, 0.0))
-                #    chosen_sentences.append(sentence)
                 add_sentences(not_relevant_data, chosen, claim["claim"], 0.0, paraphraser)
                 chosen_sentences.extend(chosen)
 
@@ -201,7 +193,6 @@ def create_scifact_not_relevant(claim_path, corpus_path, k, embedding_model, par
 
         for sentence, _ in top_3_closest_sentences_and_scores:
             if sentence not in chosen_sentences:
-                # not_relevant_data.append((claim["claim"], sentence, 0.0))
                 add_sentences(not_relevant_data, [sentence], claim["claim"], 0.0, paraphraser)
 
     return not_relevant_data
