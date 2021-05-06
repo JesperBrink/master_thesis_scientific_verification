@@ -100,7 +100,7 @@ def add_sentences(data, sentences, claim, relevancy, paraphraser):
 
 def add_standard_sentences(data, sentences, claim, relevancy):
     for sentence in sentences:
-        data.append((claim["claim"], sentence, relevancy))
+        data.append((claim, sentence, relevancy))
 
 
 def add_paraphrased_sentences(data, paraphrased_claim_sentence_pairs, relevancy):
