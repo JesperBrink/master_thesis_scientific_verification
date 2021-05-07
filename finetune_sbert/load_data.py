@@ -17,3 +17,13 @@ def load_evaluator(data_folder_path):
     labels = pickle.load(open(os.path.join(data_folder_path, "labels.p"), "rb"))
 
     return evaluation.EmbeddingSimilarityEvaluator(claims, sentences, labels)
+
+
+def load_cross_encoder_evaluator(data_folder_path):
+    claims = pickle.load(open(os.path.join(data_folder_path, "claims.p"), "rb"))
+    sentences = pickle.load(open(os.path.join(data_folder_path, "sentences.p"), "rb"))
+    labels = pickle.load(open(os.path.join(data_folder_path, "labels.p"), "rb"))
+
+    claim_sentence_pairs = [[claim, sentence] for claim, sentence in zip(claims, sentences)]
+
+    return evaluation.CEBinaryClassificationEvaluator(claim_sentence_pairs, labels)

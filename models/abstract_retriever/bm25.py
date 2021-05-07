@@ -8,13 +8,13 @@ import os
 class BM25AbstractRetrieval:
     """ Uses Pyserini BM25 to extract top k abstracts """
 
-    def __init__(self, corpus_path, k=36):
+    def __init__(self, corpus_path, k=20):
         self.k = k
         corpus_index_path = "bm25_abstract_index"  # Folder to write Pyserini index to
         self.map_corpus_to_pyserini_index(corpus_path, corpus_index_path)
         self.index_searcher = SimpleSearcher(corpus_index_path)
         self.index_searcher.set_bm25(
-            1.0, 0.8
+            2.0, 0.75
         )  # Default params - does this even need to be set?
         print("###  BM25 INIT DONE ###")
 

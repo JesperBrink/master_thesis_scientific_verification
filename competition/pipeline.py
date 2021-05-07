@@ -15,6 +15,9 @@ import enum
 import argparse
 import torch
 
+config = tf.compat.v1.ConfigProto()
+config.gpu_options.allow_growth=True
+sess = tf.compat.v1.Session(config=config)
 
 class NoopAbstractRetriever:
     def __call__(self, claim, abstracts):
@@ -71,7 +74,7 @@ if __name__ == "__main__":
         "sentence_selector",
         metavar="sentence_selector",
         type=str,
-        choices=["dev", "lstm", "dense", "cosine"],
+        choices=["dev", "lstm", "dense", "cosine", "cosine_rerank"],
         help="Which sentence selection model to use. dev = for quick testing, lstm = bert-lstm model, dense = Two layer dense, cosine = SBERT cosine similarity",
     )
     parser.add_argument(
@@ -136,6 +139,15 @@ if __name__ == "__main__":
             args.claim_embedding,
             threshold=args.sentence_threshold,
             k=args.overall_top_k,
+        )
+    elif args.sentence_selector == "cosine_rerank":
+        sentence_selector = CosineSimilaritySentenceSelector(
+            args.corpus_embedding,
+            args.claim_embedding,
+            threshold=args.sentence_threshold,
+            k=args.overall_top_k,
+            use_cross_encoder=True,
+            corpus_path=args.corpus_path
         )
 
     if args.stance_predictor == "dense":
