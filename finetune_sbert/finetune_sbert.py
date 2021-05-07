@@ -5,7 +5,7 @@ from sentence_transformers import SentenceTransformer, losses, models
 from torch.utils.data import DataLoader
 from torch import nn
 
-from load_data import load_training_data, load_evaluator
+from load_data import load_training_data, load_evaluator, load_cross_encoder_evaluator
 
 
 def initialize_model(pretrained_model, with_dense_layer=False):
@@ -65,6 +65,49 @@ def finetune_sbert(pretrained_model, data_folder_path, fever_epochs, scifact_epo
         )
 
 
+def finetune_cross_encoder(pretrained_model, data_folder_path, fever_epochs, scifact_epochs, with_dense_layer):
+    scifact_training_data, fever_training_data = load_training_data(data_folder_path)
+    scifact_train_dataloader = DataLoader(scifact_training_data, shuffle=True, batch_size=8)
+    fever_train_dataloader = DataLoader(fever_training_data, shuffle=True, batch_size=32)
+    evaluator = load_cross_encoder_evaluator(data_folder_path)
+
+    if fever_epochs > 0:
+        fever_model = initialize_model(pretrained_model, with_dense_layer)
+        fever_output_name = get_output_name(pretrained_model, "fever", fever_epochs, with_dense_layer)
+
+        if  os.path.exists(fever_output_name):
+            print("Adding 'NEW' to model name, instead of overwriting existing")
+            fever_output_name += "-NEW"
+
+        fever_model.fit(
+            train_dataloader=fever_train_dataloader,
+            epochs=fever_epochs,
+            evaluator=evaluator,
+            evaluation_steps=500,
+            output_path=fever_output_name,
+        )
+
+    if scifact_epochs > 0:
+        if fever_epochs > 0:
+            scifact_model = SentenceTransformer(fever_output_name)
+            scifact_output_name = get_output_name(pretrained_model, "fever-{}-scifact".format(fever_epochs), scifact_epochs, with_dense_layer)
+        else:
+            scifact_model = initialize_model(pretrained_model, with_dense_layer)
+            scifact_output_name = get_output_name(pretrained_model, "scifact", scifact_epochs, with_dense_layer)
+
+        if  os.path.exists(scifact_output_name):
+            print("Adding 'NEW' to model name, instead of overwriting existing")
+            scifact_output_name += "-NEW"
+
+        scifact_model.fit(
+            train_dataloader=scifact_train_dataloader,
+            epochs=scifact_epochs,
+            evaluator=evaluator,
+            evaluation_steps=500,
+            output_path=scifact_output_name,
+        )
+
+
 def get_output_name(pretrained_model, dataset_type, epochs, with_dense_layer):
     output = "{}-finetuned-on-{}-{}".format(pretrained_model, dataset_type, epochs)
 
@@ -103,7 +146,17 @@ if __name__ == "__main__":
         "--dense",
         help="set if you want the model to have a dense layer",
         action="store_true",
-    ) 
+    )
+    parser.add_argument(
+        "-ce",
+        "--cross_encoder",
+        help="set if you want to train a cross encoder",
+        action="store_true",
+    )
 
     args = parser.parse_args()
-    finetune_sbert(args.pretrained_model, args.data_folder_path, args.fever_epochs, args.scifact_epochs, args.dense)
+
+    if args.cross_encoder:
+        finetune_cross_encoder(args.pretrained_model, args.data_folder_path, args.fever_epochs, args.scifact_epochs, args.dense)
+    else:
+        finetune_sbert(args.pretrained_model, args.data_folder_path, args.fever_epochs, args.scifact_epochs, args.dense)
