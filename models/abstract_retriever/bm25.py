@@ -14,7 +14,7 @@ class BM25AbstractRetrieval:
         self.map_corpus_to_pyserini_index(corpus_path, corpus_index_path)
         self.index_searcher = SimpleSearcher(corpus_index_path)
         self.index_searcher.set_bm25(
-            2.0, 0.4
+            2.0, 0.75
         )  # Default params - does this even need to be set?
         print("###  BM25 INIT DONE ###")
 
