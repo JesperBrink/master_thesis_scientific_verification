@@ -147,17 +147,17 @@ def lstm_abstract_retriever(
     reshape = tf.keras.layers.Reshape((3, 768))(concat)
 
     # LSTM
-    lstm_dropout_layer = tf.keras.layers.Dropout(lstm_dropout, name="lstm_dropout")(
-        reshape
-    )
-    lstm = tf.keras.layers.LSTM(
-        units, return_sequences=False, recurrent_initializer="glorot_uniform"
-    )(lstm_dropout_layer)
+    # lstm_dropout_layer = tf.keras.layers.Dropout(lstm_dropout, name="lstm_dropout")(
+    #     reshape
+    # )
+    # lstm = tf.keras.layers.LSTM(
+    #     units, return_sequences=False, recurrent_initializer="glorot_uniform"
+    # )(lstm_dropout_layer)
 
     # CLASSIFICATION
     classification_dropout_layer = tf.keras.layers.Dropout(
         classification_dropout, name="classification_dropout"
-    )(lstm)
+    )(reshape)
     outputs = tf.keras.layers.Dense(1, activation="sigmoid")(
         classification_dropout_layer
     )
