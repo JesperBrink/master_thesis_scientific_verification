@@ -15,6 +15,9 @@ import enum
 import argparse
 import torch
 
+config = tf.compat.v1.ConfigProto()
+config.gpu_options.allow_growth=True
+sess = tf.compat.v1.Session(config=config)
 
 class NoopAbstractRetriever:
     def __call__(self, claim, abstracts):

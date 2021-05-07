@@ -21,7 +21,7 @@ def initialize_model(pretrained_model, with_dense_layer=False):
 
 def finetune_sbert(pretrained_model, data_folder_path, fever_epochs, scifact_epochs, with_dense_layer):
     scifact_training_data, fever_training_data = load_training_data(data_folder_path)
-    scifact_train_dataloader = DataLoader(scifact_training_data, shuffle=True, batch_size=32)
+    scifact_train_dataloader = DataLoader(scifact_training_data, shuffle=True, batch_size=8)
     fever_train_dataloader = DataLoader(fever_training_data, shuffle=True, batch_size=32)
     evaluator = load_evaluator(data_folder_path)
 
