@@ -27,7 +27,7 @@ class CosineSimilaritySentenceSelector:
             self.id_to_abstract_map = self.create_id_to_abstract_map(
                 corpus_path
             )
-            self.cross_encoder = CrossEncoder('distilroberta-base')
+            self.cross_encoder = CrossEncoder("/home/jesper/Desktop/master_thesis_scientific_verification/external_scripts/cross-encoder-fine-tuning-scripts/output/cross-encoder-stsb-nli-allenai-scibert-scivocab-uncased-finetuned-on-scifact-50/")
 
     def __call__(self, claim_object, retrieved_abstracts):
         result = {}

@@ -2,6 +2,7 @@ import pickle
 import os
 
 from sentence_transformers import evaluation
+from sentence_transformers.cross_encoder.evaluation import CEBinaryClassificationEvaluator
 
 
 def load_training_data(data_folder_path):
@@ -26,4 +27,4 @@ def load_cross_encoder_evaluator(data_folder_path):
 
     claim_sentence_pairs = [[claim, sentence] for claim, sentence in zip(claims, sentences)]
 
-    return evaluation.CEBinaryClassificationEvaluator(claim_sentence_pairs, labels)
+    return CEBinaryClassificationEvaluator(claim_sentence_pairs, labels)
