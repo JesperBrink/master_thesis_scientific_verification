@@ -72,8 +72,12 @@ class Paraphraser():
         min_similarity = 1
         min_paraphrased_sentence = None
         for paraphrased_sentence in paraphrased_sentences:
+            if paraphrased_sentence == sentence:
+                continue
+
             encoded_paraphrased_sentence = self.embedding_model.encode(paraphrased_sentence)
             similarity = self._get_cosine_similarities(encoded_sentence, encoded_paraphrased_sentence)
+            
             if similarity < min_similarity:
                 min_similarity = similarity
                 min_paraphrased_sentence = paraphrased_sentence
