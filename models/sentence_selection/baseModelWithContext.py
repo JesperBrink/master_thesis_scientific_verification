@@ -1,13 +1,13 @@
 import argparse
 from datetime import datetime
 import jsonlines
-import os 
+import os
 from pathlib import Path
 
 import tensorflow as tf
 from transformers import BertConfig, TFBertModel, BertTokenizer
 
-from datasets.datasetProcessing.lstm.baseModelContextDataset import load
+from datasets.datasetProcessing.base.baseModelContextDataset import load
 from models.utils import get_highest_count
 
 _model_dir = (
@@ -29,7 +29,7 @@ class BaseModelWithContextSelector:
             add_special_tokens=True,
         )
         self.id_to_title = self._create_id_to_title_map(corpus_path)
-    
+
     def __call__(self, claim_object, abstracts):
         claim = claim_object["claim"]
 
@@ -42,7 +42,8 @@ class BaseModelWithContextSelector:
             tokenized_mask = []
             for context, sent in temp:
                 res = self.tokenizer(
-                    claim, context + " " + sent,
+                    claim,
+                    context + " " + sent,
                     return_attention_mask=True,
                     return_tensors="tf",
                     padding="max_length",
@@ -52,9 +53,9 @@ class BaseModelWithContextSelector:
 
                 tokenized_input.append(res.input_ids[0])
                 tokenized_mask.append(res.attention_mask[0])
-            
+
             model_result = tf.reshape(
-                self.model([tf.stack(tokenized_input), tf.stack(tokenized_mask)]),(-1)
+                self.model([tf.stack(tokenized_input), tf.stack(tokenized_mask)]), (-1)
             )
 
             top_k, indices = tf.math.top_k(model_result, k=3)
@@ -94,7 +95,10 @@ def check_for_folder():
         print("Creating save folder")
         os.makedirs(_model_dir)
 
-def base_model_with_context_selector(bert_dropout, attention_dropout, classification_dropout):
+
+def base_model_with_context_selector(
+    bert_dropout, attention_dropout, classification_dropout
+):
     check_for_folder()
 
     model_name = "bert-base-uncased"
@@ -113,9 +117,13 @@ def base_model_with_context_selector(bert_dropout, attention_dropout, classifica
     sequence_input = tf.keras.Input(shape=(256,), dtype="int32", name="sequence")
     sequence_mask = tf.keras.Input(shape=(256,), dtype="int32", name="claim_mask")
     # print(sequence_input.shape)
-    bert_encoding = bert_embedding(input_ids=sequence_input, attention_mask=sequence_mask)[1]
+    bert_encoding = bert_embedding(
+        input_ids=sequence_input, attention_mask=sequence_mask
+    )[1]
     # print(bert_encoding.shape)
-    dropout = tf.keras.layers.Dropout(classification_dropout, name="classification_dropout")(bert_encoding)
+    dropout = tf.keras.layers.Dropout(
+        classification_dropout, name="classification_dropout"
+    )(bert_encoding)
     # print(dropout.shape)
     output = tf.keras.layers.Dense(1, activation="sigmoid")(dropout)
     # print(output.shape)
@@ -130,6 +138,7 @@ def base_model_with_context_selector(bert_dropout, attention_dropout, classifica
 
     return model, make_trainable
 
+
 def train(model, make_trainable, loss, batch_size, frozen_epochs, epochs, bert_lr):
     print("Start training")
     opt = tf.keras.optimizers.Adam()
@@ -143,10 +152,12 @@ def train(model, make_trainable, loss, batch_size, frozen_epochs, epochs, bert_l
         epochs=frozen_epochs,
         shuffle=True,
         validation_data=val.batch(batch_size),
-        callbacks=[tb_callback], 
+        callbacks=[tb_callback],
     )
     save(model, "frozen_")
-    print("initial training of classification is done\nNow finetuning bert model to task")
+    print(
+        "initial training of classification is done\nNow finetuning bert model to task"
+    )
 
     make_trainable()
 
@@ -157,13 +168,15 @@ def train(model, make_trainable, loss, batch_size, frozen_epochs, epochs, bert_l
         epochs=epochs,
         shuffle=True,
         validation_data=val.batch(batch_size),
-        callbacks=[tb_callback], 
+        callbacks=[tb_callback],
     )
 
 
 def load_model(prefix=""):
     count = get_highest_count(_model_dir)
-    path = str(_model_dir / "{}base_with_context_abstract_retriver_{}".format(prefix, count))
+    path = str(
+        _model_dir / "{}base_with_context_abstract_retriver_{}".format(prefix, count)
+    )
     print("Loading model from: {}".format(str(path)))
     model = tf.keras.models.load_model(path)
     return model
@@ -171,7 +184,9 @@ def load_model(prefix=""):
 
 def save(model, prefix=""):
     count = get_highest_count(_model_dir) + 1
-    path = str(_model_dir / "{}base_with_context_abstract_retriver_{}".format(prefix, count))
+    path = str(
+        _model_dir / "{}base_with_context_abstract_retriver_{}".format(prefix, count)
+    )
     model.save(path)
     print("model saved to {}".format(path))
 
@@ -181,7 +196,7 @@ def main():
     parser.add_argument(
         "-t", "--train", action="store_true", help="will train the model if set"
     )
-    
+
     parser.add_argument(
         "-w",
         "--work",
@@ -203,9 +218,19 @@ def main():
 
     args = parser.parse_args()
     if args.train:
-        model, make_trainable = base_model_with_context_selector(args.bert_dropout, args.attention_dropout, args.classification_dropout)
+        model, make_trainable = base_model_with_context_selector(
+            args.bert_dropout, args.attention_dropout, args.classification_dropout
+        )
         loss = tf.keras.losses.BinaryCrossentropy()
-        train(model, make_trainable, loss, args.batch_size, args.frozen_epochs, args.epochs, args.bert_learningrate)
+        train(
+            model,
+            make_trainable,
+            loss,
+            args.batch_size,
+            args.frozen_epochs,
+            args.epochs,
+            args.bert_learningrate,
+        )
         save(model)
     if args.work:
         # model = load_model()
@@ -227,6 +252,6 @@ def main():
         }
         print(selector({"id": 14, "claim": "gd is not"}, abstracts))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
-    

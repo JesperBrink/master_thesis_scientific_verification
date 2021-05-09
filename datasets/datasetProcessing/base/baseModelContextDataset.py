@@ -11,14 +11,23 @@ import tensorflow as tf
 from tqdm import tqdm
 from transformers import BertTokenizer
 
-train_path = Path(os.path.realpath(__file__)).resolve().parents[1] / "tfrecords" / "BaseModelContextTrainSet"
-val_path = Path(os.path.realpath(__file__)).resolve().parents[1] / "tfrecords" / "BaseModelContextValidationSet"
+train_path = (
+    Path(os.path.realpath(__file__)).resolve().parents[1]
+    / "tfrecords"
+    / "BaseModelContextTrainSet"
+)
+val_path = (
+    Path(os.path.realpath(__file__)).resolve().parents[1]
+    / "tfrecords"
+    / "BaseModelContextValidationSet"
+)
+
 
 class BaseModelContextDataset:
     def __init__(self, corpus_path):
         self.validationDatasetPath = val_path
         self.trainDatasetPath = train_path
-    
+
         if not os.path.exists(self.validationDatasetPath):
             os.makedirs(self.validationDatasetPath)
         if not os.path.exists(self.trainDatasetPath):
@@ -36,15 +45,15 @@ class BaseModelContextDataset:
     def __call__(self, validation_claim, train_claim):
         validation_dest = self.validationDatasetPath / "scifact.tfrecord"
         train_dest = self.trainDatasetPath / "scifact.tfrecord"
-       
+
         if not self._approve_overwriting(validation_dest, train_dest):
             print("aborting dataset creation")
             return
-        
+
         print("Processing validation")
         validation_writer = tf.io.TFRecordWriter(str(validation_dest))
         self._process_claims(validation_writer, validation_claim)
-        
+
         print("Processing train")
         train_writer = tf.io.TFRecordWriter(str(train_dest))
         self._process_claims(train_writer, train_claim)
@@ -97,7 +106,8 @@ class BaseModelContextDataset:
     def _create_sequence(self, claim, context, sent):
         combined = context + " " + sent
         res = self.tokenizer(
-            claim, combined,
+            claim,
+            combined,
             return_attention_mask=True,
             return_tensors="tf",
             padding="max_length",
@@ -113,7 +123,7 @@ class BaseModelContextDataset:
             abstract_id_to_abstract[str(data["doc_id"])] = data
 
         return abstract_id_to_abstract
-    
+
     def _approve_overwriting(self, *dest):
         if any([os.path.exists(str(d)) for d in dest]):
             choice = input(
@@ -146,6 +156,7 @@ class BaseModelContextDataset:
         """Returns an int64_list from a bool / enum / int / uint."""
         return tf.train.Feature(int64_list=tf.train.Int64List(value=value))
 
+
 def _deserialize_example(serialized_example):
     features = {
         "sequence": tf.io.FixedLenFeature([256], tf.int64),
@@ -159,14 +170,17 @@ def _deserialize_example(serialized_example):
     label = example["label"]
     return (sequence, sequence_mask), label
 
+
 def _load_dataset(source):
     dataset = tf.data.TFRecordDataset(str(source))
     return dataset.map(_deserialize_example)
+
 
 def load():
     train = _load_dataset(train_path / "scifact.tfrecord")
     val = _load_dataset(val_path / "scifact.tfrecord")
     return train, val
+
 
 def main():
     parser = argparse.ArgumentParser(description="")
@@ -199,13 +213,14 @@ def main():
 
     args = parser.parse_args()
     # BaseModelContextDataset(
-        # args.corpus_path
+    # args.corpus_path
     # )(args.val_path, args.train_path)
 
     train, val = load()
     print("here")
-    for x,y in train.take(10):
+    for x, y in train.take(10):
         print(x)
+
 
 if __name__ == "__main__":
     main()
