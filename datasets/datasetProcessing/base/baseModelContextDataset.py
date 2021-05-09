@@ -135,7 +135,6 @@ class BaseModelContextDataset:
                 return False
         return True
 
-    ## TODO: FIX WRITE AND SERIALIZE EXAMPLE
     def _write(self, writer, sequence, sequence_mask, label):
         example = self._serialize_example(sequence, sequence_mask, label)
         writer.write(example)

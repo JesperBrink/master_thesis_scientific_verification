@@ -175,7 +175,14 @@ class ScifactLSTMDataset:
 
     def _tokenize(self, sentence):
         tokenization = list(
-            
+            self.tokenizer(
+                sentence,
+                return_attention_mask=True,
+                return_tensors="tf",
+                padding="max_length",
+                max_length=self.sequence_lenght,
+                truncation=True,
+            ).values()     
         )
         return tokenization[0], tokenization[2]
 
