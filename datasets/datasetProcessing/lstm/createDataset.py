@@ -182,7 +182,7 @@ class ScifactLSTMDataset:
                 padding="max_length",
                 max_length=self.sequence_lenght,
                 truncation=True,
-            ).values()     
+            ).values()
         )
         return tokenization[0], tokenization[2]
 
