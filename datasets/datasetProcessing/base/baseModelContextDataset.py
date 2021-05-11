@@ -22,6 +22,8 @@ val_path = (
     / "BaseModelContextValidationSet"
 )
 
+MAX_LENGTH = 196
+
 
 class BaseModelContextDataset:
     def __init__(self, corpus_path):
@@ -111,7 +113,7 @@ class BaseModelContextDataset:
             return_attention_mask=True,
             return_tensors="tf",
             padding="max_length",
-            max_length=256,
+            max_length=MAX_LENGTH,
             truncation=True,
         )
         return res.input_ids[0], res.attention_mask[0]
@@ -158,8 +160,8 @@ class BaseModelContextDataset:
 
 def _deserialize_example(serialized_example):
     features = {
-        "sequence": tf.io.FixedLenFeature([256], tf.int64),
-        "sequence_mask": tf.io.FixedLenFeature([256], tf.int64),
+        "sequence": tf.io.FixedLenFeature([MAX_LENGTH], tf.int64),
+        "sequence_mask": tf.io.FixedLenFeature([MAX_LENGTH], tf.int64),
         "label": tf.io.FixedLenFeature([1], tf.int64),
     }
 

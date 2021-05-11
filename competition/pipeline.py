@@ -1,6 +1,7 @@
 import jsonlines
 import numpy as np
 from tqdm import tqdm
+from models.sentence_selection.baseModelWithContext import BaseModelWithContextSelector
 from models.sentence_selection.lstmModel import BertLSTMSentenceSelector
 from models.sentence_selection.denseModel import TwoLayerDenseSentenceSelector
 from models.sentence_selection.cosineSimilarityModel import (
@@ -74,7 +75,7 @@ if __name__ == "__main__":
         "sentence_selector",
         metavar="sentence_selector",
         type=str,
-        choices=["dev", "lstm", "dense", "cosine", "cosine_rerank"],
+        choices=["dev", "lstm", "dense", "cosine", "cosine_rerank", "base"],
         help="Which sentence selection model to use. dev = for quick testing, lstm = bert-lstm model, dense = Two layer dense, cosine = SBERT cosine similarity",
     )
     parser.add_argument(
@@ -148,6 +149,10 @@ if __name__ == "__main__":
             k=args.overall_top_k,
             use_cross_encoder=True,
             corpus_path=args.corpus_path
+        )
+    elif args.sentence_selector == "base":
+        sentence_selector = BaseModelWithContextSelector(
+            args.corpus_path, args.sentence_threshold
         )
 
     if args.stance_predictor == "dense":
