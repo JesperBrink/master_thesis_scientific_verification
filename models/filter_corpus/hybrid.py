@@ -12,7 +12,7 @@ import numpy as np
 from transformers import BertModel, BertTokenizer
 import json
 
-class BM25FilterModel():
+class HybridFilterModel():
     def __init__(self, corpus_path, corpus_file_path, corpus_index_path, level):
         self.faiss_index = "faiss_index"
         self.map_corpus_to_pyserini_index(
@@ -30,7 +30,7 @@ class BM25FilterModel():
         # TODO: Just use hybrid, the rest is for testing
         hits1 = self.hsearcher.search(claim["claim"], k=k) # hybrid
         hits2 = self.ssearcher.search(claim["claim"], k=k) # bm25
-        hits3 = self.dsearcher.search(claim["claim"], k=k) # dense
+        hits3 = self.dsearcher.search(claim["claim"], k=k) # dense. Hvad er det for en measure, de bruger??? Den giver sådan 50 i score
         return [int(hit.docid) for hit in hits2]
 
 

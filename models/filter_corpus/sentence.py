@@ -1,18 +1,17 @@
 from sentence_transformers import SentenceTransformer, util
 import jsonlines
 import time
+import tensorflow as tf
+from tqdm import tqdm
+import torch
 
-class SpecterFilterModel():
+class SentenceFilterModel():
     def __init__(self, corpus_path):
-        #print("init")
-        #t1 = time.time()
-        self.model = SentenceTransformer('../../models/filter_corpus/specter_finetuned')
+        self.model = SentenceTransformer('allenai-specter')
         self.corpus = list(jsonlines.open(corpus_path))
         mapped_corpus = [doc["title"] + " " + " ".join(doc['abstract']) for doc in self.corpus]
-        #mapped_corpus = [sent for sent in doc['abstract'] for doc in self.corpus]
-        self.corpus_embeddings = self.model.encode(mapped_corpus, convert_to_tensor=True)
-        print(self.corpus_embeddings)
-        #print("init done. Time:", time.time()-t1)
+        self.corpus_embeddings = self.model.encode(mapped_corpus, convert_to_tensor=True, show_progress_bar=True)
+
 
     def get_top_k_by_similarity(self, claim, corpus, k): 
         print("TODO")
@@ -23,9 +22,6 @@ class SpecterFilterModel():
         # v Bruger også cosine v
         search_hits = util.semantic_search(claim_embedding, self.corpus_embeddings, top_k = k)
         search_hits = search_hits[0]  #Get the hits for the first query (TODO: Man kan måske ordne alle claims samtidig, så)
-        for hit in search_hits:
-            print(hit)
-        exit()
         
         doc_ids = []
         

@@ -10,7 +10,6 @@ import enum
 import numpy as np
 import os
 
-# TODO: rerun combined, k results på validation eller train (dvs. basically alle de eksperimenter, der skal skrives om i abstract retrieval)
 def eval_sentence_selection(claims_path, corpus_path, model, k1, b, res_file):
     sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
     measures = {}
@@ -20,6 +19,7 @@ def eval_sentence_selection(claims_path, corpus_path, model, k1, b, res_file):
             if not claim["evidence"]:
                 continue
 
+            # Get top 100 (just to reduce search space) and calculate recall for all k 1-100
             top = model.get_top_k_by_similarity_with_ids(claim, sentence_embeddings, corp_id, 100, "haha")
             for k in range(1,101):
                 if k not in measures:
@@ -44,9 +44,6 @@ def eval_sentence_selection(claims_path, corpus_path, model, k1, b, res_file):
                 if recall >= 0.95:
                     f.write("{}, {}\n".format(k, recall))
                     found = True
-                #print("k: {}\n".format(k))
-                #print("recall: {}\n".format(recall))
-                #print("")
 
 def get_correct_at_top_k(claim, top, k):
     top_k = top[:k]
@@ -79,12 +76,12 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    res_file = "res.txt"
+    res_file = "res_paren.txt"
 
-    if os.path.exists("res.txt"):
-       os.remove("res.txt")
+    if os.path.exists(res_file):
+       os.remove(res_file)
     
-    for k1 in tqdm(np.arange(0,3.1, 0.1)):
+    for k1 in tqdm(np.arange(1,2.1, 0.1)):
        for b in np.arange(0,1.1,0.1):
            k1 = round(k1,2)
            b = round(b,2)
