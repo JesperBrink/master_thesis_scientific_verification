@@ -2,6 +2,8 @@ import os
 import argparse
 
 from sentence_transformers import SentenceTransformer, losses, models
+from sentence_transformers.cross_encoder import CrossEncoder
+
 from torch.utils.data import DataLoader
 from torch import nn
 
@@ -72,7 +74,7 @@ def finetune_cross_encoder(pretrained_model, data_folder_path, fever_epochs, sci
     evaluator = load_cross_encoder_evaluator(data_folder_path)
 
     if fever_epochs > 0:
-        fever_model = initialize_model(pretrained_model, with_dense_layer)
+        fever_model = CrossEncoder(pretrained_model, num_labels=1)
         fever_output_name = get_output_name(pretrained_model, "fever", fever_epochs, with_dense_layer)
 
         if  os.path.exists(fever_output_name):
@@ -89,10 +91,10 @@ def finetune_cross_encoder(pretrained_model, data_folder_path, fever_epochs, sci
 
     if scifact_epochs > 0:
         if fever_epochs > 0:
-            scifact_model = SentenceTransformer(fever_output_name)
+            scifact_model = CrossEncoder(fever_output_name, num_labels=1)
             scifact_output_name = get_output_name(pretrained_model, "fever-{}-scifact".format(fever_epochs), scifact_epochs, with_dense_layer)
         else:
-            scifact_model = initialize_model(pretrained_model, with_dense_layer)
+            scifact_model = CrossEncoder(pretrained_model, num_labels=1)
             scifact_output_name = get_output_name(pretrained_model, "scifact", scifact_epochs, with_dense_layer)
 
         if  os.path.exists(scifact_output_name):
