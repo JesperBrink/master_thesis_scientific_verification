@@ -6,8 +6,18 @@ from sentence_transformers import CrossEncoder
 
 
 class CosineSimilaritySentenceSelector:
-    def __init__(self, corpus_embedding_path, claim_embedding_path, threshold=0.5, k=5, use_cross_encoder=False, corpus_path=None):
-        self.threshold = threshold
+    def __init__(
+            self,
+            corpus_embedding_path,
+            claim_embedding_path,
+            sbert_threshold=0.5,
+            k=None,
+            cross_encoder_threshold=0.9,
+            cross_encoder_path=None,
+            corpus_path=None
+        ):
+        self.sbert_threshold = sbert_threshold
+        self.cross_encoder_threshold = cross_encoder_threshold
         self.k = k
         self.id_to_claim_embedding_map = self.create_id_to_claim_map(
             claim_embedding_path
@@ -22,12 +32,12 @@ class CosineSimilaritySentenceSelector:
         self.number_of_abstracts_in_corpus = self.get_number_of_abstracts_in_corpus(
             corpus_embedding_path
         )
-        self.use_cross_encoder = use_cross_encoder
-        if corpus_path:
+        if cross_encoder_path:
+            self.use_cross_encoder = True
             self.id_to_abstract_map = self.create_id_to_abstract_map(
                 corpus_path
             )
-            self.cross_encoder = CrossEncoder("/home/jesper/Desktop/master_thesis_scientific_verification/external_scripts/cross-encoder-fine-tuning-scripts/output/cross-encoder-stsb-nli-allenai-scibert-scivocab-uncased-finetuned-on-scifact-50/")
+            self.cross_encoder = CrossEncoder(cross_encoder_path)
 
     def __call__(self, claim_object, retrieved_abstracts):
         result = {}
@@ -40,7 +50,7 @@ class CosineSimilaritySentenceSelector:
             sentence_embeddings, rationale_id_to_abstract_and_sentence_id_pair = self.get_sentence_embeddings_for_retreived_abstracts(retrieved_abstracts)
 
         predicted = self.get_cosine_similarity(claim_embedding, sentence_embeddings)
-        results_above_threshold_mask = tf.squeeze(tf.math.greater(predicted, tf.constant(self.threshold)))
+        results_above_threshold_mask = tf.squeeze(tf.math.greater(predicted, tf.constant(self.sbert_threshold)))
         indices_for_above_threshold = tf.where(results_above_threshold_mask)
         
         if indices_for_above_threshold.shape[0] == 0:
@@ -58,11 +68,15 @@ class CosineSimilaritySentenceSelector:
                 predicted
             )
 
-        for rationale_idx in rationale_index_sorted_by_score[:self.k]:
+        if self.k is not None:
+            rationale_index_sorted_by_score = rationale_index_sorted_by_score[:self.k]
+
+        for rationale_idx in rationale_index_sorted_by_score:
             abstract_id, sentence_id = rationale_id_to_abstract_and_sentence_id_pair[rationale_idx]
             abstract_rationales = result.setdefault(abstract_id, [])
-            abstract_rationales.append(sentence_id)
-            result[abstract_id] = abstract_rationales
+            if len(abstract_rationales) < 3:
+                abstract_rationales.append(sentence_id)
+                result[abstract_id] = abstract_rationales
 
         return result
 
@@ -81,7 +95,7 @@ class CosineSimilaritySentenceSelector:
         rationale_index_and_score_pairs_sorted_by_score = sorted(
             rationale_index_and_score_pairs, key=lambda tup: tup[1], reverse=True
         )
-        return [idx for idx, _ in rationale_index_and_score_pairs_sorted_by_score]
+        return [idx for idx, score in rationale_index_and_score_pairs_sorted_by_score if score > self.cross_encoder_threshold]
 
     def sort_based_on_bi_encoder(self, indices_for_above_threshold, predicted):
         rationale_index_and_score_pairs = [
@@ -158,7 +172,7 @@ def main():
     args = parser.parse_args()
 
     selector = CosineSimilaritySentenceSelector(
-        args.corpus_embedding, args.claim_embedding, threshold=0.2
+        args.corpus_embedding, args.claim_embedding, sbert_threshold=0.2
     )
     abstracts = {4983: [""]}
     print(selector({"id": 13, "claim": "gd is not"}, abstracts))
