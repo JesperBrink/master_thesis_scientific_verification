@@ -101,10 +101,22 @@ if __name__ == "__main__":
         help="the threshold for sentence selection",
     )
     parser.add_argument(
+        "-ct",
+        "--cross_encoder_threshold",
+        type=float,
+        default=0.9,
+        help="the threshold for the cross encoder used for sentence selection",
+    )
+    parser.add_argument(
+        "-cp",
+        "--cross_encoder_path",
+        type=str,
+        help="the path to or name of the cross encoder used for sentence selection",
+    )
+    parser.add_argument(
         "-k",
         "--overall_top_k",
         type=int,
-        default=5,
         help="how many rationales the rationale selection should return at most",
     )
     parser.add_argument("-cl", "--claim_embedding", type=str)
@@ -137,16 +149,17 @@ if __name__ == "__main__":
         sentence_selector = CosineSimilaritySentenceSelector(
             args.corpus_embedding,
             args.claim_embedding,
-            threshold=args.sentence_threshold,
+            sbert_threshold=args.sentence_threshold,
             k=args.overall_top_k,
         )
     elif args.sentence_selector == "cosine_rerank":
         sentence_selector = CosineSimilaritySentenceSelector(
             args.corpus_embedding,
             args.claim_embedding,
-            threshold=args.sentence_threshold,
+            sbert_threshold=args.sentence_threshold,
             k=args.overall_top_k,
-            use_cross_encoder=True,
+            cross_encoder_threshold=args.cross_encoder_threshold,
+            cross_encoder_path=args.cross_encoder_path,
             corpus_path=args.corpus_path
         )
 
