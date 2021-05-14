@@ -17,6 +17,7 @@ _model_dir = (
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
 
+MAX_LENGTH = 196
 
 class BaseModelWithContextSelector:
     def __init__(self, corpus_path, threshold=0.5):
@@ -47,7 +48,7 @@ class BaseModelWithContextSelector:
                     return_attention_mask=True,
                     return_tensors="tf",
                     padding="max_length",
-                    max_length=256,
+                    max_length=MAX_LENGTH,
                     truncation=True,
                 )
 
@@ -68,19 +69,6 @@ class BaseModelWithContextSelector:
             result[doc_id] = rationales
 
         return result
-
-    def _tokenize(self, sentence):
-        tokenization = list(
-            self.tokenizer(
-                sentence,
-                return_attention_mask=True,
-                return_tensors="tf",
-                padding="max_length",
-                max_length=128,
-                truncation=True,
-            ).values()
-        )
-        return tokenization[0], tokenization[2]
 
     def _create_id_to_title_map(self, path):
         abstract_id_to_title = dict()
@@ -114,8 +102,8 @@ def base_model_with_context_selector(
     def make_trainable():
         bert_embedding.trainable = True
 
-    sequence_input = tf.keras.Input(shape=(256,), dtype="int32", name="sequence")
-    sequence_mask = tf.keras.Input(shape=(256,), dtype="int32", name="claim_mask")
+    sequence_input = tf.keras.Input(shape=(MAX_LENGTH,), dtype="int32", name="sequence")
+    sequence_mask = tf.keras.Input(shape=(MAX_LENGTH,), dtype="int32", name="claim_mask")
     # print(sequence_input.shape)
     bert_encoding = bert_embedding(
         input_ids=sequence_input, attention_mask=sequence_mask
