@@ -12,7 +12,7 @@ class CosineSimilaritySentenceSelector:
             claim_embedding_path,
             sbert_threshold=0.5,
             k=None,
-            cross_encoder_threshold=0.9,
+            cross_encoder_threshold=0.5,
             cross_encoder_path=None,
             corpus_path=None
         ):
@@ -38,6 +38,8 @@ class CosineSimilaritySentenceSelector:
                 corpus_path
             )
             self.cross_encoder = CrossEncoder(cross_encoder_path)
+        else:
+            self.use_cross_encoder = False
 
     def __call__(self, claim_object, retrieved_abstracts):
         result = {}

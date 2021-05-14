@@ -105,7 +105,7 @@ if __name__ == "__main__":
         "-ct",
         "--cross_encoder_threshold",
         type=float,
-        default=0.9,
+        default=0.5,
         help="the threshold for the cross encoder used for sentence selection",
     )
     parser.add_argument(
