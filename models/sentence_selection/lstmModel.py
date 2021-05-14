@@ -136,15 +136,9 @@ def lstm_abstract_retriever(
     sentence_mask = tf.keras.Input(shape=(128,), dtype="int32", name="sentence_mask")
 
     # ENCODING
-    claim_embedding = bert_embedding(input_ids=claim, attention_mask=claim_mask)[0][
-        :, 0, :
-    ]
-    context_embedding = bert_embedding(input_ids=context, attention_mask=context_mask)[
-        0
-    ][:, 0, :]
-    sent_embedding = bert_embedding(input_ids=sentence, attention_mask=sentence_mask)[
-        0
-    ][:, 0, :]
+    claim_embedding = bert_embedding(input_ids=claim, attention_mask=claim_mask)[1] 
+    context_embedding = bert_embedding(input_ids=context, attention_mask=context_mask)[1]
+    sent_embedding = bert_embedding(input_ids=sentence, attention_mask=sentence_mask)[1]
 
     # SEQUALISE
     concat = tf.keras.layers.Concatenate(axis=1)(
@@ -153,17 +147,17 @@ def lstm_abstract_retriever(
     reshape = tf.keras.layers.Reshape((3, 768))(concat)
 
     # LSTM
-    lstm_dropout_layer = tf.keras.layers.Dropout(lstm_dropout, name="lstm_dropout")(
-        reshape
-    )
-    lstm = tf.keras.layers.LSTM(
-        units, return_sequences=False, recurrent_initializer="glorot_uniform"
-    )(lstm_dropout_layer)
+    # lstm_dropout_layer = tf.keras.layers.Dropout(lstm_dropout, name="lstm_dropout")(
+    #     reshape
+    # )
+    # lstm = tf.keras.layers.LSTM(
+    #     units, return_sequences=False, recurrent_initializer="glorot_uniform"
+    # )(lstm_dropout_layer)
 
     # CLASSIFICATION
     classification_dropout_layer = tf.keras.layers.Dropout(
         classification_dropout, name="classification_dropout"
-    )(lstm)
+    )(reshape)
     outputs = tf.keras.layers.Dense(1, activation="sigmoid")(
         classification_dropout_layer
     )
