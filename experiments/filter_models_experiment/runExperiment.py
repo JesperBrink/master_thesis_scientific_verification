@@ -1,6 +1,7 @@
 from competition.pipeline import setup_sentence_embeddings
 from models.filter_corpus.bm25 import BM25FilterModel
 from models.filter_corpus.oracle import OracleFilterModel
+from models.filter_corpus.hybridv3 import HybridV3FilterModel
 from models.filter_corpus.hybridv2 import HybridV2FilterModel
 from models.filter_corpus.hybrid import HybridFilterModel
 from models.filter_corpus.cosine_similarity import CosineSimilarityFilterModel
@@ -18,9 +19,12 @@ def eval_sentence_selection(claims_path, corpus_path, level, model):
         for claim in tqdm(claims):
             if not claim["evidence"]:
                continue
-            min_k = 300 #min(len(sentence_embeddings), 5183)
-            top = model.get_top_k_by_similarity_with_ids(claim, sentence_embeddings, corp_id, min_k, level)
-            for k in range(1, min_k+1):
+            #min_k = 5183 #min(len(sentence_embeddings), 5183)
+            k_range = [3, 10, 100, 150]
+            #top = model.get_top_k_by_similarity_with_ids(claim, sentence_embeddings, corp_id, min_k, level)
+            top = model.get_top_k_by_similarity_with_ids(claim, sentence_embeddings, corp_id, k_range[-1], level)
+            #for k in range(1, min_k+1):
+            for k in k_range:
                 if k not in measures:
                     measures[k] = {
                         "true_positives": 0, 
@@ -35,7 +39,9 @@ def eval_sentence_selection(claims_path, corpus_path, level, model):
     for k in measures:
         recall = compute_recall(measures[k]["true_positives"], measures[k]["false_negatives"])
         precision = compute_precision(measures[k]["true_positives"], measures[k]["false_positives"])
-        print(precision)
+        f1 = compute_f1(precision, recall)
+        print(f"k: {k}, recall: {recall}, precision: {precision}, f1: {f1}")
+        
 
 def get_correct_at_top_k(claim, top, k, level):
     top_k = top[:k]
@@ -61,8 +67,10 @@ class FilterModel(enum.Enum):
     BM25 = "bm25"
     ORACLE = "oracle"
     SPECTER = "specter"
+    SPECTERAPI = "specterAPI"
     HYBRID = "hybrid"
     HYBRIDV2 = "hybridv2"
+    HYBRIDV3 = "hybridv3"
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Calculate accuracies of sentence selection")
@@ -89,16 +97,21 @@ if __name__ == "__main__":
     if args.filter_model == FilterModel.SBERT_COSINE_SIMILARITY:
         filter_model = CosineSimilarityFilterModel()
     elif args.filter_model == FilterModel.BM25:
-        filter_model = BM25FilterModel(args.corpus, "bm25_corpus.jsonl", "bm25_index.jsonl", args.level, 2.0, 0.75)
+        filter_model = BM25FilterModel(args.corpus, "bm25_corpus.jsonl", "bm25_index.jsonl", args.level)
     elif args.filter_model == FilterModel.ORACLE:
         filter_model = OracleFilterModel()
     elif args.filter_model == FilterModel.SPECTER:
         from models.filter_corpus.specter import SpecterFilterModel
         filter_model = SpecterFilterModel(args.corpus)
+    elif args.filter_model == FilterModel.SPECTERAPI:
+        from models.filter_corpus.specterAPI import SpecterAPIFilterModel
+        filter_model = SpecterAPIFilterModel(args.corpus)
     elif args.filter_model == FilterModel.HYBRID:
         filter_model = HybridFilterModel(args.corpus, "bm25_corpus.jsonl", "bm25_index.jsonl", args.level)
     elif args.filter_model == FilterModel.HYBRIDV2:
         filter_model = HybridV2FilterModel(args.corpus, "bm25_corpus.jsonl", "bm25_index.jsonl", args.level)
+    elif args.filter_model == FilterModel.HYBRIDV3:
+        filter_model = HybridV3FilterModel(args.corpus, "bm25_corpus.jsonl", "bm25_index.jsonl")
     else:
         raise NotImplementedError()
 
