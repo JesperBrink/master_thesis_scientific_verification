@@ -15,7 +15,7 @@ def create_training_data(scifact_corpus_path, scifact_train_path, fever_claims_p
     scifact_training_data = []
 
     if use_paraphrasing:
-        paraphraser = Paraphraser()
+        paraphraser = Paraphraser(embedding_model)
     else:
         paraphraser = None
 
@@ -43,7 +43,7 @@ def create_evaluator_data(scifact_corpus_path, scifact_validation_path, embeddin
     labels = []
 
     if use_paraphrasing:
-        paraphraser = Paraphraser()
+        paraphraser = Paraphraser(embedding_model)
     else:
         paraphraser = None
 
