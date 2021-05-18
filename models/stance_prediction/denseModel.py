@@ -21,7 +21,6 @@ _model_dir = (
 )
 
 
-
 class TwoLayerDenseStancePredictor:
     def __init__(self, corpus_path, claim_path, threshold=0.5):
         self.threshold = threshold
@@ -85,7 +84,7 @@ def two_layer_stance_predictor(units, dropout=0.5):
         dropout_second
     )
     dropout_third = tf.keras.layers.Dropout(dropout, name="dropout_3")(dense_second)
-    outputs = tf.keras.layers.Dense(1, activation="relu", name="output")(dropout_third)
+    outputs = tf.keras.layers.Dense(1, activation="sigmoid", name="output")(dropout_third)
 
     model = tf.keras.Model(
         inputs=inputs, outputs=outputs, name="two_layer_dense_stance_prediction"
@@ -133,6 +132,14 @@ def train(model, dataset_type, epochs=10, batch_size=32, class_weight={0: 1, 1: 
     return model
 
 
+def setup_for_training(dense_units, learning_rate):
+    m = two_layer_stance_predictor(dense_units)
+    loss = tf.keras.losses.BinaryCrossentropy()
+    opt = tf.keras.optimizers.Adam(learning_rate=learning_rate)
+    m.compile(optimizer=opt, loss=loss, metrics=["accuracy"])
+    return m
+
+
 def main():
     parser = argparse.ArgumentParser(description="")
     parser.add_argument(
@@ -169,9 +176,7 @@ def main():
     )
     args = parser.parse_args()
     if args.train:
-        m = two_layer_stance_predictor(args.dense_units)
-        loss = tf.keras.losses.BinaryCrossentropy()
-        m.compile(optimizer="adam", loss=loss)
+        m = setup_for_training(args.dense_units, 0.001)
         m = train(m, "scifact", batch_size=args.batch_size, epochs=args.epochs)
         save(m)
         m = load()
