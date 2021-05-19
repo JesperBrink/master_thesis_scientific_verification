@@ -75,7 +75,7 @@ if __name__ == "__main__":
         "sentence_selector",
         metavar="sentence_selector",
         type=str,
-        choices=["dev", "lstm", "dense", "cosine", "cosine_rerank", "base"],
+        choices=["dev", "lstm", "dense", "dense_rerank", "cosine", "cosine_rerank", "base"],
         help="Which sentence selection model to use. dev = for quick testing, lstm = bert-lstm model, dense = Two layer dense, cosine = SBERT cosine similarity",
     )
     parser.add_argument(
@@ -144,7 +144,18 @@ if __name__ == "__main__":
         sentence_selector = TwoLayerDenseSentenceSelector(
             args.corpus_embedding,
             args.claim_embedding,
-            threshold=args.sentence_threshold,
+            sbert_threshold=args.sentence_threshold,
+            k=args.overall_top_k,
+        )
+    elif args.sentence_selector == "dense_rerank":
+        sentence_selector = TwoLayerDenseSentenceSelector(
+            args.corpus_embedding,
+            args.claim_embedding,
+            sbert_threshold=args.sentence_threshold,
+            k=args.overall_top_k,
+            cross_encoder_threshold=args.cross_encoder_threshold,
+            cross_encoder_path=args.cross_encoder_path,
+            corpus_path=args.corpus_path
         )
     elif args.sentence_selector == "cosine":
         sentence_selector = CosineSimilaritySentenceSelector(

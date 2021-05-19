@@ -54,17 +54,12 @@ def convert_to_scifact_format(claim_id, pred):
 def make_evidence_from_grund_truth(claim, abstract_id_to_abstract_embedding_map):
     evidence = dict()
     for abstract, sentence_list in claim["evidence"].items():
-        converted_sentence_list = []
+        sentence_id_list = []
 
         for sent_dict in sentence_list:
             for sent_id in sent_dict["sentences"]:
-                embedding = (
-                    claim["claim"]
-                    + abstract_id_to_abstract_embedding_map[int(abstract)][sent_id]
-                )
-                converted_sentence_list.append({"id": sent_id, "embedding": embedding})
-
-        evidence[abstract] = converted_sentence_list
+                sentence_id_list.append(sent_id)
+        evidence[abstract] = sentence_id_list
 
     return evidence
 
@@ -79,7 +74,7 @@ def evaluate_stance_predicion_model(
             evidence = make_evidence_from_grund_truth(
                 claim, abstract_id_to_abstract_embedding_map
             )
-            prediction = stance_prediction(claim, evidence, model)
+            prediction = model(claim, evidence, None)
             predictions_list.append(prediction)
 
     labels_file = "../datasets/scifact/claims_validation.jsonl"
@@ -224,19 +219,25 @@ def evaluate_hyperparameters_stance_prediction(claims_path, corpus_path):
     )
     with jsonlines.open(output_path, "w", flush=True) as output_file:
         for hyper_parameters in hyperparameter_grid:
-            model = stance_prediction_module.initialize_model(
-                BATCH_SIZE,
+            model = stance_denseModel.setup_for_training(
                 hyper_parameters["dense_units"],
                 hyper_parameters["learning_rate"],
             )
-            model = stance_prediction_module.train(
+            model = stance_denseModel.train(
                 model, "fever", BATCH_SIZE, hyper_parameters["fever_epochs"]
             )
-            model = stance_prediction_module.train(
+            model = stance_denseModel.train(
                 model, "scifact", BATCH_SIZE, hyper_parameters["scifact_epochs"]
             )
+
+            prediction_model = stance_denseModel.TwoLayerDenseStancePredictor(
+                corpus_path,
+                claims_path,
+                model=model
+            )
+
             result_dict = evaluate_stance_predicion_model(
-                model, claims_path, abstract_id_to_abstract_embedding_map
+                prediction_model, claims_path, abstract_id_to_abstract_embedding_map
             )
             output_file.write({"params": hyper_parameters, "results": result_dict})
 

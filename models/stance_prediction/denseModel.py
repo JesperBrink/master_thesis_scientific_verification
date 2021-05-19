@@ -22,19 +22,24 @@ _model_dir = (
 
 
 class TwoLayerDenseStancePredictor:
-    def __init__(self, corpus_path, claim_path, threshold=0.5):
+    def __init__(self, corpus_path, claim_path, threshold=0.5, model=None):
         self.threshold = threshold
-        self.model = load()
-        self.model.summary()
         self.doc_id_to_abst_embedding_map = self.create_id_to_abstract_map(corpus_path)
         self.id_to_claim_embedding_map = self.create_id_to_claim_map(claim_path)
+        if model is None:
+            self.model = load()
+        else:
+            self.model = model
+        self.model.summary()
+
 
     def __call__(self, claim_object, selected_sentences, selected_abstracts):
         claim_id = claim_object["id"]
         claim_embedding = tf.reshape(tf.constant(self.id_to_claim_embedding_map[claim_id]), [1,-1])
         res = {}
+
         for doc_id, rationale_indices in selected_sentences.items():
-            rationale_embeddings = tf.gather(self.doc_id_to_abst_embedding_map[doc_id], rationale_indices)
+            rationale_embeddings = tf.gather(self.doc_id_to_abst_embedding_map[int(doc_id)], rationale_indices)
             claim_column = tf.repeat(claim_embedding, [rationale_embeddings.shape[0]], axis=0)
             datapoints = tf.concat([claim_column, rationale_embeddings], 1)
             classification = tf.where(
@@ -110,7 +115,7 @@ def save(model):
     print("model saved to {}".format(path))
 
 
-def train(model, dataset_type, epochs=10, batch_size=32, class_weight={0: 1, 1: 1}):
+def train(model, dataset_type, batch_size, epochs=10):
     dataset = (
         load_label_training_dataset(dataset_type)
         .shuffle(10000)
@@ -126,7 +131,6 @@ def train(model, dataset_type, epochs=10, batch_size=32, class_weight={0: 1, 1: 
         dataset,
         validation_data=validation_dataset,
         epochs=epochs,
-        class_weight=class_weight,
     )
 
     return model
@@ -177,7 +181,7 @@ def main():
     args = parser.parse_args()
     if args.train:
         m = setup_for_training(args.dense_units, 0.001)
-        m = train(m, "scifact", batch_size=args.batch_size, epochs=args.epochs)
+        m = train(m, "scifact", args.batch_size, epochs=args.epochs)
         save(m)
         m = load()
         m.summary()
