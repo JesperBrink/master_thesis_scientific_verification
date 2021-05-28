@@ -6,15 +6,19 @@ import jsonlines
 from datetime import datetime
 from tqdm import tqdm
 from sklearn.model_selection import ParameterGrid
-import models.sentence_selection.model as sentence_selection_module
-import models.stance_prediction.model as stance_prediction_module
-from competition.pipeline import (
-    sentence_selection,
-    setup_sentence_embeddings,
-    stance_prediction,
-)
+from models.sentence_selection import denseModel as sentence_denseModel
+from models.stance_prediction import denseModel as stance_denseModel
 from utils.evaluationutils import compute_f1, compute_precision, compute_recall
 from external_scripts.eval import run_evaluation
+
+
+def create_id_to_abstract_map(corpus_path):
+    abstract_id_to_abstract = dict()
+    corpus = jsonlines.open(corpus_path)
+    for data in corpus:
+        abstract_id_to_abstract[data["doc_id"]] = data["abstract"]
+
+    return abstract_id_to_abstract
 
 
 def load_hyperparameter_grid(path):
@@ -39,9 +43,8 @@ def convert_to_scifact_format(claim_id, pred):
 
     evidence = dict()
     for abstract in pred.keys():
-        predicted_sentences = [sentence_dict["id"] for sentence_dict in pred[abstract]]
         evidence[str(abstract)] = {
-            "sentences": predicted_sentences,
+            "sentences": pred[abstract],
             "label": "SUPPORT",
         }  # "SUPPORT" is just a dummy variable
 
@@ -51,17 +54,12 @@ def convert_to_scifact_format(claim_id, pred):
 def make_evidence_from_grund_truth(claim, abstract_id_to_abstract_embedding_map):
     evidence = dict()
     for abstract, sentence_list in claim["evidence"].items():
-        converted_sentence_list = []
+        sentence_id_list = []
 
         for sent_dict in sentence_list:
             for sent_id in sent_dict["sentences"]:
-                embedding = (
-                    claim["claim"]
-                    + abstract_id_to_abstract_embedding_map[int(abstract)][sent_id]
-                )
-                converted_sentence_list.append({"id": sent_id, "embedding": embedding})
-
-        evidence[abstract] = converted_sentence_list
+                sentence_id_list.append(sent_id)
+        evidence[abstract] = sentence_id_list
 
     return evidence
 
@@ -76,7 +74,7 @@ def evaluate_stance_predicion_model(
             evidence = make_evidence_from_grund_truth(
                 claim, abstract_id_to_abstract_embedding_map
             )
-            prediction = stance_prediction(claim, evidence, model)
+            prediction = model(claim, evidence, None)
             predictions_list.append(prediction)
 
     labels_file = "../datasets/scifact/claims_validation.jsonl"
@@ -95,7 +93,9 @@ def evaluate_stance_predicion_model(
 
 
 def evaluate_sentence_selection_model(
-    model, claims_path, sentence_embeddings, corp_id, threshold
+    model, 
+    abstracts,
+    claims_embedding_path,
 ):
     total_true_positives = 0
     total_false_positives = 0
@@ -104,12 +104,10 @@ def evaluate_sentence_selection_model(
     predictions_list = []
 
     # Abstract retrieval
-    with jsonlines.open(claims_path) as claims:
+    with jsonlines.open(claims_embedding_path) as claims:
         for claim in tqdm(claims):
-            relevant_sentences_dict = sentence_selection(
-                claim, model, sentence_embeddings, corp_id, threshold
-            )
-
+            relevant_sentences_dict = model(claim, abstracts)
+            
             predictions_list.append(
                 convert_to_scifact_format(claim["id"], relevant_sentences_dict)
             )
@@ -149,8 +147,9 @@ def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
     hyperparameter_grid, thresholds = load_hyperparameter_grid(
         "hyperparameter_dicts/sentence_selection_hyperparameter_dict.json"
     )
-    sentence_embeddings, corp_id = setup_sentence_embeddings(corpus_path)
-
+    
+    abstracts = create_id_to_abstract_map(corpus_path)
+    
     if not os.path.exists("output"):
         os.makedirs("output")
 
@@ -159,8 +158,7 @@ def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
     )
     with jsonlines.open(output_path, "w", flush=True) as output_file:
         for hyper_parameters in hyperparameter_grid:
-            model = sentence_selection_module.initialize_model(
-                BATCH_SIZE,
+            model = sentence_denseModel.setup_for_training(
                 hyper_parameters["dense_units"],
                 hyper_parameters["learning_rate"],
             )
@@ -172,27 +170,33 @@ def evaluate_hyperparameters_sentence_selection(claims_path, corpus_path):
             if class_weight[0] == class_weight[1] and class_weight[0] > 1:
                 continue
 
-            model = sentence_selection_module.train(
+            model = sentence_denseModel.train(
                 model,
                 "fever",
                 BATCH_SIZE,
                 hyper_parameters["fever_epochs"],
                 class_weight,
             )
-            model = sentence_selection_module.train(
+            model = sentence_denseModel.train(
                 model,
                 "scifact",
                 BATCH_SIZE,
                 hyper_parameters["scifact_epochs"],
                 class_weight,
             )
+
+            prediction_model = sentence_denseModel.TwoLayerDenseSentenceSelector(
+                corpus_path,
+                claims_path,
+                model=model
+            )
+
             for threshold in thresholds:
+                prediction_model.threshold = threshold
                 result_dict = evaluate_sentence_selection_model(
-                    model,
-                    claims_path,
-                    sentence_embeddings,
-                    corp_id,
-                    threshold,
+                    prediction_model,
+                    abstracts,
+                    claims_path
                 )
                 hyper_parameters["threshold"] = threshold
                 output_file.write({"params": hyper_parameters, "results": result_dict})
@@ -215,19 +219,25 @@ def evaluate_hyperparameters_stance_prediction(claims_path, corpus_path):
     )
     with jsonlines.open(output_path, "w", flush=True) as output_file:
         for hyper_parameters in hyperparameter_grid:
-            model = stance_prediction_module.initialize_model(
-                BATCH_SIZE,
+            model = stance_denseModel.setup_for_training(
                 hyper_parameters["dense_units"],
                 hyper_parameters["learning_rate"],
             )
-            model = stance_prediction_module.train(
+            model = stance_denseModel.train(
                 model, "fever", BATCH_SIZE, hyper_parameters["fever_epochs"]
             )
-            model = stance_prediction_module.train(
+            model = stance_denseModel.train(
                 model, "scifact", BATCH_SIZE, hyper_parameters["scifact_epochs"]
             )
+
+            prediction_model = stance_denseModel.TwoLayerDenseStancePredictor(
+                corpus_path,
+                claims_path,
+                model=model
+            )
+
             result_dict = evaluate_stance_predicion_model(
-                model, claims_path, abstract_id_to_abstract_embedding_map
+                prediction_model, claims_path, abstract_id_to_abstract_embedding_map
             )
             output_file.write({"params": hyper_parameters, "results": result_dict})
 
