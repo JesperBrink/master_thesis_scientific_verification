@@ -21,7 +21,6 @@ _model_dir = (
 )
 
 
-
 class TwoLayerDenseStancePredictor:
     def __init__(self, corpus_path, claim_path, threshold=0.5):
         self.threshold = threshold
@@ -38,15 +37,26 @@ class TwoLayerDenseStancePredictor:
             rationale_embeddings = tf.gather(self.doc_id_to_abst_embedding_map[doc_id], rationale_indices)
             claim_column = tf.repeat(claim_embedding, [rationale_embeddings.shape[0]], axis=0)
             datapoints = tf.concat([claim_column, rationale_embeddings], 1)
-            classification = tf.where(
-                tf.greater(tf.reduce_mean(self.model(datapoints)), self.threshold),
-                "SUPPORT",
-                "CONTRADICT",
-            ).numpy()
+            predictions = self.model(datapoints)
+            print(predictions)
+            average = tf.reduce_mean(predictions)
+            print(average)
+            classification = "SUPPORT" if tf.greater(average, self.threshold) else "CONTRADICT"
+            print(classification)
+            
+            # Find rationales agreeing with average
+            if average >= 0.5:
+                agreeing = tf.greater_equal(predictions, 0.5)
+                print(agreeing)
+            else:
+                agreeing = tf.less(predictions, 0.5)
+                print(agreeing)
+            agreeing = tf.reshape(agreeing, (len(rationale_indices),))
+            agreeing_rationales = tf.boolean_mask(rationale_indices, agreeing).numpy().tolist()
 
             res[doc_id] = {
-                "sentences": rationale_indices,
-                "label": classification.decode('ascii')
+                "sentences": agreeing_rationales,
+                "label": classification
             }
         return {"id": claim_id, "evidence": res}
 
@@ -85,7 +95,7 @@ def two_layer_stance_predictor(units, dropout=0.5):
         dropout_second
     )
     dropout_third = tf.keras.layers.Dropout(dropout, name="dropout_3")(dense_second)
-    outputs = tf.keras.layers.Dense(1, activation="relu", name="output")(dropout_third)
+    outputs = tf.keras.layers.Dense(1, activation="sigmoid", name="output")(dropout_third)
 
     model = tf.keras.Model(
         inputs=inputs, outputs=outputs, name="two_layer_dense_stance_prediction"
