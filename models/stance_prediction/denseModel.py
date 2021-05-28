@@ -38,19 +38,13 @@ class TwoLayerDenseStancePredictor:
             claim_column = tf.repeat(claim_embedding, [rationale_embeddings.shape[0]], axis=0)
             datapoints = tf.concat([claim_column, rationale_embeddings], 1)
             predictions = self.model(datapoints)
-            print(predictions)
             average = tf.reduce_mean(predictions)
-            print(average)
             classification = "SUPPORT" if tf.greater(average, self.threshold) else "CONTRADICT"
-            print(classification)
             
-            # Find rationales agreeing with average
             if average >= 0.5:
                 agreeing = tf.greater_equal(predictions, 0.5)
-                print(agreeing)
             else:
                 agreeing = tf.less(predictions, 0.5)
-                print(agreeing)
             agreeing = tf.reshape(agreeing, (len(rationale_indices),))
             agreeing_rationales = tf.boolean_mask(rationale_indices, agreeing).numpy().tolist()
 
