@@ -53,6 +53,7 @@ def pipeline(
     abstract_retrieval_times = []
     rationale_selection_times = []
     stance_prediction_times = []
+    claim_ids = []
     with jsonlines.open("predictions.jsonl", "w") as output_writer:
         with jsonlines.open(claims_path) as claims:
             for claim_object in tqdm(claims):
@@ -70,25 +71,35 @@ def pipeline(
                 abstract_retrieval_times.append(t2-t1)
                 rationale_selection_times.append(t3-t2)
                 stance_prediction_times.append(t4-t3)
+                claim_ids.append(claim_object["id"])
                 output_writer.write(prediction)
-    
+   
     with open("abstract_retrieval_times", "w") as abstract_retrieval_writer:
-        for t in abstract_retrieval_times:
-            abstract_retrieval_writer.write(t + "\n")
-        abstract_retrieval_writer("\n")
-        abstract_retrieval_writer("AVG:", sum(abstract_retrieval_times) / len(abstract_retrieval_times))
+        for claim_id, t in zip(claim_ids, abstract_retrieval_times):
+            abstract_retrieval_writer.write("claim id: {}, time: {}\n".format(claim_id, t))
+        abstract_retrieval_writer.write("\n")
+        abstract_retrieval_writer.write("AVG: {}\n".format(str(np.mean(abstract_retrieval_times))))
+        abstract_retrieval_writer.write("VAR: {}\n".format(str(np.var(abstract_retrieval_times))))
+        abstract_retrieval_writer.write("MAX: {}\n".format(str(np.max(abstract_retrieval_times))))
+        abstract_retrieval_writer.write("MIN: {}\n".format(str(np.min(abstract_retrieval_times))))
 
     with open("rationale_selection_times", "w") as rationale_selection_writer:
-        for t in rationale_selection_writer:
-            rationale_selection_writer.write(t + "\n")
-        rationale_selection_writer("\n")
-        rationale_selection_writer("AVG:", sum(rationale_selection_times) / len(rationale_selection_times))
+        for claim_id, t in zip(claim_ids, rationale_selection_times):
+            rationale_selection_writer.write("claim id: {}, time: {}\n".format(claim_id, t))
+        rationale_selection_writer.write("\n")
+        rationale_selection_writer.write("AVG: {}\n".format(str(np.mean(rationale_selection_times))))
+        rationale_selection_writer.write("VAR: {}\n".format(str(np.var(rationale_selection_times))))
+        rationale_selection_writer.write("MAX: {}\n".format(str(np.max(rationale_selection_times))))
+        rationale_selection_writer.write("MIN: {}\n".format(str(np.min(rationale_selection_times))))
 
     with open("stance_prediction_times", "w") as stance_prediction_writer:
-        for t in stance_prediction_writer:
-            stance_prediction_writer.write(t + "\n")
-        stance_prediction_writer("\n")
-        stance_prediction_writer("AVG:", sum(stance_prediction_times) / len(stance_prediction_times))
+        for claim_id, t in zip(claim_ids, stance_prediction_times):
+            stance_prediction_writer.write("claim id: {}, time: {}\n".format(claim_id, t))
+        stance_prediction_writer.write("\n")
+        stance_prediction_writer.write("AVG: {}\n".format(str(np.mean(stance_prediction_times))))
+        stance_prediction_writer.write("VAR: {}\n".format(str(np.var(stance_prediction_times))))
+        stance_prediction_writer.write("MAX: {}\n".format(str(np.max(stance_prediction_times))))
+        stance_prediction_writer.write("MIN: {}\n".format(str(np.min(stance_prediction_times))))
 
 
 if __name__ == "__main__":
