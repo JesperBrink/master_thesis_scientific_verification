@@ -132,7 +132,7 @@ if __name__ == "__main__":
     elif args.abstract_retriever == "tfidf":
         abstract_retriever = TFIDFAbstractRetrieval(args.corpus_path)
     elif args.abstract_retriever == "bm25":
-        abstract_retriever = BM25AbstractRetrieval(args.corpus_path)
+        abstract_retriever = BM25AbstractRetrieval(args.corpus_path, k=3)
 
     if args.sentence_selector == "lstm":
         sentence_selector = BertLSTMSentenceSelector(

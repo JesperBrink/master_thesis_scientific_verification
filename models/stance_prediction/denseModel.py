@@ -46,15 +46,15 @@ class TwoLayerDenseStancePredictor:
             average = tf.reduce_mean(predictions)
             classification = "SUPPORT" if tf.greater(average, self.threshold) else "CONTRADICT"
             
-            if average >= 0.5:
-                agreeing = tf.greater_equal(predictions, 0.5)
-            else:
-                agreeing = tf.less(predictions, 0.5)
-            agreeing = tf.reshape(agreeing, (len(rationale_indices),))
-            agreeing_rationales = tf.boolean_mask(rationale_indices, agreeing).numpy().tolist()
+            #if average >= 0.5:
+            #    agreeing = tf.greater_equal(predictions, 0.5)
+            #else:
+            #    agreeing = tf.less(predictions, 0.5)
+            #agreeing = tf.reshape(agreeing, (len(rationale_indices),))
+            #agreeing_rationales = tf.boolean_mask(rationale_indices, agreeing).numpy().tolist()
 
             res[doc_id] = {
-                "sentences": agreeing_rationales,
+                "sentences": rationale_indices,
                 "label": classification
             }
         return {"id": claim_id, "evidence": res}
