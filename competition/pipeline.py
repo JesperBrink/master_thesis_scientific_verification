@@ -15,6 +15,7 @@ import tensorflow as tf
 import enum
 import argparse
 import torch
+import time
 
 config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth=True
@@ -49,17 +50,45 @@ def pipeline(
     claims_path, corpus_path, abstract_retriever, sentence_selector, stance_predictor
 ):
     abstracts = create_id_to_abstract_map(corpus_path)
+    abstract_retrieval_times = []
+    rationale_selection_times = []
+    stance_prediction_times = []
     with jsonlines.open("predictions.jsonl", "w") as output_writer:
         with jsonlines.open(claims_path) as claims:
             for claim_object in tqdm(claims):
+                t1 = time.time()
                 retrieved_abstracts = abstract_retriever(claim_object, abstracts)
+                t2 = time.time()
                 selected_sentences = sentence_selector(
                     claim_object, retrieved_abstracts
                 )
+                t3 = time.time()
                 prediction = stance_predictor(
                     claim_object, selected_sentences, retrieved_abstracts
                 )
+                t4 = time.time()
+                abstract_retrieval_times.append(t2-t1)
+                rationale_selection_times.append(t3-t2)
+                stance_prediction_times.append(t4-t3)
                 output_writer.write(prediction)
+    
+    with open("abstract_retrieval_times", "w") as abstract_retrieval_writer:
+        for t in abstract_retrieval_times:
+            abstract_retrieval_writer.write(t + "\n")
+        abstract_retrieval_writer("\n")
+        abstract_retrieval_writer("AVG:", sum(abstract_retrieval_times) / len(abstract_retrieval_times))
+
+    with open("rationale_selection_times", "w") as rationale_selection_writer:
+        for t in rationale_selection_writer:
+            rationale_selection_writer.write(t + "\n")
+        rationale_selection_writer("\n")
+        rationale_selection_writer("AVG:", sum(rationale_selection_times) / len(rationale_selection_times))
+
+    with open("stance_prediction_times", "w") as stance_prediction_writer:
+        for t in stance_prediction_writer:
+            stance_prediction_writer.write(t + "\n")
+        stance_prediction_writer("\n")
+        stance_prediction_writer("AVG:", sum(stance_prediction_times) / len(stance_prediction_times))
 
 
 if __name__ == "__main__":
